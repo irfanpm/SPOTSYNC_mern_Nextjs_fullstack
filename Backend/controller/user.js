@@ -8,7 +8,7 @@ module.exports = {
     //user Register
   Register: async (req, res) => {
     const { error, value } = await AuthUser.validate(req.body);
-    const { username, email, password } = value;
+    const { username,mobilenumber, email, password } = value;
     if (error) {
       res.status(422).json({
         status: "error",
@@ -19,6 +19,7 @@ module.exports = {
         await userSchema.create({
           Username: username,
           Email: email,
+          MobileNumber:mobilenumber,
           Password: hash,
         });
       });

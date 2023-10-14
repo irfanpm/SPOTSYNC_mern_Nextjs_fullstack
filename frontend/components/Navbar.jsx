@@ -14,7 +14,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import Login from './login';
+import RegisterOrLogin from './registerorlogin';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -127,7 +127,7 @@ export default function Navbar() {
           </Search>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-            <IconButton size="large" aria-label="show 4 new mails" color="inherit">
+            {/* <IconButton size="large" aria-label="show 4 new mails" color="inherit">
               <Badge badgeContent={4} color="error">
                 <MailIcon />
               </Badge>
@@ -140,7 +140,7 @@ export default function Navbar() {
               <Badge badgeContent={17} color="error">
                 <NotificationsIcon />
               </Badge>
-            </IconButton>
+            </IconButton> */}
             <IconButton
               size="large"
               edge="end"
@@ -152,10 +152,12 @@ export default function Navbar() {
             >
               <AccountCircle />
             </IconButton>
+
           </Box>
-          <Box sx={{ display: { xs: 'flex', md: 'none' } }}></Box>
-          <Login />
+          <RegisterOrLogin/>
+
         </Toolbar>
+
       </AppBar>
       {renderMenu}
     </Box>
