@@ -42,14 +42,14 @@ module.exports = {
         message: error.details[0].message,
       });
     } else {
-      const user = await userSchema.find({
+      const user = await userSchema.findOne({
         Username: username,
       });
       if (user) {
-        bcrypt.compare(password, user[0].Password, (err, result) => {
+        bcrypt.compare(password, user.Password, (err, result) => {
           if (result) {
             let resp = {
-              id: user[0].id,
+              id: user.id,
             };
             let token = jwt.sign(resp, process.env.ACESS_TOKEN_SECRET, {
               expiresIn: 86400,
@@ -63,11 +63,14 @@ module.exports = {
               });
             }
           } else {
-            res.json({ err: "failure" });
+            res.json({
+              status:'error',
+               message: "failure" 
+              });
           }
         });
       } else {
-        res.json("this user not available");
+        res.json({message:"this user not available"});
       }
     }
   },

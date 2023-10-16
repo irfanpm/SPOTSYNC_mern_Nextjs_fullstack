@@ -12,7 +12,9 @@ import Image from 'next/image';
 import CloseIcon from '@mui/icons-material/Close';
 import axios from "axios";
 import  {useCookies} from 'react-cookie'
-
+import { useRouter } from "next/navigation";
+import Alert from '@mui/material/Alert';
+import Stack from '@mui/material/Stack';
 
 // import Container from '@mui/material/Container';
 
@@ -48,6 +50,7 @@ export default function RegisterOrLogin() {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const [_,setCookies ] = useCookies(["access_token"])
+  const router=useRouter()
 
 
   const handleregister= async (event)=>{
@@ -57,6 +60,7 @@ export default function RegisterOrLogin() {
     const Mobile=event.target.mobile.value
     const Email=event.target.email.value
     const Password=event.target.password.value
+    console.log(Username);
 
 
     try{
@@ -73,21 +77,23 @@ export default function RegisterOrLogin() {
     }
   }
 
-const handleLogin=async(event)=>{
+const handleLogin= async(event)=>{
   event.preventDefault()
 
-  const Username=event.target.user.value
+  const Username=event.target.username.value
   const Password=event.target.password.value
-  console.log(Password)
+  console.log(Username);
 
   try {
-    await axios.post('http://127.0.0.1:8000/api/user/login',{
+    const response=await axios.post('http://127.0.0.1:8000/api/user/login',{
       username:Username,
       password:Password
 
     })
     console.log(response);
-    setCookies("access_token",response.data.token)
+    alert(response.data.message)
+   
+    // router.push('/user')
     handleClose()
 
   } catch (error) {
@@ -145,7 +151,6 @@ const handleLogin=async(event)=>{
                 id="username"
                 label="UserName"
                 name="username"
-                autoComplete="username"
                 InputProps={{
                  
                 }}
@@ -212,7 +217,7 @@ const handleLogin=async(event)=>{
         </Box>
         {/* </Container> */}
 
-      </Modal>:    <Modal
+      </Modal>: <Modal
         open={open}
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
@@ -237,12 +242,12 @@ const handleLogin=async(event)=>{
             Welcome          </Typography>
             <Typography component="h6"  className='text-center'>
             Your Trusted Local Services Directory             </Typography>
-            <Box component="form" noValidate sx={{ mt: 1 }} onClick={handleLogin} method='post' >
+            <Box component="form" noValidate sx={{ mt: 1 }} onSubmit={handleLogin} method='post' >
               <TextField
                 margin="normal"
                 required
                 fullWidth
-                id="user"
+                id="username"
                 label="Username"
                 name="username"
                 autoComplete="username"
