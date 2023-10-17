@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+'use client'
+import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
@@ -12,6 +13,7 @@ import Image from 'next/image';
 import CloseIcon from '@mui/icons-material/Close';
 import axios from "axios";
 import  {useCookies} from 'react-cookie'
+
 import { useRouter } from "next/navigation";
 import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
@@ -84,21 +86,23 @@ const handleLogin= async(event)=>{
   const Password=event.target.password.value
   console.log(Username);
 
-  try {
-    const response=await axios.post('http://127.0.0.1:8000/api/user/login',{
-      username:Username,
-      password:Password
 
-    })
-    console.log(response);
-    alert(response.data.message)
-   
-    // router.push('/user')
-    handleClose()
-
-  } catch (error) {
-    
-  }
+    try {
+      const response=await axios.post('http://127.0.0.1:8000/api/user/login',{
+        username:Username,
+        password:Password
+  
+      })
+      console.log(response);
+      setCookies(["acess_token"],response.data.token)
+      alert(response.data.message)
+     
+      // router.push('/user')
+      handleClose()
+  
+    } catch (error) {
+      
+    }
 
 
 
@@ -111,13 +115,13 @@ const handleLogin= async(event)=>{
 
 
   return (
-    <div>
+    <>
       <Button onClick={handleOpen} style={{ color: 'white', background: 'transparent' ,color:"#040333" ,fontWeight:"bold", boxShadow:"none" }}>
         Login/Signup
       </Button>
 
     {(signup==true)?  
-      <Modal
+     <>      <Modal
         open={open}
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
@@ -217,7 +221,8 @@ const handleLogin= async(event)=>{
         </Box>
         {/* </Container> */}
 
-      </Modal>: <Modal
+      </Modal></>
+:<> <Modal
         open={open}
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
@@ -290,9 +295,9 @@ const handleLogin= async(event)=>{
             </Box>
           </Box>
         </Box>
-      </Modal>
+      </Modal></>
 }
-      </div>
+      </>
 
   );
 }

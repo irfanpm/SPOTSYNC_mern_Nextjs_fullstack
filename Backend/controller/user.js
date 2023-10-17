@@ -74,6 +74,10 @@ module.exports = {
       }
     }
   },
+  Profile:async(req,res)=>{
+   const userProfile= await userSchema.find(req.params.id)
+
+  }
 
 
 

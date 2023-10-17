@@ -1,5 +1,5 @@
 'use client'
-import React from 'react'; // Removed TypeScript import
+import React, { useEffect } from 'react'; // Removed TypeScript import
 import { styled, alpha } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -12,7 +12,8 @@ import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import AccountCircle from '@mui/icons-material/AccountCircle';
-
+import  {useCookies} from 'react-cookie'
+import { useRouter  } from "next/navigation";
 import RegisterOrLogin from './registerorlogin';
 
 const Search = styled('div')(({ theme }) => ({
@@ -57,8 +58,12 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function Navbar() {
+  const router=useRouter()
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+  const [cookie,setCookies,removeCookie ] = useCookies()
+  // console.log(cookie);
+
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -79,6 +84,18 @@ export default function Navbar() {
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
+  const handleLogout=()=>{
+
+      removeCookie("acess_token")
+    handleMenuClose()
+
+  }
+  const handleProfile=()=>{
+    router.push('/user/user_profile')
+
+
+
+  }
 
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
@@ -97,8 +114,8 @@ export default function Navbar() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <MenuItem onClick={handleProfile}>Profile</MenuItem>
+      <MenuItem onClick={handleLogout}>Logout</MenuItem>
     </Menu>
   );
 
@@ -140,7 +157,8 @@ export default function Navbar() {
                 <NotificationsIcon />
               </Badge>
             </IconButton> */}
-            <IconButton
+            {Object.keys(cookie).length!=0?
+           ( <IconButton
               size="large"
               edge="end"
               aria-label="account of the current user"
@@ -150,10 +168,11 @@ export default function Navbar() {
               color="inherit"
             >
               <AccountCircle />
-            </IconButton>
-
+            </IconButton>):
+(           <RegisterOrLogin/>
+)            }
           </Box>
-          <RegisterOrLogin/>
+
           {/* <Login/> */}
 
         </Toolbar>
