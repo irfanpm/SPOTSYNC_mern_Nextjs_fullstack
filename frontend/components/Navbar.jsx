@@ -11,7 +11,7 @@ import Badge from '@mui/material/Badge';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
-import AccountCircle from '@mui/icons-material/AccountCircle';
+import Avatar from '@mui/material/Avatar';
 import  {useCookies} from 'react-cookie'
 import { useRouter  } from "next/navigation";
 import RegisterOrLogin from './registerorlogin';
@@ -158,7 +158,7 @@ export default function Navbar() {
               </Badge>
             </IconButton> */}
             {Object.keys(cookie).length!=0?
-           ( <IconButton
+           ( <div> <IconButton
               size="large"
               edge="end"
               aria-label="account of the current user"
@@ -167,8 +167,8 @@ export default function Navbar() {
               onClick={handleProfileMenuOpen}
               color="inherit"
             >
-              <AccountCircle />
-            </IconButton>):
+      <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+            </IconButton></div>):
 (           <RegisterOrLogin/>
 )            }
           </Box>

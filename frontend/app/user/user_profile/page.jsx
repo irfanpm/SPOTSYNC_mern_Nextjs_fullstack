@@ -1,9 +1,11 @@
+
+import Userprofile from '@/components/user_profile'
 import React from 'react'
 
-const page = () => {
+function page() {
   return (
     <div>
-      <h1>Profile</h1>
+      <Userprofile/>
     </div>
   )
 }

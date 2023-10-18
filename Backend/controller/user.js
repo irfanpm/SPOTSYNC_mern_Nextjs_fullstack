@@ -51,7 +51,7 @@ module.exports = {
             let resp = {
               id: user.id,
             };
-            let token = jwt.sign(resp, process.env.ACESS_TOKEN_SECRET, {
+            let token = jwt.sign({id:resp.id}, process.env.ACESS_TOKEN_SECRET, {
               expiresIn: 86400,
             });
             if (token) {
@@ -75,7 +75,15 @@ module.exports = {
     }
   },
   Profile:async(req,res)=>{
-   const userProfile= await userSchema.find(req.params.id)
+   const userProfile= await userSchema.find({_id:res.token})
+   if(userProfile){
+    res.status(200).json({
+      status: "success",
+      data: userProfile,
+    });
+   }else{
+    res.json("error") 
+   }
 
   }
 
