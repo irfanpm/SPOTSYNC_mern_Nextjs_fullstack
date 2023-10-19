@@ -56,7 +56,7 @@ export default function RegisterOrLogin() {
 
 
   const handleregister= async (event)=>{
-    // event.preventDefault()
+    event.preventDefault()
 
     const Username=event.target.username.value
     const Mobile=event.target.mobile.value
@@ -66,17 +66,20 @@ export default function RegisterOrLogin() {
 
 
     try{
-      await axios.post('http://127.0.0.1:8000/api/user/register',{
+    const response=  await axios.post('http://127.0.0.1:8000/api/user/register',{
         username:Username,
         mobilenumber:Mobile,
         email:Email,
         password:Password,
 
       })
+      alert(response.data.message)
     }catch(error){
+      console.log(error.message)
       
 
     }
+    event.target.reset()
   }
 
 const handleLogin= async(event)=>{
@@ -94,7 +97,7 @@ const handleLogin= async(event)=>{
   
       })
       console.log(response);
-      setCookies(["acess_token"],response.data.token)
+      setCookies(["access_token"],response.data.token)
       alert(response.data.message)
      
       // router.push('/user')
@@ -211,7 +214,7 @@ const handleLogin= async(event)=>{
                   </Link>
                 </Grid>
                 <Grid item>
-                  <Link href="#" variant="body2" onClick={()=>setsignup(signup=>!signup)}>
+                  <Link  variant="body2" onClick={()=>setsignup(signup=>!signup)}>
                     {"Already  have an account? Login"}
                   </Link>
                 </Grid>
@@ -287,7 +290,7 @@ const handleLogin= async(event)=>{
                   </Link>
                 </Grid>
                 <Grid item>
-                  <Link href="#" variant="body2" onClick={()=>setsignup(signup=>!signup)}>
+                  <Link variant="body2" onClick={()=>setsignup(signup=>!signup)}>
                     {"Don't have an account? Sign Up"}
                   </Link>
                 </Grid>

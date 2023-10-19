@@ -61,7 +61,7 @@ export default function Navbar() {
   const router=useRouter()
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-  const [cookie,setCookies,removeCookie ] = useCookies()
+  const [cookie,setCookies,removeCookie ] = useCookies(["access_token"])
   // console.log(cookie);
 
 
@@ -83,16 +83,30 @@ export default function Navbar() {
 
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
+
+
+    
   };
   const handleLogout=()=>{
 
-      removeCookie("acess_token")
+      removeCookie("access_token")
+      router.push('/')
     handleMenuClose()
 
   }
-  const handleProfile=()=>{
-    router.push('/user/user_profile')
 
+  const handleProfile=()=>{
+    if(cookie.access_token ){
+      router.push('/user/user_profile')
+
+
+
+    }
+    else{
+      alert('please Login')
+
+
+    }
 
 
   }
@@ -120,6 +134,7 @@ export default function Navbar() {
   );
 
   return (
+
     <Box>
       <AppBar position="static" style={{ background: 'transparent', color: '#040333' }}>
         <Toolbar>
@@ -142,6 +157,7 @@ export default function Navbar() {
             />
           </Search>
           <Box sx={{ flexGrow: 1 }} />
+
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
             {/* <IconButton size="large" aria-label="show 4 new mails" color="inherit">
               <Badge badgeContent={4} color="error">
@@ -157,8 +173,10 @@ export default function Navbar() {
                 <NotificationsIcon />
               </Badge>
             </IconButton> */}
-            {Object.keys(cookie).length!=0?
-           ( <div> <IconButton
+
+
+          
+            <IconButton
               size="large"
               edge="end"
               aria-label="account of the current user"
@@ -168,11 +186,15 @@ export default function Navbar() {
               color="inherit"
             >
       <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-            </IconButton></div>):
-(           <RegisterOrLogin/>
-)            }
+            </IconButton> 
+            
+            
           </Box>
 
+
+          <RegisterOrLogin/>
+
+          
           {/* <Login/> */}
 
         </Toolbar>
