@@ -12,8 +12,9 @@ import Grid from '@mui/material/Grid';
 import Image from 'next/image';
 import CloseIcon from '@mui/icons-material/Close';
 import axios from "axios";
-import  {useCookies} from 'react-cookie'
-
+import { useDispatch } from 'react-redux';
+import {isLoggin}  from  "../redux/features/auth"
+import { setCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
 import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
@@ -47,11 +48,11 @@ const contentStyle = {
 };
 
 export default function RegisterOrLogin() {
+  const dispatch =useDispatch()
   const [open, setOpen] = useState(false);
   const [signup,setsignup]=useState(true)
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const [_,setCookies ] = useCookies(["access_token"])
   const router=useRouter()
 
 
@@ -88,6 +89,7 @@ const handleLogin= async(event)=>{
   const Username=event.target.username.value
   const Password=event.target.password.value
   console.log(Username);
+  dispatch(isLoggin())
 
 
     try {
@@ -97,13 +99,14 @@ const handleLogin= async(event)=>{
   
       })
       console.log(response);
-      setCookies(["access_token"],response.data.token)
+      setCookie("token",response.data.token)
       alert(response.data.message)
      
       // router.push('/user')
       handleClose()
   
     } catch (error) {
+      console.log(error.message)
       
     }
 

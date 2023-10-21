@@ -7,14 +7,15 @@ import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import InputBase from '@mui/material/InputBase';
-import Badge from '@mui/material/Badge';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import Avatar from '@mui/material/Avatar';
-import  {useCookies} from 'react-cookie'
 import { useRouter  } from "next/navigation";
 import RegisterOrLogin from './registerorlogin';
+import { useSelector,useDispatch } from 'react-redux';
+import { deleteCookie,getCookie } from "cookies-next";
+
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -58,10 +59,12 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function Navbar() {
+  const cookie=getCookie('token')
   const router=useRouter()
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-  const [cookie,setCookies,removeCookie ] = useCookies(["access_token"])
+  const isLoggin=useSelector((state)=>state.Auth)
+  console.log(isLoggin);
   // console.log(cookie);
 
 
@@ -88,15 +91,15 @@ export default function Navbar() {
     
   };
   const handleLogout=()=>{
+        deleteCookie('token')
 
-      removeCookie("access_token")
       router.push('/')
     handleMenuClose()
 
   }
 
   const handleProfile=()=>{
-    if(cookie.access_token ){
+    if(cookie){
       router.push('/user/user_profile')
 
 

@@ -12,8 +12,9 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Stack from '@mui/material/Stack';
-import axios from "axios";
-import  {useCookies} from 'react-cookie'
+import { useSelector,useDispatch } from 'react-redux';
+import{ fetchUser} from '../redux/features/getuser';
+
 
 
 const ExpandMore = styled((props) => {
@@ -28,38 +29,45 @@ const ExpandMore = styled((props) => {
 }));
 
 export default function Userprofile() {
-
-
+  const user=useSelector((state)=>state.user.user.data)
+  const status=useSelector((state)=>state.user.loading)
+  const dispatch=useDispatch()
   const [expanded, setExpanded] = useState(false);
-  const [cookie] = useCookies(["access_token"])
-  const[user,setuser]=useState()
-
-  console.log(user);
+  // const [cookie] = useCookies(["access_token"])
+  // const[user,setuser]=useState()
+  console.log(user)
+console.log(status)
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
+  useEffect(()=>{
+    if(status==false){
+    dispatch(fetchUser())
+    }
 
-  useEffect(()=>{ 
-    const profile=async()=>{
-      try{
+  },[])
 
-        const userData= await axios.get('http://127.0.0.1:8000/api/user/profile', {
-         headers:{
-           Authorization:`Bearer ${cookie.access_token}`
-         }
-        })
-        console.log(userData.data)
-         setuser(userData.data.data)
+//   useEffect(()=>{ 
+//     const profile=async()=>{
+//       try{
+
+//         const userData= await axios.get('http://127.0.0.1:8000/api/user/profile', {
+//          headers:{
+//            Authorization:`Bearer ${cookie.access_token}`
+//          }
+//         })
+//         console.log(userData.data)
+//          setuser(userData.data.data)
          
-      }catch( error ){
-        console.log(error.message)
+//       }catch( error ){
+//         console.log(error.message)
 
-      }
+//       }
    
-  }
-  profile()
-},[])
+//   }
+//   profile()
+// },[])
 
 
  
@@ -67,7 +75,8 @@ export default function Userprofile() {
     <Card sx={{width:"50vh"  }}  className="text-center" >
       
 
-{user?.map((item)=>(<Stack
+{user?.map((item)=>(
+<Stack
   direction="column"
   justifyContent="center"
   alignItems="center"
@@ -105,7 +114,7 @@ export default function Userprofile() {
       </Collapse>
 
       </Stack>
-))
+ ))
 }
 
 
