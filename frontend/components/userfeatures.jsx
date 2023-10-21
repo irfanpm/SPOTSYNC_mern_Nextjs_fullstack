@@ -21,7 +21,6 @@ export default function UserTab() {
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <TabList onChange={handleChange} aria-label="lab API tabs example">
           <Tab  icon={<PersonIcon />} label="follwers" value="1" />
-
             <Tab icon={<FavoriteIcon />} label="favourite" value="2" ><FavoriteIcon/></Tab>
             <Tab icon={<ReviewsIcon />} label="review" value="3" />
           </TabList>

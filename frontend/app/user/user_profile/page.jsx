@@ -1,4 +1,5 @@
 
+import Edit_avatar from '@/components/edit_avatar'
 import Userprofile from '@/components/user_profile'
 import UserTab from '@/components/userfeatures'
 import React from 'react'
@@ -12,6 +13,7 @@ function page() {
       </div>
       <div className='col-md-8'>
         <UserTab/>
+        <Edit_avatar/>
 
       </div>
     </div>

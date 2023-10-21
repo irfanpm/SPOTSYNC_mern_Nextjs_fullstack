@@ -14,7 +14,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Stack from '@mui/material/Stack';
 import { useSelector,useDispatch } from 'react-redux';
 import{ fetchUser} from '../redux/features/getuser';
-
+import { useRouter } from 'next/navigation';
 
 
 const ExpandMore = styled((props) => {
@@ -29,7 +29,9 @@ const ExpandMore = styled((props) => {
 }));
 
 export default function Userprofile() {
+  const router=useRouter()
   const user=useSelector((state)=>state.user.user.data)
+  const [loading,setloading]=useState(true)
   const status=useSelector((state)=>state.user.loading)
   const dispatch=useDispatch()
   const [expanded, setExpanded] = useState(false);
@@ -37,16 +39,27 @@ export default function Userprofile() {
   // const[user,setuser]=useState()
   console.log(user)
 console.log(status)
+// router.push('/user/user_profile')
+
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
   useEffect(()=>{
+
     if(status==false){
+
+    setloading(true)
     dispatch(fetchUser())
+    }else{
+      setloading(false)
+
+    
     }
+ 
 
   },[])
+
 
 //   useEffect(()=>{ 
 //     const profile=async()=>{
@@ -74,9 +87,9 @@ console.log(status)
   return (
     <Card sx={{width:"50vh"  }}  className="text-center" >
       
-
-{user?.map((item)=>(
-<Stack
+ 
+{status?<h1>loading....</h1>:user?.map((item)=>(
+ <Stack
   direction="column"
   justifyContent="center"
   alignItems="center"

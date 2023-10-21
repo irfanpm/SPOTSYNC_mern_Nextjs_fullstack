@@ -85,7 +85,21 @@ module.exports = {
     res.json("error") 
    }
 
+  },
+  editavatar:async(req,res)=>{
+    const {avatar}=req.body
+    const user =await userSchema.findOne({_id:res.token})
+    if(user){
+      const avatars=await userSchema.findByIdAndUpdate(res.token,{$set:{
+        avatar:avatar
+      }})
+      res.json('add successfully')
+    }else{
+      res.json("failed")
+    }
+
   }
+
 
 
 

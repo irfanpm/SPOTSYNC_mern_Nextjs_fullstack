@@ -13,6 +13,11 @@ const Authsection=createSlice(
                 state.isloggin=false
 
 
+            },
+            isLogout:(state,action)=>{
+                return initialState
+
+
             }
 
 
@@ -22,5 +27,5 @@ const Authsection=createSlice(
 
     }
 )
-export const  {isLoggin }=Authsection.actions
+export const  {isLoggin,isLogout }=Authsection.actions
 export default Authsection.reducer

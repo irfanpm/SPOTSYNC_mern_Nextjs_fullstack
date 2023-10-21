@@ -15,6 +15,8 @@ import { useRouter  } from "next/navigation";
 import RegisterOrLogin from './registerorlogin';
 import { useSelector,useDispatch } from 'react-redux';
 import { deleteCookie,getCookie } from "cookies-next";
+// import {isLogout}  from  "../redux/features/auth"
+
 
 
 const Search = styled('div')(({ theme }) => ({
@@ -63,7 +65,7 @@ export default function Navbar() {
   const router=useRouter()
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-  const isLoggin=useSelector((state)=>state.Auth)
+  const isLoggin=useSelector((state)=>state.Auth.isLoggin)
   console.log(isLoggin);
   // console.log(cookie);
 
@@ -92,6 +94,7 @@ export default function Navbar() {
   };
   const handleLogout=()=>{
         deleteCookie('token')
+        // useDispatch(isLogout())
 
       router.push('/')
     handleMenuClose()
@@ -160,7 +163,7 @@ export default function Navbar() {
             />
           </Search>
           <Box sx={{ flexGrow: 1 }} />
-
+{/* { isLoggin==true ? */}
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
             {/* <IconButton size="large" aria-label="show 4 new mails" color="inherit">
               <Badge badgeContent={4} color="error">
@@ -192,11 +195,11 @@ export default function Navbar() {
             </IconButton> 
             
             
-          </Box>
+          </Box> 
 
 
           <RegisterOrLogin/>
-
+          {/* //  }  */}
           
           {/* <Login/> */}
 
