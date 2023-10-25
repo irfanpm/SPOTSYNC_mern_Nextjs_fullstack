@@ -8,20 +8,29 @@ import TabPanel from '@mui/lab/TabPanel';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ReviewsIcon from '@mui/icons-material/Reviews';
 import PersonIcon from '@mui/icons-material/Person';
-import { useSelector } from 'react-redux';
+import { useSelector,useDispatch } from 'react-redux';
 import { Button } from '@mui/material';
 import Addservice from './addservice';
-
-
+import { fetchService } from '@/redux/features/getService';
+import { useEffect,useState } from "react";
 
 export default function UserTab() {
   const [value, setValue] = React.useState(2);
   const [mainvalue, mainsetValue] = React.useState(0);
-
+  const[Service,setServices]=useState([])
+  console.log(Service)
+const dispatch=useDispatch()
   const user = useSelector((state) => state.user.user.data);
-  const service = useSelector((state) => state.service);
-console.log(service)
+  const service = useSelector((state) => state.service.service.data);
 
+useEffect(() => {
+  // Fetch user data when the component mounts
+    dispatch(fetchService());
+    setServices(service)
+
+    
+    
+},[Service]);
   // Add a check to make sure user is defined before accessing its properties
 
   const handleChange = (event, newValue) => {
@@ -51,6 +60,11 @@ console.log(service)
         <>
         <TabPanel value={1}>
         <Addservice/>
+        {
+          Service?.map((item)=>(
+            <li>{item.serviceName}</li>
+          ))
+        }
 
         
         </TabPanel>

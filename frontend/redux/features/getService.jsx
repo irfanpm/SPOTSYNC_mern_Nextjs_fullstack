@@ -35,12 +35,12 @@ const serviceSlice = createSlice({
       })
       .addCase(fetchService.fulfilled, (state, action) => {
         state.loading = false;
-        state.user = action.payload;
+        state.service = action.payload;
         state.error = null; // Reset error on success
       })
       .addCase(fetchService.rejected, (state, action) => {
         state.loading = true;
-        state.user = [];
+        state.service = [];
         state.error = action.error.message;
       });
   },
