@@ -61,11 +61,14 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function Navbar() {
+  const user = useSelector((state) => state.user.user.data);
+
   const cookie=getCookie('token')
   const router=useRouter()
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   const isLoggin=useSelector((state)=>state.Auth.isLoggin)
+console.log(user)
   console.log(isLoggin);
   // console.log(cookie);
 
@@ -191,7 +194,9 @@ export default function Navbar() {
               onClick={handleProfileMenuOpen}
               color="inherit"
             >
-      <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+
+                <Avatar alt="Remy Sharp" src=''/>
+    
             </IconButton> 
             
             

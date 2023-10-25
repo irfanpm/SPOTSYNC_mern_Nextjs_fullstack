@@ -8,26 +8,86 @@ import TabPanel from '@mui/lab/TabPanel';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ReviewsIcon from '@mui/icons-material/Reviews';
 import PersonIcon from '@mui/icons-material/Person';
+import { useSelector } from 'react-redux';
+import { Button } from '@mui/material';
+import Addservice from './addservice';
+
+
+
 export default function UserTab() {
-  const [value, setValue] = React.useState('1');
+  const [value, setValue] = React.useState(2);
+  const [mainvalue, mainsetValue] = React.useState(0);
+
+  const user = useSelector((state) => state.user.user.data);
+  const service = useSelector((state) => state.service);
+console.log(service)
+
+  // Add a check to make sure user is defined before accessing its properties
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
+  const handleChangemain = (event, newValue) => {
+    mainsetValue(newValue);
+  };
+
   return (
     <Box sx={{ width: '100%', typography: 'body1' }}>
-      <TabContext value={value}>
+      <TabContext value={mainvalue}>
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-          <TabList onChange={handleChange} aria-label="lab API tabs example">
-          <Tab  icon={<PersonIcon />} label="follwers" value="1" />
-            <Tab icon={<FavoriteIcon />} label="favourite" value="2" ><FavoriteIcon/></Tab>
-            <Tab icon={<ReviewsIcon />} label="review" value="3" />
+          <TabList onChange={handleChangemain} aria-label="lab API tabs example" centered>
+            {user && user[0]?.Type === "serviceProvider" ? (
+ <TabList>              
+                <Tab label="user" value={0} />
+
+    <Tab label="service provider" value={1} />
+                </TabList>            ) : (
+              <Tab label="user" value={0} />
+            )}
           </TabList>
         </Box>
-        <TabPanel value="1">Item One</TabPanel>
-        <TabPanel value="2">Item Two</TabPanel>
-        <TabPanel value="3">Item Three</TabPanel>
+        {user && user[0]?.Type === "serviceProvider" ?
+        <>
+        <TabPanel value={1}>
+        <Addservice/>
+
+        
+        </TabPanel>
+          <TabPanel value={0}>
+          <Box sx={{ width: '100%', typography: 'body1' }}>
+            <TabContext value={value}>
+              <Box sx={{  borderColor: 'divider'}}>
+                <TabList onChange={handleChange} aria-label="lab API tabs example" centered>
+                  <Tab icon={<PersonIcon />} label="followers" value={2} />
+                  <Tab icon={<FavoriteIcon />} label="favorite" value={3} />
+                  <Tab icon={<ReviewsIcon />} label="review" value={4} />
+                </TabList>
+              </Box>
+              <TabPanel value={2}>Item One</TabPanel>
+              <TabPanel value={3}>Item Two</TabPanel>
+              <TabPanel value={4}>Item Three</TabPanel>
+            </TabContext>
+          </Box>
+        </TabPanel>
+                </>:
+        <TabPanel value={0}>
+          <Box sx={{ width: '100%', typography: 'body1' }}>
+            <TabContext value={value}>
+              <Box sx={{  borderColor: 'divider'}}>
+                <TabList onChange={handleChange} aria-label="lab API tabs example" centered>
+                  <Tab icon={<PersonIcon />} label="followers" value={2} />
+                  <Tab icon={<FavoriteIcon />} label="favorite" value={3} />
+                  <Tab icon={<ReviewsIcon />} label="review" value={4} />
+                </TabList>
+              </Box>
+              <TabPanel value={2}>Item One</TabPanel>
+              <TabPanel value={3}>Item Two</TabPanel>
+              <TabPanel value={4}>Item Three</TabPanel>
+            </TabContext>
+          </Box>
+        </TabPanel>
+}
       </TabContext>
     </Box>
   );
