@@ -14,6 +14,7 @@ import ShareIcon from '@mui/icons-material/Share';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Stack from '@mui/material/Stack';
 import { styled } from '@mui/material/styles';
+import Edit_avatar from './edit_avatar';
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -35,12 +36,19 @@ export default function Userprofile() {
   const [expanded, setExpanded] = useState(false);
   console.log(user)
 
-  useEffect(() => {
+ 
+
+
+  
+  useEffect(()=>{
+
+          dispatch(fetchUser());
+      } ,[])
+
+      
     // Fetch user data when the component mounts
-      dispatch(fetchUser());
       
       
-  },[dispatch]);
   
 
 
@@ -55,7 +63,10 @@ export default function Userprofile() {
         user?.map((item) => (
           <Stack direction="column" justifyContent="center" alignItems="center" key={item._id} spacing={2}>
             <CardContent>
-              <Avatar alt="Remy Sharp" src={item.avatar} sx={{ width: 56, height: 56 }} />
+              
+              <Avatar alt="Remy Sharp" src={item.avatar} sx={{ width: 56, height: 56 }} />        <Edit_avatar/>
+
+
               <h2>{item.Username}</h2>
             </CardContent>
             <CardActions disableSpacing>

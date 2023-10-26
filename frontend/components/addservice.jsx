@@ -60,6 +60,7 @@ export default function Addservice() {
     })
     console.log(response)
       alert(response.data.message);
+      location.reload()
     } catch (error) {
       console.log(error.message);
     }

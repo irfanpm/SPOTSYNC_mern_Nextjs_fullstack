@@ -104,7 +104,6 @@ export default function RegisterOrLogin() {
     const Username = event.target.username.value;
     const Password = event.target.password.value;
     console.log(Username);
-    dispatch(fetchUser());
 
 
     try {
@@ -115,6 +114,7 @@ export default function RegisterOrLogin() {
       console.log(response);
       setCookie("token", response.data.token);
       alert(response.data.message);
+
       handleClose();
     } catch (error) {
       console.log(error.message);
