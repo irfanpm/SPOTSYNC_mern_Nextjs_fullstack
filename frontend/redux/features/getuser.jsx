@@ -17,6 +17,7 @@ export const fetchUser = createAsyncThunk('user/fetchUser', async () => {
         Authorization: `Bearer ${cookie}`,
       },
     });
+    console.log(res)
     return res.data;
   // } catch (error) {
   //   console.error('Error fetching user:', error);

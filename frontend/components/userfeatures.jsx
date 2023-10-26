@@ -13,24 +13,24 @@ import { Button } from '@mui/material';
 import Addservice from './addservice';
 import { fetchService } from '@/redux/features/getService';
 import { useEffect,useState } from "react";
+import Card from 'react-bootstrap/Card';
 
 export default function UserTab() {
   const [value, setValue] = React.useState(2);
   const [mainvalue, mainsetValue] = React.useState(0);
-  const[Service,setServices]=useState([])
-  console.log(Service)
 const dispatch=useDispatch()
   const user = useSelector((state) => state.user.user.data);
   const service = useSelector((state) => state.service.service.data);
+  console.log(service)
+
 
 useEffect(() => {
   // Fetch user data when the component mounts
     dispatch(fetchService());
-    setServices(service)
 
     
     
-},[Service]);
+},[ ]);
   // Add a check to make sure user is defined before accessing its properties
 
   const handleChange = (event, newValue) => {
@@ -61,8 +61,16 @@ useEffect(() => {
         <TabPanel value={1}>
         <Addservice/>
         {
-          Service?.map((item)=>(
-            <li>{item.serviceName}</li>
+          service?.map((item)=>(  <Card>
+            <Card.Header>{item.serviceName}</Card.Header>
+            <Card.Body>
+              <Card.Title></Card.Title>
+              <Card.Text>
+             {item.Description}
+              </Card.Text>
+              <Button variant="primary"></Button>
+            </Card.Body>
+          </Card>
           ))
         }
 

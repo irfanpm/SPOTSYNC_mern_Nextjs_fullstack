@@ -3,7 +3,7 @@ import axios from "axios";
 
 const upload = async (file) => {
   const data = new FormData();
-  // console.log("this is data",data);
+  console.log("this is data",data);
   data.append("file", file);
   console.log(file);
   data.append("upload_preset", "avatar");

@@ -153,7 +153,7 @@ console.log(user)
             component="div"
             sx={{ display: { xs: 'none', sm: 'block' } }}
           >
-            MUI
+            
           </Typography>
 
           <Search>

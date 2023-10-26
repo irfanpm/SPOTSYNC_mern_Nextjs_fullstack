@@ -41,7 +41,6 @@ export default function Userprofile() {
 
   
   useEffect(()=>{
-
           dispatch(fetchUser());
       } ,[])
 

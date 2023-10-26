@@ -2,12 +2,12 @@ const serviceSchema=require('../model/serviceProvider')
 module.exports={
     addsevice :async(req,res)=>{
 
-        const {servicename,descrption,address,image,location}=req.body
+        const {servicename,description,address,image,location}=req.body
         
       const service=  await serviceSchema.create({
             userId:res.token,
             serviceName:servicename,
-            Description:descrption,
+            Description:description,
             Image:image,
             Address:address,
             Location:location,
