@@ -6,6 +6,7 @@ import React from 'react'
 function page() {
   return (
     <div className='row  mt-4  '>
+      <Navbar1/>
       <div className='col-md-3'>
       <Userprofile/>
 

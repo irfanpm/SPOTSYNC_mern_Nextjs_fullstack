@@ -1,6 +1,8 @@
 import Navbar from '@/components/navbar'
 
 import Carousels from "@/components/carousels";
+import Navbar1 from '@/components/Navbar1'
+
 import Categorylist from "@/components/categorysection";
 
 
@@ -10,6 +12,8 @@ export default function Home() {
          <Navbar/>
 
          <div >
+          <Navbar1/>
+
       <div className="mt-2">
         <Carousels />
       </div>

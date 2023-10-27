@@ -67,6 +67,8 @@ export default function RegisterOrLogin() {
     setSelectedCard(cardType);
   };
 
+   
+
   const handleregister = async (event) => {
     event.preventDefault();
  
