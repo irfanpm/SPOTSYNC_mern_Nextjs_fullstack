@@ -116,6 +116,7 @@ export default function RegisterOrLogin() {
       console.log(response);
       setCookie("token", response.data.token);
       alert(response.data.message);
+      dispatch(isLoggin())
 
       handleClose();
     } catch (error) {

@@ -1,18 +1,17 @@
-import Navbar from '@/components/navbar'
+import Navbar from '@/components/Navbar'
 
 import Carousels from "@/components/carousels";
-import Navbar1 from '@/components/Navbar1'
 
 import Categorylist from "@/components/categorysection";
+import { Container } from '@mui/material';
 
 
 export default function Home() {
   return (
-    <main >
+    <main  >
          <Navbar/>
 
-         <div >
-          <Navbar1/>
+         <Container maxWidth="xl">
 
       <div className="mt-2">
         <Carousels />
@@ -22,8 +21,7 @@ export default function Home() {
       <div >
         <Categorylist />
       </div>
-    </div>
- 
+    </Container> 
     </main>
   )
 }
