@@ -1,4 +1,4 @@
-import { Button, Card } from '@mui/material'
+import { Card } from '@mui/material'
 import React from 'react'
 import { Container } from '@mui/material';
 import Stack from '@mui/material/Stack';
@@ -6,6 +6,7 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { CardActionArea } from '@mui/material';
+import Servicelogin from '@/components/servicelogin';
 
 
 const page = () => {
@@ -81,7 +82,7 @@ const page = () => {
 
 </Stack>
 
-<Button>Add service</Button>
+<Servicelogin/> 
 </Stack>
 
 
