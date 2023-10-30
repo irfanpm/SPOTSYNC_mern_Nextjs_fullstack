@@ -5,7 +5,7 @@ import { Container } from '@mui/material';
 
 function page() {
   return (
-    <Container >
+    <Container className='mt-5' >
         <Addbusiness/>
       
         </Container>
