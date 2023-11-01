@@ -1,3 +1,4 @@
+'use client'
 import * as React from 'react';
 import Backdrop from '@mui/material/Backdrop';
 import Box from '@mui/material/Box';
@@ -11,207 +12,209 @@ import { getCookie } from "cookies-next";
 import IconButton from "@mui/material/IconButton";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import { FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+import Autocomplete from '@mui/material/Autocomplete';
+import ImageUploader from './imageuploader';
+import { useSelector } from 'react-redux';
 
 
-const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
-  boxShadow: 24,
-  p: 4,
-};
 
 export default function Addservice() {
   const cookie = getCookie('token');
+ const image1=useSelector((state)=>state.image.image)
+ console.log(image1)
 
-  const [open, setOpen] = React.useState(false);
-  const [selectedValue, setSelectedValue] = React.useState('');
+    const handleAddservice= async(event)=>{
+        event.preventDefault()
+        const Servicename=event.target.servicename.value
+        const ownerfirst=event.target.ownerfirst.value
+        const ownerlast=event.target.ownerlast.value
+        const phone=event.target.phone.value
+        const category=event.target.category.value
+        const descriptioon=event.target.description.value
+        const street=event.target.street.value
+        const state=event.target.state.value
+        const city=event.target.city.value 
+        const zip=event.target.zip.value
+        const address=event.target.address.value
+        const image=image1
+        
+        
+        console.log(Servicename,ownerfirst,ownerlast,phone,category,descriptioon,street,state,city,zip,address)
+        try {
+              const response = await axios.post('http://127.0.0.1:8000/api/service/addservice', {
+                servicename:Servicename,
+                ownername:ownerfirst+""+ownerlast,
+                phone:phone,
+                category:category,
+                descriptioon:descriptioon,
+                streeaddress:street,
+                state:state,
+                city:city,
+                zipcode:zip,
+                address:address,
+               
 
 
-
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-  const handleChange = (event) => {
-    setSelectedValue(event.target.value);
-  };
-
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
- 
-    const Name = event.target.name.value;
-    const Address = event.target.address.value;
-    const Desc = event.target.desc.value;
-   console.log(Name)
-    // if(selectedCard=="user"){
-    //     Service=false
-    // }else{
-    //     Service=true
-    // }
-    // console.log(Service);
-    // console.log(Type);
-
-    try {
-      const response = await axios.post('http://127.0.0.1:8000/api/service/addservice', {
+    
+                location:"String",
+            },{
+              headers: {
+                Authorization: `Bearer ${cookie}`,
+              },
+            })
+            console.log(response)
+              alert(response.data.message);
+            } catch (error) {
+              console.log(error.message);
+            }
+            event.target.reset();
       
-        servicename:Name,
-        address:Address,
-        description:Desc,
-        location:"String",
-    },{
-      headers: {
-        Authorization: `Bearer ${cookie}`,
-      },
-    })
-    console.log(response)
-      alert(response.data.message);
-      location.reload()
-    } catch (error) {
-      console.log(error.message);
-    }
-    event.target.reset();
-  }
+      
+      }
+
+  // const handleSubmit = async (event) => {
+  //   event.preventDefault();
+ 
+  //   const Name = event.target.name.value;
+  //   const Address = event.target.address.value;
+  //   const Desc = event.target.desc.value;
+  //  console.log(Name)
+  //   // if(selectedCard=="user"){
+  //   //     Service=false
+  //   // }else{
+  //   //     Service=true
+  //   // }
+  //   // console.log(Service);
+  //   // console.log(Type);
+
+  //  
+  // }
 
 
 
   return (
-    <div>
-      <Button onClick={handleOpen}>Add Service</Button>
-      <Modal
-        aria-labelledby="transition-modal-title"
-        aria-describedby="transition-modal-description"
-        open={open}
-        onClose={handleClose}
-        closeAfterTransition
-      >
-        <Fade in={open}>
-          <Box sx={style}>
+      
+          <Box className="" align={"center"} >
             <Typography id="transition-modal-title" variant="h6" component="h2">
             Add Service
             </Typography>
-            <form onSubmit={handleSubmit}>
-                 <Typography component="h5" variant="h6" align="center">
-            Add image
-          </Typography>
-       
-            <div
-              style={{
-                width: "90%",
-                maxWidth: "400px",
-                minHeight: "100px",
-                border: "2px dashed #ccc",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                margin: "auto",
-                padding: "20px",
-              }}
-            >
-              {/* {imageURL ? ( */}
-                <img
-                  src=''
-                  alt="Selected Banner"
-                  style={{ maxWidth: "100%" }}
-                />
-              {/* ) : ( */}
-                <IconButton component="label" color="secondary">
-                  <input
-                    type="file"
-                    accept="image/*"
-                    style={{ display: "none" }}
-                    // onChange={(e) => handleImageUpload(e)}
-                  />
-                  <AddPhotoAlternateIcon
-                    fontSize="large"
-                    style={{ color: "grey" }}
-                  />
-                </IconButton>
-              {/* )} */}
-            </div>
-            <div className='row'>
+            <ImageUploader/>
+            <form onSubmit={handleAddservice}>
+
+            <div className='row justify-content-center'>
               <div className='col-md-6'>
 
               <TextField
-                name="input1"
+                name="servicename"
                 label="Service name"
                 variant="outlined"
                 fullWidth
                 margin="normal"
-                id='name'
+                id='servicename'
               />
+               <TextField
+               name='"ownerfirst"'
+          id="ownerfirst"
+          label="OWNER first Name"
+          multiline
+        />
+        &nbsp;&nbsp;
+        <TextField
+          id="ownerlast"
+          name="ownerlast"
+          label=" OWNER Last Name"
+          placeholder="Placeholder"
+          multiline
+        />
               <TextField
-                name="input2"
-                label="Address"
+                name='phone'
+                label="Business PhoneNumber"
                 variant="outlined"
                 fullWidth
                 margin="normal"
-                id='address'
+                
+                id='phone'
               />
+                  <Autocomplete
+      disablePortal
+      id="combo-box-demo"
+      options={top100Films}
+      renderInput={(params) => <TextField {...params} label="Category" id='category'  name='category' fullWidth   />}
+    />
                  <TextField
-                name="input2"
+                name='description'
+                label="Description"
+                variant="outlined"
+                multiline
+                rows={4}
+                fullWidth
+                margin="normal"
+                id='description'
+                
+              />
+              
+              <TextField
+                name='street'
+                label="Street address"
+                variant="outlined"
+                fullWidth
+                margin="normal"
+                id='street'
+              />
+          <TextField
+           label="state"
+           id="state"
+           sx={{ m: 1, width: '25ch' }}
+           name="state"
+           InputProps={{
+           }}
+         />
+          
+                <TextField
+          label="city"
+          id="city"
+          name="city"
+          sx={{ m: 1, width: '25ch' }}
+          InputProps={{
+          }}
+        />
+          <TextField
+           label="Zip code"
+           id="zip"
+           name="zip"
+           sx={{ m: 1, width: '25ch' }}
+           InputProps={{
+           }}
+         />
+            <TextField
+                name='address'
                 label="Address"
                 variant="outlined"
+                multiline
+                rows={3}
+              
                 fullWidth
                 margin="normal"
                 id='address'
               />
-              </div>
-              <div className='col-md-6' >
-
-              <TextField
-                name="input3"
-                label="phoneNumber"
-                variant="outlined"
-                fullWidth
-                minRows={3}
-                maxRows={10}
-                margin="normal"
-                id='desc'
-              />
-                  <FormControl style={{width:"40vh"}}>
-      <InputLabel id="dropdown-label"  >Select an optio
-      </InputLabel>
-      <Select
-        labelId="dropdown-label"
-        id="dropdown-select"
-        value={selectedValue}
-        onChange={handleChange}
-      >
-        <MenuItem value="option1">Option 1</MenuItem>
-        <MenuItem value="option2">Option 2</MenuItem>
-        <MenuItem value="option3">Option 3</MenuItem>
-      </Select>
-    </FormControl>
-                <TextField
-                name="input3"
-                label="description"
-                variant="outlined"
-                fullWidth
-                minRows={3}
-                maxRows={10}
-                margin="normal"
-                id='desc'
-              /> 
               </div>
 
             </div>
-                
-                     {/* <TextareaAutosize
-     
-      aria-label="minimum height textarea"
-      placeholder="Enter your text here"
-    />
-          */}
+   
               <Button type="submit" variant="contained" style={{background:"red"}}>
                 Submit
               </Button>
             </form>
           </Box>
-        </Fade>
-      </Modal>
-    </div>
+
   );
 }
+
+const top100Films = [
+  { label: 'hospital'},
+  { label: 'hotel' },
+  { label: 'resturent' },
+  { label: 'bakery' },
+  { label: 'education' },
+  { label: "spa" },
+]

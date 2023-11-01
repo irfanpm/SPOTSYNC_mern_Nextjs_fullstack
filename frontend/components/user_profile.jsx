@@ -15,6 +15,8 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Stack from '@mui/material/Stack';
 import { styled } from '@mui/material/styles';
 import Edit_avatar from './edit_avatar';
+import { fetchService } from '@/redux/features/getService';
+
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -29,7 +31,7 @@ const ExpandMore = styled((props) => {
 
 export default function Userprofile() {
   const router = useRouter();
-
+  
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.user.data);
   const loading = useSelector((state) => state.user.loading);

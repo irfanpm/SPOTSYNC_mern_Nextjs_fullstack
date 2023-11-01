@@ -25,10 +25,7 @@ const dispatch=useDispatch()
 
 
 useEffect(() => {
-  // Fetch user data when the component mounts
-    dispatch(fetchService());
-
-    
+    dispatch(fetchService());    
     
 },[ ]);
   // Add a check to make sure user is defined before accessing its properties

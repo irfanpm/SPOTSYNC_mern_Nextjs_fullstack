@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
@@ -13,6 +13,9 @@ import Image from 'next/image';
 import CloseIcon from '@mui/icons-material/Close';
 import SendIcon from '@mui/icons-material/Send';
 import { useRouter } from "next/navigation";
+import axios from 'axios';
+import { getCookie } from "cookies-next";
+import { useDispatch } from 'react-redux';
 
 
 const style = {
@@ -36,14 +39,54 @@ const contentStyle = {
 };
 
 export default function Servicelogin() {
+  const cookie = getCookie('token');
+
   const router=useRouter()
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const handlNumber=()=>{
-    router.push('/Serviceprovider/addService')
+  // const handlNumber=()=>{
+  //   router.push('/Serviceprovider/addService')
+
+  // }
+  //   // Fetch user data when the component mounts
+  
+      
+      
+  // },[ ]);
+  const handleSumbit= async(event)=>{
+    event.preventDefault()
+    const phone=event.target.phone.value
+
+    try {
+      const response=await axios.post('http://127.0.0.1:8000/api/service/phone',{
+        phone:phone
+
+      },{
+        headers: {
+          Authorization: `Bearer ${cookie}`,
+        },
+    })
+    console.log(response)
+    
+    if(response.data.status=="success"){
+      router.push('/Serviceprovider/serviceprofilepage')
+      alert(response.data.message)
+
+
+    }else{
+      alert(response.data.message)
+
+    }
+      
+    } catch (error) {
+      console.log(error.message)
+      
+    }
+
 
   }
+
 
   return (
     <div>
@@ -76,14 +119,14 @@ export default function Servicelogin() {
                 </Typography>
            
           
-            <Box component="form" noValidate sx={{ mt: 1 }}>
+            <Box component="form" onSubmit={handleSumbit} noValidate sx={{ mt: 1 }}>
               <TextField
                 margin="normal"
                 required
                 fullWidth
                 id="phone"
                 label="Phone Number"
-                name="phonenumber"
+                name="phone"
                 type='tel'
                 autoComplete="email"
                 InputProps={{
@@ -93,7 +136,7 @@ export default function Servicelogin() {
                 }}
               />
             
-            <Button  endIcon={<SendIcon />} style={{background:"#040333",color:"white"}} onClick={handlNumber}>
+            <Button  endIcon={<SendIcon />} style={{background:"#040333",color:"white"}} type='submit' >
   Send
 </Button>
 

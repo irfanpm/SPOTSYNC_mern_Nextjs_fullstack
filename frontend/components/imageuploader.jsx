@@ -11,23 +11,70 @@ import {
   Modal,
   Backdrop,
   Fade,
+  Box,
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
+import Serviceupload from './serviceimageupload';
+import { getCookie } from "cookies-next";
+import { send } from '@/redux/features/serviceimage';
+import { useDispatch } from 'react-redux';
 
 
-const MuiMultipleImageUploader = () => {
+
+const ImageUploader = () => {
+  const cookie = getCookie('token')
+  const dispatch=useDispatch()
   const [selectedImages, setSelectedImages] = useState([]);
   const [viewedImage, setViewedImage] = useState(null);
   const [openModal, setOpenModal] = useState(false);
-
-  const handleImageChange = (event) => {
+ console.log(selectedImages)
+  const handleImageChange = async (event) => {
     const files = event.target.files;
     if (files.length > 0) {
       const imageArray = Array.from(files).slice(0, 5); // Limit to 5 images
       setSelectedImages([...selectedImages, ...imageArray]);
-    }
+      selectedImages.map( async(item)=>{
+        try{
+          const url=await Serviceupload(item)
+          console.log(url)
+          dispatch(send(url))
+        //   await axios.post('http://127.0.0.1:8000/api/service/addservice',
+        //   {
+        //       image:url
+    
+        //   },
+        //   {
+        //  headers: {
+        //           Authorization: `Bearer ${cookie}`,
+        //         }
+        //       }
+    
+        //   )
+          // location.reload()
+       
+            
+    
+    
+      }catch(error){
+          console.log("from upload",error.message);
+      }
+  
+  
+  
+  
+      })
+     
+  
+
   };
+
+}
+  const handleupload=()=>{
+    
+    
+
+  }
 
   const removeImage = (index) => {
     const updatedImages = [...selectedImages];
@@ -40,9 +87,11 @@ const MuiMultipleImageUploader = () => {
     setOpenModal(true);
   };
 
+
   const handleCloseModal = () => {
     setOpenModal(false);
   };
+
 
   useEffect(() => {
     if (openModal) {
@@ -53,10 +102,11 @@ const MuiMultipleImageUploader = () => {
   }, [openModal]);
 
   return (
-    <div>
-        <Typography component="h5" variant="h6" align="center">
+    <div >
+         <Typography component="h5" variant="h6" align="center">
             Add image
           </Typography>
+
        
             <div
               style={{
@@ -71,6 +121,7 @@ const MuiMultipleImageUploader = () => {
                 padding: "20px",
               }}
             >
+          
               {/* {imageURL ? ( */}
                 <img
                   src=''
@@ -82,7 +133,10 @@ const MuiMultipleImageUploader = () => {
                   <input
                     type="file"
                     accept="image/*"
+                    id="imageInput"
                     style={{ display: "none" }}
+                    onChange={handleImageChange}
+
                     // onChange={(e) => handleImageUpload(e)}
                   />
                   <AddPhotoAlternateIcon
@@ -92,35 +146,33 @@ const MuiMultipleImageUploader = () => {
                 </IconButton>
               {/* )} */}
             </div>
-      <Grid container spacing={2}>
+            <button onClick={handleupload}>upload</button>
+      <div className='row '>
         
         {selectedImages.slice(0, 5).map((image, index) => (
-          <Grid item key={index}>
-            <Card variant="outlined">
+          <Grid item key={index}   className='col-md-2 '      >
+            <Card variant="outlined" className='d-flex '>
               <CardMedia
                 component="img"
                 alt={`Uploaded Image ${index + 1}`}
-                height="100"
                 image={URL.createObjectURL(image)}
                 onClick={() => handleImageClick(image)}
                 style={{ cursor: 'pointer' }}
               />
-              <CardContent>
-                <Typography variant="body2" color="textSecondary">
-                  Image {index + 1}
-                </Typography>
+                {/* <Typography variant="body2" color="textSecondary">
+                   file uploaded {index + 1}
+                </Typography> */}
                 <IconButton
                   onClick={() => removeImage(index)}
                   color="secondary"
-                  style={{ position: 'absolute', top: 0, right: 0 }}
+                 
                 >
                   <DeleteIcon />
                 </IconButton>
-              </CardContent>
             </Card>
           </Grid>
         ))}
-      </Grid>
+      </div>
 
       <Modal
         open={openModal}
@@ -132,7 +184,18 @@ const MuiMultipleImageUploader = () => {
         }}
       >
         <Fade in={openModal}>
-          <div>
+        <Box
+            sx={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              width: '50%',  // Adjust the width as needed
+              bgcolor: 'background.paper',
+              boxShadow: 24,
+              // p: 3,
+            }}
+          >
             {viewedImage && (
               <img
                 src={URL.createObjectURL(viewedImage)}
@@ -141,11 +204,11 @@ const MuiMultipleImageUploader = () => {
                 onClick={handleCloseModal}
               />
             )}
-          </div>
+          </Box>
         </Fade>
       </Modal>
     </div>
   );
 };
 
-export default MuiMultipleImageUploader;
+export default ImageUploader

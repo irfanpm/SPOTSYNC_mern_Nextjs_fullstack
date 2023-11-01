@@ -16,7 +16,7 @@ import { setCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
 import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
-import { fetchUser } from '@/redux/features/getuser';
+
 
 const style = {
   position: 'absolute',
@@ -73,10 +73,8 @@ export default function RegisterOrLogin() {
     event.preventDefault();
  
     const Username = event.target.username.value;
-    const Mobile = event.target.mobile.value;
     const Email = event.target.email.value;
     const Password = event.target.password.value;
-    const Type=selectedCard
     // if(selectedCard=="user"){
     //     Service=false
     // }else{
@@ -88,10 +86,8 @@ export default function RegisterOrLogin() {
     try {
       const response = await axios.post('http://127.0.0.1:8000/api/user/register', {
         username: Username,
-        mobilenumber: Mobile,
         email: Email,
         password: Password,
-        type:Type
       });
       alert(response.data.message);
     } catch (error) {
@@ -117,6 +113,8 @@ export default function RegisterOrLogin() {
       setCookie("token", response.data.token);
       alert(response.data.message);
       dispatch(isLoggin())
+  
+    
 
       handleClose();
     } catch (error) {

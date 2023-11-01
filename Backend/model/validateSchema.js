@@ -1,10 +1,9 @@
 const joi = require('joi')
 const AuthUser = joi.object({
     username:joi.string().required(),
-    email:joi.string().email().lowercase(),
+    email:joi.string().lowercase(),
     mobilenumber:joi.number(),
     password:joi.string().required(),
-    type:joi.string()
 
 
 
