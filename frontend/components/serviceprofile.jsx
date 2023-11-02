@@ -80,15 +80,25 @@ export default function Serviceprofile() {
             <Tab label="Item Three" value="3" />
           </TabList>
         </Box>
-        <TabPanel value="1">
+        <TabPanel value="1" className='row '>
         {
           service?.map((item)=>( 
-              <Card sx={{ maxWidth: 345 }} className='d-flex'>
-      <CardMedia
-        sx={{ height: 140 }}
-        image={item.image}
-        title="green iguana"
-      />
+         
+         <Card sx={{ maxWidth: 345 }} className=' col-md-3 ' >
+   <CardMedia
+        component="div" // Use a div as the container
+        sx={{ height: 140, display: 'flex', overflowX: 'auto' }} // Add scrollable styles
+      >
+        {item.Image.map((image, index) => (
+          <img
+            key={index}
+            src={image}
+            alt="Image"
+            style={{ flex: '0 0 auto', minWidth: '100%' }} // Ensure images don't stretch
+          />
+        ))}
+      </CardMedia>
+          
       <CardContent >
         <Typography gutterBottom variant="h5" component="div">
           {item.serviceName}
@@ -101,7 +111,7 @@ export default function Serviceprofile() {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small">Share</Button>
+        <Button size="small">Delete</Button>
         <Button size="small">Learn More</Button>
       </CardActions>
     </Card>

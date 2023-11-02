@@ -13,7 +13,7 @@ const serviceSchema = new mongoose.Schema({
    City:String,
    Zipcode:String,
    Description:String,
-   Image:[],
+   Image:Array,
    Location:String
 
 })

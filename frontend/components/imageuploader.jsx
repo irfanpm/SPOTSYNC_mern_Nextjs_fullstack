@@ -28,42 +28,13 @@ const ImageUploader = () => {
   const [selectedImages, setSelectedImages] = useState([]);
   const [viewedImage, setViewedImage] = useState(null);
   const [openModal, setOpenModal] = useState(false);
- console.log(selectedImages)
   const handleImageChange = async (event) => {
     const files = event.target.files;
     if (files.length > 0) {
       const imageArray = Array.from(files).slice(0, 5); // Limit to 5 images
       setSelectedImages([...selectedImages, ...imageArray]);
-      selectedImages.map( async(item)=>{
-        try{
-          const url=await Serviceupload(item)
-          console.log(url)
-          dispatch(send(url))
-        //   await axios.post('http://127.0.0.1:8000/api/service/addservice',
-        //   {
-        //       image:url
-    
-        //   },
-        //   {
-        //  headers: {
-        //           Authorization: `Bearer ${cookie}`,
-        //         }
-        //       }
-    
-        //   )
-          // location.reload()
-       
-            
-    
-    
-      }catch(error){
-          console.log("from upload",error.message);
-      }
+     
   
-  
-  
-  
-      })
      
   
 
@@ -72,14 +43,47 @@ const ImageUploader = () => {
 }
   const handleupload=()=>{
     
+    selectedImages.map( async(item)=>{
+      try{
+        const url=await Serviceupload(item)
+        console.log(url)
+        dispatch(send(url))
+      //   await axios.post('http://127.0.0.1:8000/api/service/addservice',
+      //   {
+      //       image:url
+  
+      //   },
+      //   {
+      //  headers: {
+      //           Authorization: `Bearer ${cookie}`,
+      //         }
+      //       }
+  
+      //   )
+        // location.reload()
+     
+          
+  
+  
+    }catch(error){
+        console.log("from upload",error.message);
+    }
+    
+    
+    
+  })
+  setSelectedImages([])
+
     
 
   }
+  
 
   const removeImage = (index) => {
     const updatedImages = [...selectedImages];
     updatedImages.splice(index, 1);
     setSelectedImages(updatedImages);
+
   };
 
   const handleImageClick = (image) => {
@@ -91,6 +95,19 @@ const ImageUploader = () => {
   const handleCloseModal = () => {
     setOpenModal(false);
   };
+  useEffect(() => {
+    if (openModal) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+
+    // Ensure that the overflow property is reset when the component unmounts
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
+  }, [openModal]);
+
 
 
   useEffect(() => {

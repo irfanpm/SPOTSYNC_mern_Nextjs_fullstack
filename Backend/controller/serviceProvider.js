@@ -49,7 +49,8 @@ module.exports={
             Description:description,
             Address:address,
             Location:location,
-            Image:[image]
+            Image:image
+            
             
 
         })

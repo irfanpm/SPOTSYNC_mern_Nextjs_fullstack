@@ -14,11 +14,13 @@ import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import { FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import Autocomplete from '@mui/material/Autocomplete';
 import ImageUploader from './imageuploader';
-import { useSelector } from 'react-redux';
+import { useSelector,useDispatch } from 'react-redux';
+import { recieve } from '@/redux/features/serviceimage';
 
 
 
 export default function Addservice() {
+  const dispatch=useDispatch()
   const cookie = getCookie('token');
  const image1=useSelector((state)=>state.image.image)
  console.log(image1)
@@ -35,9 +37,7 @@ export default function Addservice() {
         const state=event.target.state.value
         const city=event.target.city.value 
         const zip=event.target.zip.value
-        const address=event.target.address.value
-        const image=image1
-        
+        const address=event.target.address.value        
         
         console.log(Servicename,ownerfirst,ownerlast,phone,category,descriptioon,street,state,city,zip,address)
         try {
@@ -52,10 +52,7 @@ export default function Addservice() {
                 city:city,
                 zipcode:zip,
                 address:address,
-               
-
-
-    
+                image:image1,
                 location:"String",
             },{
               headers: {
@@ -63,7 +60,11 @@ export default function Addservice() {
               },
             })
             console.log(response)
+
               alert(response.data.message);
+              location.reload()
+              dispatch(recieve())
+
             } catch (error) {
               console.log(error.message);
             }
