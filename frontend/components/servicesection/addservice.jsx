@@ -16,10 +16,12 @@ import Autocomplete from '@mui/material/Autocomplete';
 import ImageUploader from './imageuploader';
 import { useSelector,useDispatch } from 'react-redux';
 import { recieve } from '@/redux/features/serviceimage';
+import { useRouter } from 'next/navigation';
 
 
 
 export default function Addservice() {
+  const router=useRouter()
   const dispatch=useDispatch()
   const cookie = getCookie('token');
  const image1=useSelector((state)=>state.image.image)
@@ -62,12 +64,13 @@ export default function Addservice() {
             console.log(response)
 
               alert(response.data.message);
-              location.reload()
               dispatch(recieve())
 
             } catch (error) {
               console.log(error.message);
             }
+            router.push('/Serviceprovider/serviceprofilepage')
+
             event.target.reset();
       
       

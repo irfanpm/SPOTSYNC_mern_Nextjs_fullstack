@@ -125,10 +125,10 @@ findService:async(req,res)=>{
 
 },
 editService:async(req,res)=>{
-    const {serviceid,servicename,ownername,phone,category,streetaddress,state,city,zipcode,description,address,location,}=req.body
+    const {serviceid,servicename,ownername,phone,category,streetaddress,state,city,zipcode,description,address,location}=req.body
     const service = await serviceSchema.find({_id:serviceid})
     if(service){
-        await serviceSchema.findById(service_id,{$set:{
+        await serviceSchema.findByIdAndUpdate(serviceid,{$set:{
             serviceName:servicename,
             OwnerName:ownername,
             Phone:phone,
@@ -141,7 +141,14 @@ editService:async(req,res)=>{
             Address:address,
             Location:location,
 
-        }})
+        }
+      
+    })
+    res.status(200).json({
+        status: "success",
+        message: "successfully added service",
+        data:service
+    })
     }else{
         res.json('failed')
     }

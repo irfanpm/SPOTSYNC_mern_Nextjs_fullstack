@@ -7,13 +7,59 @@ import TextField from '@mui/material/TextField';
 import ImageUploader from './imageuploader';
 import Autocomplete from '@mui/material/Autocomplete';
 import { useSelector } from 'react-redux';
+import { getCookie } from "cookies-next";
+import { useRouter } from 'next/navigation';
+import axios from 'axios';
 
 
 function editservice() {
+  const cookie = getCookie('token');
+  const router=useRouter()
+
   const service=useSelector((state)=>state.findservie.service.data)
   console.log(service)
-  const handleEdit=()=>{
-    
+  const handleEdit= async(event,id)=>{ 
+    event.preventDefault()
+    const Servicename=event.target.servicename.value
+    const ownerfirst=event.target.ownerfirst.value
+    const phone=event.target.phone.value
+    const category=event.target.category.value
+    const descriptioon=event.target.description.value
+    const street=event.target.street.value
+    const state=event.target.state.value
+    const city=event.target.city.value 
+    const zip=event.target.zip.value
+    const address=event.target.address.value        
+    try {
+      const response = await axios .put('http://127.0.0.1:8000/api/service/editservice', {
+        serviceid:id,
+        servicename:Servicename,
+        ownername:ownerfirst,
+        phone:phone,
+        category:category,
+        descriptioon:descriptioon,
+        streeaddress:street,
+        state:state,
+        city:city,
+        zipcode:zip,
+        address:address,
+        // image:image1,
+        // location:"String",
+    },{
+      headers: {
+        Authorization: `Bearer ${cookie}`,
+      },
+    })
+    console.log(response)
+
+
+
+    } catch (error) {
+      console.log(error.message);
+    }
+
+    router.push('/Serviceprovider/serviceprofilepage')
+
   }
   return (
       <Box>
@@ -23,9 +69,9 @@ function editservice() {
             Add Service
             </Typography>
             <ImageUploader/>
-            <form  onSubmit={handleEdit}>
+          {(service?.map((item)=>(
+            <form  onSubmit={(e)=>handleEdit(e,item._id)}>
 
-          {(service.map((item)=>(<>
             <div className='row justify-content-center'>
               <div className='col-md-6'>
 
@@ -42,20 +88,11 @@ function editservice() {
                name='"ownerfirst"'
           id="ownerfirst"
           variant="standard"
-
-          label="OWNER first Name"
+          defaultValue={item.OwnerName}
+          label="OWNER  Name"
           multiline
         />
-        &nbsp;&nbsp;
-        <TextField
-          id="ownerlast"
-          name="ownerlast"
-          variant="standard"
-
-          label=" OWNER Last Name"
-          placeholder="Placeholder"
-          multiline
-        />
+       
               <TextField
                 name='phone'
                 label="Business PhoneNumber"
@@ -148,10 +185,10 @@ function editservice() {
    
               <Button type="submit" variant="contained" style={{background:"red"}}>
                 Submit
-              </Button></>
+              </Button>
+            </form>
               )))
 }
-            </form>
           </Box>
 
 

@@ -43,6 +43,9 @@ export default function Serviceprofile() {
 
     const cookie = getCookie('token');
 
+    const addservice=()=>{
+      router.push('/Serviceprovider/addService')
+    }
     useEffect(() => {
         dispatch(fetchService());
         
@@ -66,6 +69,7 @@ export default function Serviceprofile() {
       router.push('/Serviceprovider/serviceDetails')
 
     }
+   
 
   return (
     <div className='container'>
@@ -87,7 +91,7 @@ export default function Serviceprofile() {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small">Learn More</Button>
+        <Button size="small" onClick={addservice}>Add Service</Button>
       </CardActions>
       </>
        ))
@@ -106,7 +110,7 @@ export default function Serviceprofile() {
         {
           service?.map((item)=>( 
          
-         <Card sx={{ maxWidth: 345 }} className=' col-md-3 ' onClick={()=>clickservice(item._id)} >
+         <Card sx={{ maxWidth: 345 }} className=' col-md-3 '  >
    <CardMedia
         component="div" // Use a div as the container
         sx={{ height: 140, display: 'flex', overflowX: 'auto' }} // Add scrollable styles
@@ -134,7 +138,7 @@ export default function Serviceprofile() {
       </CardContent>
       <CardActions>
         <Button size="small" onClick={()=>removeService(item._id)}>Delete</Button>
-        <Button size="small">Learn More</Button>
+        <Button size="small"  onClick={()=>clickservice(item._id)}>Learn More</Button>
       </CardActions>
     </Card>
           
