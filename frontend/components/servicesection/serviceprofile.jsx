@@ -15,6 +15,13 @@ import TabPanel from '@mui/lab/TabPanel';
 import { fetchService } from '@/redux/features/getService';
 import { useEffect,useState } from "react";
 import CardMedia from '@mui/material/CardMedia';
+import {deleteService} from '@/redux/features/deleteService';
+import { getCookie } from "cookies-next";
+import {findService} from '@/redux/features/findService';
+import axios from 'axios';
+import { useRouter } from 'next/navigation';
+
+
 const bull = (
   <Box
     component="span"
@@ -26,9 +33,15 @@ const bull = (
 
 export default function Serviceprofile() {
     const dispatch=useDispatch()
+    const router=useRouter()
     const user = useSelector((state) => state.user.user.data);
     const service = useSelector((state) => state.service.service.data);
-    console.log(service)
+    const service1=useSelector((state)=>state.findservie)
+  console.log(service1)
+
+   
+
+    const cookie = getCookie('token');
 
     useEffect(() => {
         dispatch(fetchService());
@@ -42,11 +55,20 @@ export default function Serviceprofile() {
       setValue(newValue);
     };
     console.log(user)
+    const removeService =(id)=>{
+         dispatch(deleteService(id))
+         dispatch(fetchService());
+         dispatch(fetchService());
+
+    }
+    const clickservice=(id)=>{
+      dispatch(findService(id))
+      router.push('/Serviceprovider/serviceDetails')
+
+    }
 
   return (
     <div className='container'>
-
-    
     <Card sx={{ minWidth: 275 ,height:160 }} className='d-flex justify-content-center '>
         { user?.map((item)=>(
             <>
@@ -84,7 +106,7 @@ export default function Serviceprofile() {
         {
           service?.map((item)=>( 
          
-         <Card sx={{ maxWidth: 345 }} className=' col-md-3 ' >
+         <Card sx={{ maxWidth: 345 }} className=' col-md-3 ' onClick={()=>clickservice(item._id)} >
    <CardMedia
         component="div" // Use a div as the container
         sx={{ height: 140, display: 'flex', overflowX: 'auto' }} // Add scrollable styles
@@ -111,7 +133,7 @@ export default function Serviceprofile() {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small">Delete</Button>
+        <Button size="small" onClick={()=>removeService(item._id)}>Delete</Button>
         <Button size="small">Learn More</Button>
       </CardActions>
     </Card>

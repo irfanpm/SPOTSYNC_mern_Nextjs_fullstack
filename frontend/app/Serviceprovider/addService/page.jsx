@@ -1,7 +1,7 @@
 import Addbusiness from '@/components/addBusiness'
 import React from 'react'
 import { Container } from '@mui/material';
-import Addservice from '@/components/addservice';
+import Addservice from '@/components/servicesection/addservice';
 
 
 function page() {

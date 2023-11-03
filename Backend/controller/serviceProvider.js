@@ -91,10 +91,63 @@ getService: async(req,res)=>{
 
 },
 deleteService:async(req,res)=>{
-    const service=await serviceSchema.updateOne({})
+    const { serviceid }=req.body
+    const service=await serviceSchema.findOne({_id:serviceid})
+    if(service){
+
+    const deletedservice= await serviceSchema.deleteOne({_id:serviceid})
+    res.json(deletedservice)
+
+    }else{
+        res.json({message:"the user not available"})
+    }
 
 
 
-}
+
+},
+findService:async(req,res)=>{
+    const { serviceid }=req.body
+    const service=await serviceSchema.find({_id:serviceid})
+    if(service){
+        res.status(200).json({
+            status: "success",
+            data: service,
+          });
+
+    }else{
+        res.json("service not available")
+    }
+
+
+
+
+
+},
+editService:async(req,res)=>{
+    const {serviceid,servicename,ownername,phone,category,streetaddress,state,city,zipcode,description,address,location,}=req.body
+    const service = await serviceSchema.find({_id:serviceid})
+    if(service){
+        await serviceSchema.findById(service_id,{$set:{
+            serviceName:servicename,
+            OwnerName:ownername,
+            Phone:phone,
+            Category:category,
+            StreetAdrress:streetaddress,
+            State:state,
+            City:city,
+            Zipcode:zipcode,
+            Description:description,
+            Address:address,
+            Location:location,
+
+        }})
+    }else{
+        res.json('failed')
+    }
+
+
+
+},
 
 }

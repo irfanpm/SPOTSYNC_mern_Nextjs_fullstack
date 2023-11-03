@@ -3,6 +3,8 @@ import auth from "./features/auth";
 import getuser from "./features/getuser";
 import getService from "./features/getService";
 import serviceimage from "./features/serviceimage";
+import deleteService from "./features/deleteService";
+import findService from "./features/findService";
 
 
 export const store = configureStore({
@@ -10,7 +12,9 @@ export const store = configureStore({
         service:getService,
         user:getuser ,
         Auth:auth ,
-        image:serviceimage
+        image:serviceimage,
+        delete:deleteService,
+        findservie:findService
 
     }
 

@@ -4,49 +4,45 @@ import { getCookie } from "cookies-next";
 
 const initialState = {
   loading: false,
-  user: [],
+  service: [],
   error: null, 
 };
 
 const cookie = getCookie('token');
 
-export const fetchUser = createAsyncThunk('user/fetchUser', async () => {
+export const findService = createAsyncThunk('user/findService', async (id) => {
   // try {
-    const res = await axios.get('http://127.0.0.1:8000/api/user/profile', {
-      
-      
+    const res = await axios.post('http://127.0.0.1:8000/api/service/findservice',{
+      serviceid:id
+    },{
       headers: {
         Authorization: `Bearer ${cookie}`,
       },
     });
-    console.log(res)
     return res.data;
-  // } catch (error) {
-  //   console.error('Error fetching user:', error);
-  //   throw error;
-  // }
+ 
 });
 
-const userSlice = createSlice({
-  name: 'user',
+const findserviceslice = createSlice({
+  name: 'findservice',
   initialState,
   extraReducers: (builder) => {
     builder
-      .addCase(fetchUser.pending, (state) => {
+      .addCase(findService.pending,(state) => {
         state.loading = true;
         state.error = null; // Reset error when a new request starts
       })
-      .addCase(fetchUser.fulfilled, (state, action) => {
+      .addCase(findService.fulfilled, (state, action) => {
         state.loading = false;
-        state.user = action.payload;
+        state.service = action.payload;
         state.error = null; // Reset error on success
       })
-      .addCase(fetchUser.rejected, (state, action) => {
+      .addCase(findService.rejected, (state, action) => {
         state.loading = true;
-        state.user = [];
+        state.service = [];
         state.error = action.error.message;
       });
   },
 });
 
-export default userSlice.reducer;
+export default findserviceslice.reducer;

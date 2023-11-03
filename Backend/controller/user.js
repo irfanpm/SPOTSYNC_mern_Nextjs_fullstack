@@ -97,7 +97,40 @@ module.exports = {
       res.json("failed")
     }
 
-  }
+  },
+  getService: async(req,res)=>{
+    const getService= await serviceSchema.find({userId:res.token})
+    if(getService.length!=0){
+        res.status(200).json({
+            status: "success",
+            data: getService,
+          });
+
+    }else{
+        res.json('error')
+
+    }
+
+
+},
+  findService:async(req,res)=>{
+    const { serviceid }=req.body
+    const service=await serviceSchema.find({_id:serviceid})
+    if(service){
+        res.status(200).json({
+            status: "success",
+            data: service,
+          });
+
+    }else{
+        res.json("service not available")
+    }
+
+
+
+
+
+},
 
 
 

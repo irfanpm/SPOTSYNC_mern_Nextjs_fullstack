@@ -1,4 +1,4 @@
-import Serviceprofile from '@/components/serviceprofile'
+import Serviceprofile from '@/components/servicesection/serviceprofile'
 import React from 'react'
 
 

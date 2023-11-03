@@ -3,23 +3,21 @@ import axios from 'axios';
 import { getCookie } from "cookies-next";
 
 const initialState = {
-  loading: false,
-  user: [],
-  error: null, 
-};
+}
 
 const cookie = getCookie('token');
 
-export const fetchUser = createAsyncThunk('user/fetchUser', async () => {
+export const deleteService = createAsyncThunk('service/delete', async(id) => {
   // try {
-    const res = await axios.get('http://127.0.0.1:8000/api/user/profile', {
-      
-      
+    const res = await axios.put('http://127.0.0.1:8000/api/service/deleteservice',{
+      serviceid:id
+
+    },{
+
       headers: {
         Authorization: `Bearer ${cookie}`,
       },
-    });
-    console.log(res)
+});
     return res.data;
   // } catch (error) {
   //   console.error('Error fetching user:', error);
@@ -27,26 +25,24 @@ export const fetchUser = createAsyncThunk('user/fetchUser', async () => {
   // }
 });
 
-const userSlice = createSlice({
-  name: 'user',
+const deleteSlice = createSlice({
+  name: 'service',
   initialState,
   extraReducers: (builder) => {
     builder
-      .addCase(fetchUser.pending, (state) => {
+      .addCase(deleteService.pending, (state) => {
         state.loading = true;
         state.error = null; // Reset error when a new request starts
       })
-      .addCase(fetchUser.fulfilled, (state, action) => {
+      .addCase(deleteService.fulfilled, (state) => {
         state.loading = false;
-        state.user = action.payload;
         state.error = null; // Reset error on success
       })
-      .addCase(fetchUser.rejected, (state, action) => {
+      .addCase(deleteService.rejected, (state, ) => {
         state.loading = true;
-        state.user = [];
-        state.error = action.error.message;
+        state.service = [];
       });
   },
 });
 
-export default userSlice.reducer;
+export default deleteSlice.reducer;
