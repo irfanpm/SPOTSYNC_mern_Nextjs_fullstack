@@ -6,7 +6,7 @@ import serviceimage from "./features/serviceimage";
 import deleteService from "./features/deleteService";
 import findService from "./features/findService";
 import showservice from "./features/showservice";
-
+import showservicedetails from "./features/showservicedetails";
 
 export const store = configureStore({
     reducer:{
@@ -16,7 +16,8 @@ export const store = configureStore({
         image:serviceimage,
         delete:deleteService,
         findservie:findService,
-        showservice:showservice
+        showservice:showservice,
+        servicedetails:showservicedetails
 
     }
 

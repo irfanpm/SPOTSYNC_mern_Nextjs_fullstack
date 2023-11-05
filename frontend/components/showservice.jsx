@@ -1,5 +1,4 @@
 'use client'
-import {showservice} from '@/redux/features/showservice'
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import Card from '@mui/material/Card';
@@ -8,22 +7,33 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import { Servicedetails } from '@/redux/features/showservicedetails';
+import {showservice} from '@/redux/features/showservice'
 
+import { useRouter } from 'next/navigation';
 
 function Showservice() {
+  const router=useRouter()
+
   const dispatch=useDispatch()
     const service=useSelector((state)=>state.showservice.service.data)
+  
     useEffect(()=>{
       dispatch(showservice())
 
     },[])
+    const handleshowservice=(id)=>{
+      dispatch(Servicedetails(id))
+      router.push('/user/servicedetails')
+
+    }
     console.log(service)
   return (
-    <div className='d-flex m-5'>
+    <div className='row conatiner m-4'>
       {(service?.map((data)=>(
-       <Card sx={{ maxWidth: 345 }} className='m-2'>
+       <Card  className=' col-md-6 m-2  col-lg-3' onClick={()=>{handleshowservice(data._id)}} >
       <CardMedia
-        sx={{ height: 140 }}
+        sx={{ height: 200 ,width:"100%"}}
         image={data.Image}
         title="green iguana"
       />

@@ -1,85 +1,78 @@
-import * as React from 'react';
-
+import React from 'react';
 import ImageList from '@mui/material/ImageList';
-
 import { Card } from 'react-bootstrap';
 
 export default function Categorylist() {
-  return (<div className='container ' >
-      <ImageList   cols={7} gap={9} >
-        {itemData.map((item) => (<Card className='w-75 mt-5 d-flex align-items-center ' style={{borderColor:"black", borderStyle:"solid", overflow:"hidden" }}  key={item.img}>
-            <img className='w-50 '
-              src={item.img}
-              alt={item.title}
-           
-            />
-            <span  className='fs-5 text-center'> {item.title}</span>
-            
-       
-      </Card> ))}
+  return (
+    <div className='container mt-2'>
+      <ImageList className='row justify-content-between ' >
+        {itemData.map((item, index) => (
+          <div key={index} className='text-center col-lg-1 col-md-2 col-4 '>
+            <div
+              style={{
+                borderColor: '#05cdff',
+                overflow: 'hidden',
+                border: '1px solid',
+                borderRadius: '50%',
+                height: '69px',
+                width: '69px', 
+              }}
+              className='d-flex justify-content-center align-items-center' 
+            >
+              <img
+                className='w-50 mt-2'
+                style={{ height: 'auto', opacity: '0.9' }}
+                src={item.img}
+                alt={item.title}
+              />
+            </div>
+            <span color='#879599'>{item.title}</span>
+          </div>
+        ))}
       </ImageList>
-    
     </div>
   );
 }
 
 const itemData = [
   {
-    img: '/categgory icons/contractor-2022.svg.png',
+    img: '/categgory icons/educationicon.png',
     title: 'Bed',
   },
   {
-    img: '/categgory icons/dentist_2023.svg.png',
+    img: '/categgory icons/car-repair.png',
     title: 'Books',
   },
   {
-    img: '/categgory icons/driving_school_2023.svg.png',
-    title: 'Sink',
-  },
-  {
-    img: '/categgory icons/education.svg.png',
+    img: '/categgory icons/tooth.png',
     title: 'Kitchen',
   },
   {
-    img: '/categgory icons/estate-agent.svg.png',
+    img: '/categgory icons/women.png',
     title: 'Blinds',
   },
   {
-    img: '/categgory icons/eventorganizers.svg.png',
+    img: '/categgory icons/wedding-rings.png',
     title: 'Chairs',
   },
   {
-    img:'/categgory icons/gym_2023.svg.png',
+    img: '/categgory icons/hotel.png',
     title: 'Laptop',
   },
-
   {
-    img:'/categgory icons/homedecor.svg.png',
+    img: '/categgory icons/fast-food.png',
     title: 'Coffee',
   },
   {
-    img: '/categgory icons/hospital_2023.svg.png',
+    img: '/categgory icons/boxes.png',
     title: 'Storage',
   },
   {
-    img:'/categgory icons/hotel-2022.svg.png',
-    title: 'Candle',
+    img: '/categgory icons/weight.png',
+    title: 'Storage',
   },
   {
-    img: '/categgory icons/packers_movers_2023.svg.png',
-    title: 'Coffee table',
+    img: '/categgory icons/menu.png',
+    title: 'Storage',
   },
-  {
-    img: '/categgory icons/renthire.svg.png',
-    title: 'Coffee table',
-  },
-  {
-    img: '/categgory icons/travel_2023.png',
-    title: 'Coffee table',
-  },
-  {
-    img: '/categgory icons/hk_showmore.svg.png',
-  
-  },
-
 ];

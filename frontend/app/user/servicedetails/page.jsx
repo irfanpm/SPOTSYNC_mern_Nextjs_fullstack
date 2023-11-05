@@ -1,11 +1,10 @@
-import Showservice from '@/components/showservice'
+import Servicedetails from '@/components/Servicedetails'
 import React from 'react'
 
 function page() {
   return (
-    <div >
-      <Showservice/>
-      
+    <div>
+    <Servicedetails/>
     </div>
   )
 }
