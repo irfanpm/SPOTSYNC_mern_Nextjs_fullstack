@@ -1,4 +1,5 @@
 const userSchema = require("../model/user");
+const serviceSchema=require("../model/serviceProvider")
 const bcrypt = require("bcrypt");
 const { AuthUser } = require("../model/validateSchema");
 const jwt = require('jsonwebtoken')
@@ -99,7 +100,7 @@ module.exports = {
 
   },
   getService: async(req,res)=>{
-    const getService= await serviceSchema.find({userId:res.token})
+    const getService= await serviceSchema.find()
     if(getService.length!=0){
         res.status(200).json({
             status: "success",
