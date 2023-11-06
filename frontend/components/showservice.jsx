@@ -31,10 +31,10 @@ function Showservice() {
   return (
     <div className='row conatiner m-4'>
       {(service?.map((data)=>(
-       <Card  className=' col-md-6 m-2  col-lg-3' onClick={()=>{handleshowservice(data._id)}} >
+       <Card  className=' col-md-6 m-2  col-lg-3' onClick={()=>{handleshowservice(data._id)}} style={{width:"305px"}}>
       <CardMedia
         sx={{ height: 200 ,width:"100%"}}
-        image={data.Image}
+        image={data.Image[0]}
         title="green iguana"
       />
       <CardContent>

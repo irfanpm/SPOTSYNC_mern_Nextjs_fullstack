@@ -7,6 +7,11 @@ import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import IconButton from '@mui/material/IconButton';
 import AddCircleIcon from '@mui/icons-material/AddCircle'; // You may need to import the icon you want to use
+import Rating from '@mui/material/Rating';
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
+import { Button } from '@mui/material';
+
 
 function Servicedetails() {
   const servicedetails = useSelector((state) => state.servicedetails.service.data);
@@ -30,7 +35,10 @@ function Servicedetails() {
   const handleLoadMoreImages = () => {
     setLoadedImages(loadedImages + 4);
   };
+ const handleReview=(e)=>{
+  e.preventDefault()
 
+ }
 
   return (
     <div className='container'>
@@ -60,15 +68,11 @@ function Servicedetails() {
                 <ImageListItem key={index} 
                 className='mt-1'  
                 onClick={() =>  handleImageClick(item.Image, index + 2)} >
-               { index==3 ?
                   <img
                     src={image}
                     alt="image"
                     style={{ borderRadius: "10px", border: "1px", height: "145px" }}
-
-
-                  /> : <AddCircleIcon/>
-               }
+                  /> 
                 </ImageListItem>
               ))}
               {loadedImages <= item.Image.length && (
@@ -78,6 +82,49 @@ function Servicedetails() {
               )}
             </div>
           </div>
+          
+      <div>
+        <li>{item.OwnerName}</li>
+        <li>{item.Phone}</li>
+        <li>{item.Category}</li>
+        <li>{item.StreetAddress}</li>
+
+
+      </div>
+      <div className='d-flex flex-column w-50'>
+        <form action="" onSubmit={handleReview}>
+      <Typography id="transition-modal-title" variant="h6" component="h2">
+           <b> Post a review </b>
+            </Typography>
+      <Rating name="half-rating" defaultValue={0} precision={0.5} size="large" />
+      
+      <TextField
+                name="title"
+                label="title"
+                variant="outlined"
+                fullWidth
+                margin="normal"
+                id='title'
+              />
+      
+      <TextField
+                name='address'
+                label="Review"
+                variant="outlined"
+                multiline
+                rows={4}
+              
+                fullWidth
+                margin="normal"
+                id='review'
+              />
+              
+              <Button type="submit" variant="contained" className='w-25' style={{background:"#040333"}}>
+                Submit
+              </Button>
+              </form>
+
+      </div>
         </div>
       ))}
       <Dialog open={openModal} onClose={handleCloseModal} >
@@ -92,6 +139,16 @@ function Servicedetails() {
         </DialogContent>
         
       </Dialog>
+
+
+
+
+
+
+
+
+
+
     </div>
   );
 }

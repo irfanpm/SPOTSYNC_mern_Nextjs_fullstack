@@ -1,5 +1,6 @@
 const userSchema = require("../model/user");
 const serviceSchema=require("../model/serviceProvider")
+const userReviews=require('../model/userReviews')
 const bcrypt = require("bcrypt");
 const { AuthUser } = require("../model/validateSchema");
 const jwt = require('jsonwebtoken')
@@ -128,7 +129,21 @@ module.exports = {
     }
 
 
+},
 
+review: async(req,res)=>{
+const {serviceid,rating,comment}=req.body
+await userReviews.create({
+  userId:res.token,
+  serviceId:serviceid,
+  Rating:rating,
+  Comment:comment,
+
+})
+res.status(200).json({
+  status: "success",
+  message: "successfully added review",
+});
 
 
 },
