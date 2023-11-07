@@ -13,6 +13,7 @@ import {showservice} from '@/redux/features/showservice'
 import { useRouter } from 'next/navigation';
 import { getReview } from '@/redux/features/reviewdisplay';
 import { Avgreview } from '@/redux/features/averagerating';
+import { showfavourite } from '@/redux/features/showfavourite';
 
 function Showservice() {
   const router=useRouter()
@@ -29,6 +30,11 @@ function Showservice() {
     const handleshowservice=(id)=>{
       dispatch(Servicedetails(id))
       dispatch(getReview(id))
+     dispatch(showfavourite())
+     dispatch(showfavourite())
+     dispatch(showfavourite())
+
+
 
      dispatch(Avgreview(id))
 

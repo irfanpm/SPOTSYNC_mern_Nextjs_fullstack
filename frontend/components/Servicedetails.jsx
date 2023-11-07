@@ -17,7 +17,6 @@ import { useRouter } from 'next/navigation';
 import FavoriteOutlinedIcon from '@mui/icons-material/FavoriteOutlined';
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import {favourite} from '@/redux/features/favourite';
-import { showfavourite } from '@/redux/features/showfavourite';
 
 
 function Servicedetails() {
@@ -31,7 +30,7 @@ function Servicedetails() {
   const [modalImages, setModalImages] = useState([]);
   const [loadedImages, setLoadedImages] = useState(4);
   const [selectedImage, setSelectedImage] = useState(null);
-  const[fav,setfav]=useState()
+  const[fav,setfav]=useState(false)
   const dispatch=useDispatch()
   // const myref=useRef(servicedetails[0]._id)
 
@@ -56,6 +55,7 @@ function Servicedetails() {
       dispatch(favourite(id))
 
       
+   
 
   }
 
@@ -140,10 +140,10 @@ function Servicedetails() {
         <li>{item.OwnerName}</li>
         <Rating name="rating" defaultValue={avgreviews}  precision={0.5} size="large"  readOnly/>
         <IconButton onClick={()=>handlefavourite(item._id)}>
-     {f.length!=0?
-      <FavoriteOutlinedIcon style={{color:"red"}} /> :
+    
+         <FavoriteOutlinedIcon style={{color:"red"}} /> 
         <FavoriteBorderOutlinedIcon />
-     }
+
         </IconButton>
 
         <li>{item.Phone}</li>
