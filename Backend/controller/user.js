@@ -4,6 +4,7 @@ const userReviews=require('../model/userReviews')
 const bcrypt = require("bcrypt");
 const { AuthUser } = require("../model/validateSchema");
 const jwt = require('jsonwebtoken')
+const favourite = require("../model/favourite");
 require("dotenv").config();
 
 module.exports = {
@@ -132,12 +133,13 @@ module.exports = {
 },
 
 review: async(req,res)=>{
-const {serviceid,rating,comment}=req.body
+const {serviceid,rating,title,comment}=req.body
 await userReviews.create({
   userId:res.token,
   serviceId:serviceid,
   Rating:rating,
   Comment:comment,
+  Title:title,
 
 })
 res.status(200).json({
@@ -147,6 +149,73 @@ res.status(200).json({
 
 
 },
+
+displayreview:async(req,res)=>{
+  const {serviceid}=req.body
+  const  reviews =await userReviews.find({serviceId:serviceid}).populate('userId')
+  if(reviews){
+      res.status(200).json({
+        status: "success",
+        message: "successfully added review",
+         data:reviews
+      });  
+  }else{
+    res.json({message:"user not available"})
+  }
+},
+ratingAverage:async(req,res)=>{
+  const {serviceid}=req.body
+  const ratingservice= await userReviews.find({serviceid})
+  if(ratingservice){
+  const avgRating= await userReviews.aggregate([
+    {
+      $match:{serviceId:serviceid}
+    },
+
+    {
+    $group : {
+      _id:null,
+      totalRating:{$avg:"$Rating"}
+    }
+
+
+
+    }
+  ])
+  res.json({
+    status: "success",
+    message: "Successfully fetched stats.",
+    data: avgRating[0]?.totalRating
+  });
+
+
+ 
+}
+},
+favourite:async(req,res)=>{
+  const {serviceid}=req.body
+  const service=await favourite.find({serviceId:serviceid})
+  if(service.length==0){
+  const fav=await favourite.insertMany({
+    userId:res.token,
+    serviceId:serviceid
+  })
+  res.json(fav)
+}else{
+  const unfav=await favourite.deleteOne({serviceId:serviceid})
+  res.json(unfav)
+}
+
+
+},
+showfavourite : async(req,res)=>{
+  const fav=await favourite.find()
+  if(fav){
+    res.json(fav)
+  }
+
+},
+
 
 
 

@@ -7,6 +7,10 @@ import deleteService from "./features/deleteService";
 import findService from "./features/findService";
 import showservice from "./features/showservice";
 import showservicedetails from "./features/showservicedetails";
+import reviewdisplay from "./features/reviewdisplay";
+import averagerating from "./features/averagerating";
+import favourite from "./features/favourite";
+import showfavourite from "./features/showfavourite";
 
 export const store = configureStore({
     reducer:{
@@ -17,7 +21,12 @@ export const store = configureStore({
         delete:deleteService,
         findservie:findService,
         showservice:showservice,
-        servicedetails:showservicedetails
+        servicedetails:showservicedetails,
+        review:reviewdisplay,
+        avgreview:averagerating,
+        fav:favourite,
+        showfav:showfavourite
+
 
     }
 

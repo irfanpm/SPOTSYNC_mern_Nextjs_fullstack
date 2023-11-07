@@ -11,6 +11,8 @@ import { Servicedetails } from '@/redux/features/showservicedetails';
 import {showservice} from '@/redux/features/showservice'
 
 import { useRouter } from 'next/navigation';
+import { getReview } from '@/redux/features/reviewdisplay';
+import { Avgreview } from '@/redux/features/averagerating';
 
 function Showservice() {
   const router=useRouter()
@@ -21,9 +23,17 @@ function Showservice() {
     useEffect(()=>{
       dispatch(showservice())
 
+
+
     },[])
     const handleshowservice=(id)=>{
       dispatch(Servicedetails(id))
+      dispatch(getReview(id))
+
+     dispatch(Avgreview(id))
+
+
+
       router.push('/user/servicedetails')
 
     }
