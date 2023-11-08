@@ -36,6 +36,8 @@ function Servicedetails() {
 
   // console.log(myref.current)
   // dispatch(getReview())
+  const favarray=f?.map((item)=>item.serviceId)
+  console.log(favarray)
 
   const router=useRouter()
   const cookie=getCookie('token')
@@ -140,9 +142,12 @@ function Servicedetails() {
         <li>{item.OwnerName}</li>
         <Rating name="rating" defaultValue={avgreviews}  precision={0.5} size="large"  readOnly/>
         <IconButton onClick={()=>handlefavourite(item._id)}>
-    
-         <FavoriteOutlinedIcon style={{color:"red"}} /> 
-        <FavoriteBorderOutlinedIcon />
+          {(favarray.includes(item._id))?
+            
+                 <FavoriteOutlinedIcon style={{color:"red"}} />: 
+                <FavoriteBorderOutlinedIcon />
+
+          }
 
         </IconButton>
 

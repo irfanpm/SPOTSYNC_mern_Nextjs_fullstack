@@ -11,6 +11,7 @@ import reviewdisplay from "./features/reviewdisplay";
 import averagerating from "./features/averagerating";
 import favourite from "./features/favourite";
 import showfavourite from "./features/showfavourite";
+import getuserfavourite from "./features/getuserfavourite";
 
 export const store = configureStore({
     reducer:{
@@ -25,7 +26,8 @@ export const store = configureStore({
         review:reviewdisplay,
         avgreview:averagerating,
         fav:favourite,
-        showfav:showfavourite
+        showfav:showfavourite,
+        userfav:getuserfavourite
 
 
     }

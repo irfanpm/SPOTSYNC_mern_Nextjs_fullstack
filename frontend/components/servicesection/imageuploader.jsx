@@ -31,12 +31,8 @@ const ImageUploader = () => {
   const handleImageChange = async (event) => {
     const files = event.target.files;
     if (files.length > 0) {
-      const imageArray = Array.from(files).slice(0, 5); // Limit to 5 images
+      const imageArray = Array.from(files); 
       setSelectedImages([...selectedImages, ...imageArray]);
-     
-  
-     
-  
 
   };
 
@@ -48,22 +44,6 @@ const ImageUploader = () => {
         const url=await Serviceupload(item)
         console.log(url)
         dispatch(send(url))
-      //   await axios.post('http://127.0.0.1:8000/api/service/addservice',
-      //   {
-      //       image:url
-  
-      //   },
-      //   {
-      //  headers: {
-      //           Authorization: `Bearer ${cookie}`,
-      //         }
-      //       }
-  
-      //   )
-        // location.reload()
-     
-          
-  
   
     }catch(error){
         console.log("from upload",error.message);

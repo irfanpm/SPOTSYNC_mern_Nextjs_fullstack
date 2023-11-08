@@ -9,11 +9,13 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import ReviewsIcon from '@mui/icons-material/Reviews';
 import PersonIcon from '@mui/icons-material/Person';
 import { useSelector,useDispatch } from 'react-redux';
-import { Button } from '@mui/material';
+import { Button, CardActions, CardContent, CardMedia, Typography } from '@mui/material';
 import Addservice from './servicesection/addservice';
 import { fetchService } from '@/redux/features/getService';
 import { useEffect,useState } from "react";
 import Card from 'react-bootstrap/Card';
+
+import { userfavourite } from '@/redux/features/getuserfavourite';
 
 export default function UserTab() {
   const [value, setValue] = React.useState(2);
@@ -21,93 +23,60 @@ export default function UserTab() {
 const dispatch=useDispatch()
   const user = useSelector((state) => state.user.user.data);
   const service = useSelector((state) => state.service.service.data);
-  console.log(service)
+  const userfav = useSelector((state) => state.userfav.fav.data);
+
+  console.log(userfav)
 
 
-useEffect(() => {
-    dispatch(fetchService());    
+useEffect(() =>{
+    dispatch(fetchService());
+    dispatch(userfavourite())    
     
-},[ ]);
-  // Add a check to make sure user is defined before accessing its properties
-
+},[]);
+  // Add a chec to make sure user is defined before accessing its properties
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
-  const handleChangemain = (event, newValue) => {
-    mainsetValue(newValue);
-  };
-
   return (
     <Box sx={{ width: '100%', typography: 'body1' }}>
-      <TabContext value={mainvalue}>
-        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-          <TabList onChange={handleChangemain} aria-label="lab API tabs example" centered>
-            {user && user[0]?.Type === "serviceProvider" ? (
- <TabList>              
-                <Tab label="user" value={0} />
-
-    <Tab label="service provider" value={1} />
-                </TabList>            ) : (
-              <Tab label="user" value={0} />
-            )}
-          </TabList>
-        </Box>
-        {user && user[0]?.Type === "serviceProvider" ?
-        <>
-        <TabPanel value={1}>
-        <Addservice/>
+    <TabContext value={value}>
+      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+        <TabList onChange={handleChange} aria-label="lab API tabs example" centered> 
+<Tab icon={<FavoriteIcon />} label="favorite" value="0" />
+        </TabList>
+      </Box>
+      <TabPanel value="0" className='row'>
         {
-          service?.map((item)=>(  <Card>
-            <Card.Header>{item.serviceName}</Card.Header>
-            <Card.Body>
-              <Card.Title></Card.Title>
-              <Card.Text>
-             {item.Description}
-              </Card.Text>
-              <Button variant="primary"></Button>
-            </Card.Body>
+          userfav?.map((data)=>(
+            <Card  className=' col-md-6 m-2  col-lg-3 '  style={{width:"250px"}} >
+            <CardMedia
+              sx={{ height: 200 ,width:"100%"}}
+              image=  {data.serviceId?.Image[0]}
+              title="green iguana"
+            />
+            <CardContent>
+              <Typography gutterBottom variant="h5" component="div">
+                {data.serviceId?.serviceName}
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+              {/* {data.Address} */}
+              </Typography>
+            </CardContent>
+            <CardActions>
+              <Button size="small">Share</Button>
+              <Button size="small">Learn More</Button>
+            </CardActions>
           </Card>
-          ))
-        }
 
-        
-        </TabPanel>
-          <TabPanel value={0}>
-          <Box sx={{ width: '100%', typography: 'body1' }}>
-            <TabContext value={value}>
-              <Box sx={{  borderColor: 'divider'}}>
-                <TabList onChange={handleChange} aria-label="lab API tabs example" centered>
-                  <Tab icon={<PersonIcon />} label="followers" value={2} />
-                  <Tab icon={<FavoriteIcon />} label="favorite" value={3} />
-                  <Tab icon={<ReviewsIcon />} label="review" value={4} />
-                </TabList>
-              </Box>
-              <TabPanel value={2}>Item One</TabPanel>
-              <TabPanel value={3}>Item Two</TabPanel>
-              <TabPanel value={4}>Item Three</TabPanel>
-            </TabContext>
-          </Box>
-        </TabPanel>
-                </>:
-        <TabPanel value={0}>
-          <Box sx={{ width: '100%', typography: 'body1' }}>
-            <TabContext value={value}>
-              <Box sx={{  borderColor: 'divider'}}>
-                <TabList onChange={handleChange} aria-label="lab API tabs example" centered>
-                  <Tab icon={<PersonIcon />} label="followers" value={2} />
-                  <Tab icon={<FavoriteIcon />} label="favorite" value={3} />
-                  <Tab icon={<ReviewsIcon />} label="review" value={4} />
-                </TabList>
-              </Box>
-              <TabPanel value={2}>Item One</TabPanel>
-              <TabPanel value={3}>Item Two</TabPanel>
-              <TabPanel value={4}>Item Three</TabPanel>
-            </TabContext>
-          </Box>
-        </TabPanel>
+
+          ))
+
+        }
+       
+       </TabPanel>
+    </TabContext>
+  </Box>
+  )
 }
-      </TabContext>
-    </Box>
-  );
-}
+

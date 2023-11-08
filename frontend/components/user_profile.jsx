@@ -43,9 +43,12 @@ export default function Userprofile() {
 
   
   useEffect(()=>{
-          dispatch(fetchUser());
-      } ,[])
-
+    dispatch(fetchUser());
+    if (!window.location.hash) {
+      window.location = window.location + "#loaded";
+      location.reload(false);
+    }
+} ,[])
       
     // Fetch user data when the component mounts
       

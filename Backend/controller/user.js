@@ -215,6 +215,20 @@ showfavourite : async(req,res)=>{
   }
 
 },
+showuserfavourite:async(req,res)=>{
+ const fav=await favourite.find({userId:res.token}).populate('serviceId')
+ if(fav){
+  res.status(200).json({
+    status: "success",
+    message: "successfully fetched favourite service",
+     data:fav
+  });  
+
+ }else{
+  res.json('favourite not available')
+ }
+
+}
 
 
 

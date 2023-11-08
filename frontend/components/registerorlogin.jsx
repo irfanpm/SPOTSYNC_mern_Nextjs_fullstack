@@ -16,6 +16,7 @@ import { setCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
 import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
+import { fetchUser } from '@/redux/features/getuser';
 
 
 const style = {
@@ -114,7 +115,7 @@ export default function RegisterOrLogin() {
       alert(response.data.message);
       dispatch(isLoggin())
   
-    
+   
 
       handleClose();
     } catch (error) {
