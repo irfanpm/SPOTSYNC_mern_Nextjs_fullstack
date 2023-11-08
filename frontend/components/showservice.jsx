@@ -21,12 +21,12 @@ function Showservice() {
   const dispatch=useDispatch()
     const service=useSelector((state)=>state.showservice.service.data)
   
-    useEffect(()=>{
-      dispatch(showservice())
+    // useEffect(()=>{
+    //   dispatch(showservice())
 
 
 
-    },[])
+    // },[])
     const handleshowservice=(id)=>{
       dispatch(Servicedetails(id))
       dispatch(getReview(id))

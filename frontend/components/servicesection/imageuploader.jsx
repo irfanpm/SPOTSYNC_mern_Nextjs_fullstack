@@ -21,6 +21,19 @@ import { send } from '@/redux/features/serviceimage';
 import { useDispatch } from 'react-redux';
 
 
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 700,
+  height:500,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+};
+
 
 const ImageUploader = () => {
   const cookie = getCookie('token')
@@ -28,6 +41,10 @@ const ImageUploader = () => {
   const [selectedImages, setSelectedImages] = useState([]);
   const [viewedImage, setViewedImage] = useState(null);
   const [openModal, setOpenModal] = useState(false);
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
   const handleImageChange = async (event) => {
     const files = event.target.files;
     if (files.length > 0) {
@@ -44,15 +61,17 @@ const ImageUploader = () => {
         const url=await Serviceupload(item)
         console.log(url)
         dispatch(send(url))
+
   
     }catch(error){
         console.log("from upload",error.message);
     }
+    setSelectedImages([])
+
     
     
     
   })
-  setSelectedImages([])
 
     
 
@@ -100,9 +119,20 @@ const ImageUploader = () => {
 
   return (
     <div >
+       <Button onClick={handleOpen}>Open modal</Button>
+      <Modal
+        keepMounted
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="keep-mounted-modal-title"
+        aria-describedby="keep-mounted-modal-description"
+      >
+                <Box sx={style}>
+
          <Typography component="h5" variant="h6" align="center">
             Add image
           </Typography>
+
 
        
             <div
@@ -169,6 +199,7 @@ const ImageUploader = () => {
             </Card>
           </Grid>
         ))}
+        
       </div>
 
       <Modal
@@ -187,7 +218,7 @@ const ImageUploader = () => {
               top: '50%',
               left: '50%',
               transform: 'translate(-50%, -50%)',
-              width: '50%',  // Adjust the width as needed
+       
               bgcolor: 'background.paper',
               boxShadow: 24,
               // p: 3,
@@ -204,6 +235,10 @@ const ImageUploader = () => {
           </Box>
         </Fade>
       </Modal>
+      </Box>
+
+      </Modal>
+
     </div>
   );
 };

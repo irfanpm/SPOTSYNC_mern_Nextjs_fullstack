@@ -12,6 +12,7 @@ import averagerating from "./features/averagerating";
 import favourite from "./features/favourite";
 import showfavourite from "./features/showfavourite";
 import getuserfavourite from "./features/getuserfavourite";
+import deleteimageservice from "./features/deleteimageservice";
 
 export const store = configureStore({
     reducer:{
@@ -27,7 +28,9 @@ export const store = configureStore({
         avgreview:averagerating,
         fav:favourite,
         showfav:showfavourite,
-        userfav:getuserfavourite
+        userfav:getuserfavourite,
+        deletimg:deleteimageservice
+
 
 
     }

@@ -20,6 +20,7 @@ import { getCookie } from "cookies-next";
 import {findService} from '@/redux/features/findService';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
+import { recieve } from '@/redux/features/serviceimage';
 
 
 const bull = (
@@ -45,7 +46,9 @@ export default function Serviceprofile() {
 
     const addservice=()=>{
       router.push('/Serviceprovider/addService')
+
     }
+
     useEffect(() => {
         dispatch(fetchService());
         

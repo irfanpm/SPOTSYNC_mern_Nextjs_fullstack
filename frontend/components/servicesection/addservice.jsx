@@ -15,7 +15,7 @@ import { FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import Autocomplete from '@mui/material/Autocomplete';
 import ImageUploader from './imageuploader';
 import { useSelector,useDispatch } from 'react-redux';
-import { recieve } from '@/redux/features/serviceimage';
+import { deletearray } from '@/redux/features/serviceimage';
 import { useRouter } from 'next/navigation';
 
 
@@ -61,15 +61,21 @@ export default function Addservice() {
                 Authorization: `Bearer ${cookie}`,
               },
             })
+
+            dispatch(deletearray())
             console.log(response)
 
+
+
               alert(response.data.message);
-              dispatch(recieve())
 
             } catch (error) {
               console.log(error.message);
             }
+
             router.push('/Serviceprovider/serviceprofilepage')
+
+
 
             event.target.reset();
       
@@ -216,9 +222,16 @@ export default function Addservice() {
 
 const top100Films = [
   { label: 'hospital'},
-  { label: 'hotel' },
-  { label: 'resturent' },
-  { label: 'bakery' },
   { label: 'education' },
-  { label: "spa" },
+  { label: "repair" },
+  { label: "docter" },
+  { label: "beautyspa" },
+  { label: "events" },
+  { label: "hotel" },
+  { label: "logistics" },
+  { label: "gym" },
+  { label: "shop" },
+
+  { label: "more" },
+  
 ]

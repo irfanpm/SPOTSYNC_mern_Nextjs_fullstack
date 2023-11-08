@@ -10,9 +10,12 @@ const initialState = {
 
 const cookie = getCookie('token');
 
-export const showservice = createAsyncThunk('user/showservice', async () => {
+export const showservice = createAsyncThunk('user/showservice', async (category) => {
   // try {
-    const res = await axios.get('http://127.0.0.1:8000/api/user/showservice', {
+    const res = await axios.post('http://127.0.0.1:8000/api/user/showservice',{
+      
+    category:category
+    } , {
       headers: {
         Authorization: `Bearer ${cookie}`,
       },

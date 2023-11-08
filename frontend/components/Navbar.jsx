@@ -93,10 +93,7 @@ function Navbar() {
     
  useEffect(()=>{
     dispatch(fetchUser());
-    if (!window.location.hash) {
-      window.location = window.location + "#loaded";
-      location.reload(false);
-    }
+   
 } ,[])
 
   const handleProfileMenuOpen = (event) => {

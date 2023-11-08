@@ -1,6 +1,6 @@
 'use client'
 import React from 'react'
-import { Box } from '@mui/material';
+import { Box, ImageList } from '@mui/material';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
@@ -10,6 +10,9 @@ import { useSelector } from 'react-redux';
 import { getCookie } from "cookies-next";
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
+import EditServiceimg from './editserviceimage';
+import AddNewImage from './addnewImage';
+
 
 
 function editservice() {
@@ -73,6 +76,7 @@ function editservice() {
             <form  onSubmit={(e)=>handleEdit(e,item._id)}>
 
             <div className='row justify-content-center'>
+              <EditServiceimg/><AddNewImage/>
               <div className='col-md-6'>
 
               <TextField

@@ -1,13 +1,26 @@
+'use client'
 import React from 'react';
 import ImageList from '@mui/material/ImageList';
 import { Card } from 'react-bootstrap';
+import { useDispatch } from 'react-redux';
+import { showservice } from '@/redux/features/showservice';
+import { useRouter } from 'next/navigation';
 
 export default function Categorylist() {
+  const dispatch=useDispatch()
+  const router=useRouter()
+  const handlevent=(category)=>{
+    console.log(category)
+    dispatch(showservice(category))
+    router.push('/user/showservice')
+
+
+  }
   return (
-    <div className='container mt-2'>
-      <ImageList className='row justify-content-between ' >
+    <div className='container mt-2' >
+      <ImageList className='row justify-content-between '  >
         {itemData.map((item, index) => (
-          <div key={index} className='text-center col-lg-1 col-md-2 col-4 '>
+          <div key={index} className='text-center col-lg-1 col-md-2 col-4 ' onClick={()=>{handlevent(item.title)}}>
             <div
               style={{
                 borderColor: '#05cdff',
@@ -37,42 +50,42 @@ export default function Categorylist() {
 const itemData = [
   {
     img: '/categgory icons/educationicon.png',
-    title: 'Bed',
+    title: 'eduction',
   },
   {
     img: '/categgory icons/car-repair.png',
-    title: 'Books',
+    title: 'repair',
   },
   {
-    img: '/categgory icons/tooth.png',
-    title: 'Kitchen',
+    img: '/categgory icons/hospital.png',
+    title: 'hospital',
   },
   {
     img: '/categgory icons/women.png',
-    title: 'Blinds',
+    title: 'beautyspa',
   },
   {
     img: '/categgory icons/wedding-rings.png',
-    title: 'Chairs',
+    title: 'events',
   },
   {
     img: '/categgory icons/hotel.png',
-    title: 'Laptop',
+    title: 'hotel',
   },
   {
-    img: '/categgory icons/fast-food.png',
-    title: 'Coffee',
+    img: '/categgory icons/shop.png',
+    title: 'shop',
   },
   {
     img: '/categgory icons/boxes.png',
-    title: 'Storage',
+    title: 'logistics',
   },
   {
     img: '/categgory icons/weight.png',
-    title: 'Storage',
+    title: 'gym',
   },
   {
     img: '/categgory icons/menu.png',
-    title: 'Storage',
+    title: 'more',
   },
 ];

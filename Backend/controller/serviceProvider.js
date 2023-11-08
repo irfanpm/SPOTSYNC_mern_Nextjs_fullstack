@@ -156,5 +156,44 @@ editService:async(req,res)=>{
 
 
 },
+editserviceimg:async (req,res)=>{
+    const {url,serviceid}=req.body
+    const service=await serviceSchema.find({_id:serviceid})
+    if(service){
+      const deleteservice= await serviceSchema.findByIdAndUpdate(serviceid,{$pull:{Image:url }})
+       if(deleteservice){
+      
+           res.status(200).json({
+               status: "success",
+               message: "successfully edit image",
+               
+           })
 
+       
+        
+    }else{
+        res.json("error")
+    }
+
+
+}
+},
+addserviceimg:async(req,res)=>{
+    const { url ,serviceid}=req.body
+    const service=await serviceSchema.find({_id:serviceid})
+    if(service){
+        const addimage= await serviceSchema.findByIdAndUpdate(serviceid,{$push:{Image:url }})
+        if(addimage){
+            res.status(200).json({
+                status: "success",
+                message: "successfully edit image",
+                data:addimage
+            })
+
+        }
+
+    }else{
+        res.json("error")
+    }
+}
 }
