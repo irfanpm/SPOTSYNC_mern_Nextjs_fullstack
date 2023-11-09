@@ -1,26 +1,33 @@
 'use client'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Box, ImageList } from '@mui/material';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import ImageUploader from './imageuploader';
 import Autocomplete from '@mui/material/Autocomplete';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getCookie } from "cookies-next";
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import EditServiceimg from './editserviceimage';
 import AddNewImage from './addnewImage';
+import {findService} from '@/redux/features/findService';
 
 
 
-function editservice() {
+function editservice({id}) {
   const cookie = getCookie('token');
+  const dispatch=useDispatch()
   const router=useRouter()
 
   const service=useSelector((state)=>state.findservie.service.data)
   console.log(service)
+  useEffect(()=>{
+    dispatch(findService(id))
+
+
+  },[])
   const handleEdit= async(event,id)=>{ 
     event.preventDefault()
     const Servicename=event.target.servicename.value
@@ -64,6 +71,7 @@ function editservice() {
     router.push('/Serviceprovider/serviceprofilepage')
 
   }
+
   return (
       <Box>
 
@@ -76,7 +84,7 @@ function editservice() {
             <form  onSubmit={(e)=>handleEdit(e,item._id)}>
 
             <div className='row justify-content-center'>
-              <EditServiceimg/><AddNewImage/>
+              <EditServiceimg/><AddNewImage id={item._id}/>
               <div className='col-md-6'>
 
               <TextField
@@ -107,13 +115,22 @@ function editservice() {
                 
                 id='phone'
               />
-                  <Autocomplete
-      disablePortal
-      id="combo-box-demo"
-      options={top100Films}
-      renderInput={(params) => <TextField {...params} label="Category" id='category'       defaultValue={item.Category}     variant="standard"
-      name='category' fullWidth   />}
+                <Autocomplete
+  disablePortal
+  id="combo-box-demo"
+  options={top100Films}
+  renderInput={(params) => (
+    <TextField
+      {...params}
+      label="Category"
+      id="category"
+      defaultValue={item.Category}  // Make sure item.Category is defined
+      variant="standard"
+      name="category"
+      fullWidth
     />
+  )}
+/>
                  <TextField
                 name='description'
                 label="Description"
@@ -211,9 +228,15 @@ export default editservice
 
 const top100Films = [
   { label: 'hospital'},
-  { label: 'hotel' },
-  { label: 'resturent' },
-  { label: 'bakery' },
   { label: 'education' },
-  { label: "spa" },
+  { label: "repair" },
+  { label: "docter" },
+  { label: "beautyspa" },
+  { label: "events" },
+  { label: "hotel" },
+  { label: "logistics" },
+  { label: "gym" },
+  { label: "shop" },
+
+  { label: "more" },
 ]

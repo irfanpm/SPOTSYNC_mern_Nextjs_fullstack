@@ -197,9 +197,10 @@ favourite:async(req,res)=>{
   const {serviceid}=req.body
   const service=await favourite.find({serviceId:serviceid})
   if(service.length==0){
-  const fav=await favourite.insertMany({
+  const fav=await favourite.create({
     userId:res.token,
-    serviceId:serviceid
+    serviceId:serviceid,
+    serviceID:serviceid
   })
   res.json(fav)
 }else{

@@ -12,7 +12,7 @@ export default function Categorylist() {
   const handlevent=(category)=>{
     console.log(category)
     dispatch(showservice(category))
-    router.push('/user/showservice')
+    router.push(`/user/showservice/${category}`)
 
 
   }

@@ -26,16 +26,17 @@ const style = {
   p: 4,
 };
 
-export default function AddNewImage() {
+export default function AddNewImage({id}) {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const [banner, setBanner] = useState(null);
   const [imageURL, setImageURL] = useState(null);
-
+const [tr,settr]=useState(true)
   const router = useRouter();
   const handleRefresh = () => {
-    location.reload();
+    location.reload()
+
   };
 
   const handleupload = async () => {
@@ -46,6 +47,7 @@ export default function AddNewImage() {
         "http://127.0.0.1:8000/api/service/addimage",
         {
           url: url,
+          serviceid:id
         },
         {
           headers: {
@@ -68,6 +70,7 @@ export default function AddNewImage() {
 
   const handlesubmit = async (e) => {
     e.preventDefault();
+    e.target.reset()
   };
 
   return (

@@ -69,7 +69,7 @@ export default function Serviceprofile() {
     }
     const clickservice=(id)=>{
       dispatch(findService(id))
-      router.push('/Serviceprovider/serviceDetails')
+      router.push(`/Serviceprovider/serviceDetails/${id}`)
 
     }
    
@@ -140,8 +140,8 @@ export default function Serviceprofile() {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small" onClick={()=>removeService(item._id)}>Delete</Button>
-        <Button size="small"  onClick={()=>clickservice(item._id)}>Learn More</Button>
+        <Button size="small" onClick={()=>removeService(item._id)} style={{background:"red",color:"white"}}>Delete</Button>
+        <Button size="small"  onClick={()=>clickservice(item._id)} style={{background:"green",color:"white"}} >Edit</Button>
       </CardActions>
     </Card>
           

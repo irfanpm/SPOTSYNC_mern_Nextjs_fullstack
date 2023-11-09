@@ -15,10 +15,12 @@ import {
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import Serviceupload from './serviceimageupload';
 import { getCookie } from "cookies-next";
 import { send } from '@/redux/features/serviceimage';
 import { useDispatch } from 'react-redux';
+import { styled } from '@mui/material/styles';
 
 
 const style = {
@@ -33,6 +35,17 @@ const style = {
   boxShadow: 24,
   p: 4,
 };
+const VisuallyHiddenInput = styled('input')({
+  clip: 'rect(0 0 0 0)',
+  clipPath: 'inset(50%)',
+  height: 1,
+  overflow: 'hidden',
+  position: 'absolute',
+  bottom: 0,
+  left: 0,
+  whiteSpace: 'nowrap',
+  width: 1,
+});
 
 
 const ImageUploader = () => {
@@ -127,15 +140,17 @@ const ImageUploader = () => {
         aria-labelledby="keep-mounted-modal-title"
         aria-describedby="keep-mounted-modal-description"
       >
-                <Box sx={style}>
+                <Box sx={style} className="d-flex flex-column align-items-center">
 
-         <Typography component="h5" variant="h6" align="center">
-            Add image
-          </Typography>
+      
+          <Button component="label" variant="contained" startIcon={<CloudUploadIcon />} className='w-50'  >
+      Upload file
+      <VisuallyHiddenInput type="file"   onChange={handleImageChange} multiple/>
+    </Button>
 
 
        
-            <div
+            {/* <div
               style={{
                 width: "90%",
                 maxWidth: "400px",
@@ -150,35 +165,18 @@ const ImageUploader = () => {
             >
           
               {/* {imageURL ? ( */}
-                <img
-                  src=''
-                  alt="Selected Banner"
-                  style={{ maxWidth: "100%" }}
-                />
-              {/* ) : ( */}
-                <IconButton component="label" color="secondary">
-                  <input
-                    type="file"
-                    accept="image/*"
-                    id="imageInput"
-                    style={{ display: "none" }}
-                    onChange={handleImageChange}
+              
 
-                    // onChange={(e) => handleImageUpload(e)}
-                  />
-                  <AddPhotoAlternateIcon
-                    fontSize="large"
-                    style={{ color: "grey" }}
-                  />
-                </IconButton>
+                   
+              
               {/* )} */}
-            </div>
-            <button onClick={handleupload}>upload</button>
+{/* /</div> */} 
+          
       <div className='row '>
         
         {selectedImages.slice(0, 5).map((image, index) => (
-          <Grid item key={index}   className='col-md-2 '      >
-            <Card variant="outlined" className='d-flex '>
+          <Grid item key={index}   className='col-md-2 mt-5'      >
+            <Card variant="outlined" className='text-center'>
               <CardMedia
                 component="img"
                 alt={`Uploaded Image ${index + 1}`}
@@ -235,6 +233,8 @@ const ImageUploader = () => {
           </Box>
         </Fade>
       </Modal>
+      <Button onClick={handleupload} className='mt-5' style={{background:"red" ,color:"white"}}>upload</Button>
+
       </Box>
 
       </Modal>

@@ -37,6 +37,7 @@ const favouriteslice = createSlice({
         state.loading = false;
         state.fav = action.payload;
         console.log(action.payload)
+        console.log(action.payload)
         state.error = null; // Reset error on success
       })
       .addCase(showfavourite.rejected, (state, action) => {

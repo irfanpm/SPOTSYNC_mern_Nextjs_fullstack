@@ -16,16 +16,21 @@ import { useEffect,useState } from "react";
 import Card from 'react-bootstrap/Card';
 
 import { userfavourite } from '@/redux/features/getuserfavourite';
+import { useRouter } from 'next/navigation';
 
 export default function UserTab() {
   const [value, setValue] = React.useState(2);
   const [mainvalue, mainsetValue] = React.useState(0);
+  const router=useRouter()
 const dispatch=useDispatch()
   const user = useSelector((state) => state.user.user.data);
   const service = useSelector((state) => state.service.service.data);
   const userfav = useSelector((state) => state.userfav.fav.data);
 
   console.log(userfav)
+  const handleshowservice=(id)=>{
+    router.push(`/user/servicedetails/${id}`)
+  }
 
 
 useEffect(() =>{
@@ -49,7 +54,7 @@ useEffect(() =>{
       <TabPanel value="0" className='row'>
         {
           userfav?.map((data)=>(
-            <Card  className=' col-md-6 m-2  col-lg-3 '  style={{width:"250px"}} >
+            <Card  className=' col-md-6 m-2  col-lg-3 '  style={{width:"250px"}}  >
             <CardMedia
               sx={{ height: 200 ,width:"100%"}}
               image=  {data.serviceId?.Image[0]}
@@ -65,7 +70,7 @@ useEffect(() =>{
             </CardContent>
             <CardActions>
               <Button size="small">Share</Button>
-              <Button size="small">Learn More</Button>
+              <Button size="small" onClick={()=>handleshowservice(data.serviceID)} >Learn More</Button>
             </CardActions>
           </Card>
 

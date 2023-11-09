@@ -1,5 +1,5 @@
 'use client';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useSelector ,useDispatch} from 'react-redux';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
@@ -10,16 +10,17 @@ import AddCircleIcon from '@mui/icons-material/AddCircle'; // You may need to im
 import Rating from '@mui/material/Rating';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import { Avatar, Button } from '@mui/material';
+import { Avatar, Button, Skeleton } from '@mui/material';
 import axios from 'axios';
 import { getCookie } from "cookies-next";
 import { useRouter } from 'next/navigation';
 import FavoriteOutlinedIcon from '@mui/icons-material/FavoriteOutlined';
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import {favourite} from '@/redux/features/favourite';
-
-
-function Servicedetails() {
+import { Servicedetails } from '@/redux/features/showservicedetails';
+import { getReview } from '@/redux/features/reviewdisplay';
+import { Avgreview } from '@/redux/features/averagerating';
+function Servicedetail({id}) {
   const servicedetails = useSelector((state) => state.servicedetails.service.data);
   const review=useSelector((state)=>state.review.review.data)
   const avgreviews=useSelector((state)=>state.avgreview.review.data)
@@ -38,6 +39,15 @@ function Servicedetails() {
   // dispatch(getReview())
   const favarray=f?.map((item)=>item.serviceId)
   console.log(favarray)
+  useEffect(()=>{
+    dispatch(Servicedetails(id))
+    dispatch(favourite(id))
+    dispatch(getReview(id))
+    dispatch(Avgreview(id))
+
+
+
+  },[])
 
   const router=useRouter()
   const cookie=getCookie('token')
@@ -97,7 +107,7 @@ function Servicedetails() {
 
   return (
     <div className='container'>
-      {servicedetails?.map((item) => (
+      {servicedetails?.map((item) => (item?
         <div key={item.id}  className='mt-3'>
           <div className='d-flex'>
             <div className='col-lg-5 col-12 m-1'>
@@ -138,9 +148,15 @@ function Servicedetails() {
             </div>
           </div>
           
-      <div>
+      <div className='mt-3'>
+        <h2 style={{fontFamily:"sans-serif", fontWeight:"700"}}>{item.serviceName}</h2>
+        <div className='d-flex'>
+
+        <div style={{width:"35px",height:"25px" ,background:"green",borderRadius:"5px"}} className='text-center mt-1 text-white'><h5>{avgreviews}</h5></div>
+        <Rating name="rating" defaultValue={avgreviews}  precision={0.5} size="large"  readOnly/>  &nbsp;&nbsp;&nbsp; <span className='mt-1'>{review?.length}Rating</span>
+        </div>
+        <div></div>
         <li>{item.OwnerName}</li>
-        <Rating name="rating" defaultValue={avgreviews}  precision={0.5} size="large"  readOnly/>
         <IconButton onClick={()=>handlefavourite(item._id)}>
           {(favarray.includes(item._id))?
             
@@ -243,7 +259,7 @@ function Servicedetails() {
               </form>
 }
       </div>
-        </div>
+        </div>:<Skeleton variant="rectangular" width={210} height={60} />
       ))}
       <Dialog open={openModal} onClose={handleCloseModal} >
         <DialogContent>
@@ -271,4 +287,4 @@ function Servicedetails() {
   );
 }
 
-export default Servicedetails;
+export default Servicedetail;

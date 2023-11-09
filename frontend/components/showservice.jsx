@@ -14,24 +14,24 @@ import { useRouter } from 'next/navigation';
 import { getReview } from '@/redux/features/reviewdisplay';
 import { Avgreview } from '@/redux/features/averagerating';
 import { showfavourite } from '@/redux/features/showfavourite';
+import { Skeleton } from '@mui/material';
 
-function Showservice() {
+function Showservice({category}) {
   const router=useRouter()
 
   const dispatch=useDispatch()
     const service=useSelector((state)=>state.showservice.service.data)
   
-    // useEffect(()=>{
-    //   dispatch(showservice())
+    useEffect(()=>{
+      dispatch(showservice(category))
 
 
 
-    // },[])
+    },[])
     const handleshowservice=(id)=>{
       dispatch(Servicedetails(id))
       dispatch(getReview(id))
-     dispatch(showfavourite())
-     dispatch(showfavourite())
+    
      dispatch(showfavourite())
 
 
@@ -40,13 +40,13 @@ function Showservice() {
 
 
 
-      router.push('/user/servicedetails')
+      router.push(`/user/servicedetails/${id}`)
 
     }
     console.log(service)
   return (
     <div className='row conatiner m-4'>
-      {(service?.map((data)=>(
+      {  (service?.map((data)=>( (data)?
        <Card  className=' col-md-6 m-2  col-lg-3' onClick={()=>{handleshowservice(data._id)}} style={{width:"305px"}}>
       <CardMedia
         sx={{ height: 200 ,width:"100%"}}
@@ -65,8 +65,9 @@ function Showservice() {
         <Button size="small">Share</Button>
         <Button size="small">Learn More</Button>
       </CardActions>
-    </Card>
+    </Card>: <Skeleton variant="rectangular" width={210} height={60} />
             )))
+
 
       }
       
