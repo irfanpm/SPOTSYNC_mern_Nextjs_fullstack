@@ -14,7 +14,8 @@ const serviceSchema = new mongoose.Schema({
    Zipcode:String,
    Description:String,
    Image:Array,
-   Location:String
+   Location:String,
+   isBlock:Boolean
 
 })
 

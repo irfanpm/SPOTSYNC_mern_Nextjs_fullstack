@@ -22,7 +22,9 @@ module.exports = {
         await userSchema.create({
           Username: username,
           Email: email,
+          isBlock:false,
           Password: hash,
+
         });
       });
       res.status(200).json({
@@ -65,6 +67,7 @@ module.exports = {
               });
             }
           } else {
+
             res.json({
               status:'error',
                message: "failure" 
