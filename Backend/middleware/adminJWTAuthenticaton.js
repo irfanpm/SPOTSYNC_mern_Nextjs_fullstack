@@ -13,12 +13,10 @@ module.exports= (req, res, next) => {
       if (err) {
         res.status(500).send({ error: "authentication failed" });
       } else {
-        const userId=data.id
-        if(userId){
-          res.token= userId
+        
           next();
 
-        }
+        
         
       }
     });

@@ -1,7 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { actionAsyncStorage } from 'next/dist/client/components/action-async-storage.external'
 
 const initialState ={
-    isloggin:true
+    isloggin:true,
+    userblock:false,
 }
 
 const Authsection=createSlice(
@@ -19,7 +21,7 @@ const Authsection=createSlice(
 
 
             }
-
+       
 
 
 

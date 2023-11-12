@@ -3,32 +3,7 @@ const userSchema=require('../model/user')
 const jwt = require('jsonwebtoken')
 require('dotenv').config()
 module.exports={
-    login: async(req,res)=>{
-
-        const { username,password}=req.body
-        if(username=='admin',password=="admin123"){
-            let resp={
-                id:'admin'
-            }
-            let token=jwt.sign({id:resp.id},process.env.ACESS_ADMIN_TOKEN_SECRET)
-            if(token){
-                res.status(200).json({
-                    status: "success",
-                    message: "successfully login ",
-                    auth: true,
-                    token: token,
-                  });
-
-
-            }else{
-                res.json({
-                    status:'error',
-                     message: "failure" 
-                    });
-
-            }
-}
-},
+    
 getAllUser:async(req,res)=>{
     const user=await userSchema.find()
     if (user){
@@ -62,9 +37,8 @@ getAllService:async(req,res)=>{
     }
 
 },
-getUserById:async(req,res)=>{
-    const {id}=req.body
-    const user=await userSchema.find({_id:id})
+getBlockedUser:async(req,res)=>{
+    const user=await userSchema.find({isBlock:true})
     if(user){
         res.status(200).json({
             status: "success",
@@ -80,6 +54,18 @@ getUserById:async(req,res)=>{
 getServiceById: async(req,res)=>{
     const {id}=req.body
     const service=await serviceSchema.find({_id:id})
+    if(service){
+        res.status(200).json({
+            status: "success",
+            message: "successfully fetched user data",
+            data: service,
+          });
+
+    }
+
+},
+getBlockService: async(req,res)=>{
+    const service=await serviceSchema.find({isBlock:true})
     if(service){
         res.status(200).json({
             status: "success",
@@ -109,25 +95,27 @@ getCategoryService:async(req,res)=>{
     }
 },
 isBlockUser:async(req,res)=>{
-    const{id}=req.body
+    const {id}=req.body
     const user=await userSchema.findOne({_id:id})
     if(user){
         if(user.isBlock==false){
             user.isBlock=true
             user.save()
-            res.status(200).json({
+          return  res.status(200).json({
                 status: "success",
-                message: "successfully block user "
+                message: "successfully block user ",
+                data:user.isBlock
     
               });
      
 
         }else{
-            user.isBlock==false
+            user.isBlock=false
             user.save()
-            res.status(200).json({
+          return  res.status(200).json({
                 status: "success",
-                message: "successfully unblock user "
+                message: "successfully unblock user ",
+                data:user.isBlock
     
               });
         }
@@ -135,18 +123,14 @@ isBlockUser:async(req,res)=>{
         
 
 }else{
-    res.status(409).json({
+    res.json({
         status:"failure",
         message:"data already exist in database",
 
 
     })
 }
-res.status(500).json({
-    status: "failure",
-    message: "Failed to process the request from server.",
 
-})
 
 },
 isBlockService:async(req,res)=>{
@@ -155,18 +139,18 @@ isBlockService:async(req,res)=>{
     if(user){
         if(user.isBlock==false){
             user.isBlock=true
-            user.save()
-            res.status(200).json({
+           await user.save()
+          return  res.status(200).json({
                 status: "success",
                 message: "successfully block service "
     
               });
      
 
-        }else{
-            user.isBlock==false
-            user.save()
-            res.status(200).json({
+        }else {
+            user.isBlock=false
+            await user.save()
+return res.status(200).json({
                 status: "success",
                 message: "successfully unblock service"
 
@@ -183,11 +167,8 @@ isBlockService:async(req,res)=>{
 
     })
 }
-res.status(500).json({
-    status: "failure",
-    message: "Failed to process the request from server.",
 
-})
+    
 
 },
 

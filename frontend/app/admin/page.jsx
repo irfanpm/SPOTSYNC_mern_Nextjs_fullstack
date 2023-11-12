@@ -1,5 +1,8 @@
-import Dashboard from '@/components/admin/Admindash'
+import Dashboard from '@/components/admin/admindashboard/dashbord'
 import React from 'react'
+
+
+
 
 const page = () => {
   return (
@@ -7,6 +10,5 @@ const page = () => {
       <Dashboard/>
     </div>
   )
-Dashboard}
-
+                }
 export default page

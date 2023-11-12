@@ -64,6 +64,7 @@ module.exports = {
                 message: "successfully login ",
                 auth: true,
                 token: token,
+                block:user.isBlock
               });
             }
           } else {
@@ -74,7 +75,24 @@ module.exports = {
               });
           }
         });
-      } else {
+      } else if(username=="admin",password=="admin") {
+        let resp = {
+          id: "admin",
+        };
+        let token = jwt.sign({id:resp.id}, process.env.ACESS_ADMIN_TOKEN_SECRET, {
+          expiresIn: 86400,
+        });
+        if (token) {
+          res.status(200).json({
+            status: "admin",
+            message: "successfully login ",
+            auth: true,
+            token: token,
+          });
+        }
+
+      }else{
+
         res.json({message:"this user not available"});
       }
     }
@@ -106,12 +124,14 @@ module.exports = {
   },
   getService: async(req,res)=>{
     const {category}=req.body
-    const getService= await serviceSchema.find({Category:category})
+   const getService=await serviceSchema.find({$and:[{Category:category},{isBlock:false}]})
     if(getService.length!=0){
         res.status(200).json({
             status: "success",
             data: getService,
           });
+
+     
 
     }else{
         res.json('error')

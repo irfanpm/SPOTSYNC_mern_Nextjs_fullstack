@@ -110,14 +110,25 @@ export default function RegisterOrLogin() {
         username: Username,
         password: Password
       });
-      console.log(response);
-      setCookie("token", response.data.token);
-      alert(response.data.message);
-      dispatch(isLoggin())
-  
-   
+      console.log(response.data.block);
+      if(response.data.block==false&&response.data.status=="success"){
 
-      handleClose();
+        setCookie("token", response.data.token);
+        alert(response.data.message);
+        dispatch(isLoggin())
+        handleClose();
+      }else if(response.data.block==true){
+        alert("user blocked")
+
+      }else if(response.data.status=="admin"){
+        alert(response.data.message)
+        setCookie("token", response.data.token);
+
+        router.push('/admin')
+      }else{
+        alert(response.data.message)
+      }
+
     } catch (error) {
       console.log(error.message);
     }
