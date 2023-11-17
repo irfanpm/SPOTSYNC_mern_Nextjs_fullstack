@@ -24,15 +24,14 @@ import { styled } from '@mui/material/styles';
 
 
 const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
+  // position: 'absolute',
+  // top: '50%',
+  // left: '50%',
+  // transform: 'translate(-50%, -50%)',
   width: 700,
-  height:500,
   bgcolor: 'background.paper',
-  border: '2px solid #000',
-  boxShadow: 24,
+  // border: '2px solid #000',
+  // boxShadow: 24,
   p: 4,
 };
 const VisuallyHiddenInput = styled('input')({
@@ -132,14 +131,14 @@ const ImageUploader = () => {
 
   return (
     <div >
-       <Button onClick={handleOpen}>Open modal</Button>
-      <Modal
+       {/* <Button onClick={handleOpen}>Open modal</Button> */}
+      {/* <Modal
         keepMounted
         open={open}
         onClose={handleClose}
         aria-labelledby="keep-mounted-modal-title"
         aria-describedby="keep-mounted-modal-description"
-      >
+      > */}
                 <Box sx={style} className="d-flex flex-column align-items-center">
 
       
@@ -175,7 +174,7 @@ const ImageUploader = () => {
       <div className='row '>
         
         {selectedImages.slice(0, 5).map((image, index) => (
-          <Grid item key={index}   className='col-md-2 mt-5'      >
+          <Grid item key={index}   className='col-md-4 mt-5'      >
             <Card variant="outlined" className='text-center'>
               <CardMedia
                 component="img"
@@ -237,7 +236,7 @@ const ImageUploader = () => {
 
       </Box>
 
-      </Modal>
+      {/* </Modal> */}
 
     </div>
   );
