@@ -45,11 +45,18 @@ function Showservice({category}) {
     }
     console.log(service)
   return (
-    <div className='row conatiner m-4'>
+    <div className='row conatiner  m-4'>
       {  (service?.map((data)=>( (data)?
-       <Card  className=' col-md-6 m-2  col-lg-3' onClick={()=>{handleshowservice(data._id)}} style={{width:"305px"}}>
+       <Card  className='  d-flex  col-md-7 mt-4 h-50' onClick={()=>{handleshowservice(data._id)}} >
       <CardMedia
-        sx={{ height: 200 ,width:"100%"}}
+       sx={{
+        height: 160,
+        width: "100%", // Set width to 100% for responsiveness
+        objectFit: "cover",
+        '@media (min-width: 600px)': {
+          width: "180px", // Set a specific width for larger screens
+        }}}
+        
         image={data.Image[0]}
         title="green iguana"
       />
