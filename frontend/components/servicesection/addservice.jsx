@@ -49,7 +49,7 @@ export default function Addservice() {
                 phone:phone,
                 category:category,
                 descriptioon:descriptioon,
-                streeaddress:street,
+                streetaddress:street,
                 state:state,
                 city:city,
                 zipcode:zip,

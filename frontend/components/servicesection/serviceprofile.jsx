@@ -22,7 +22,6 @@ import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { recieve } from '@/redux/features/serviceimage';
 
-
 const bull = (
   <Box
     component="span"
@@ -76,7 +75,7 @@ export default function Serviceprofile() {
 
   return (
     <div className='container'>
-    <Card sx={{ minWidth: 275 ,height:160 }} className='d-flex justify-content-center '>
+    <Card sx={{ minWidth: 275 ,height:160 }} className='d-flex justify-content-center align-items-center' style={{borderStyle:"none",boxShadow:"none"}}>
         { user?.map((item)=>(
             <>
       <Avatar alt={item.Username} src={item.avatar}  style={{width:"15vh" ,height:"15vh"}}/>
@@ -85,20 +84,18 @@ export default function Serviceprofile() {
             {item.Username}
         </Typography>
         <Typography sx={{ mb: 1.5 }} color="text.secondary">
-          adjective
+        {item.Email}
+
         </Typography>
-        <Typography variant="body2">
-          well meaning and kindly.
-          <br />
-          {'"a benevolent smile"'}
-        </Typography>
+      
       </CardContent>
       <CardActions>
-        <Button size="small" onClick={addservice}>Add Service</Button>
       </CardActions>
       </>
        ))
 }
+<Button size="small" style={{background:"blue", color:"white"}} onClick={addservice}>Add Service</Button>
+
     </Card>
     <Box sx={{ width: '100%', typography: 'body1' }} >
       <TabContext value={value}>
@@ -116,16 +113,13 @@ export default function Serviceprofile() {
          <Card sx={{ maxWidth: 345 }} className=' col-md-3 '  >
    <CardMedia
         component="div" // Use a div as the container
-        sx={{ height: 140, display: 'flex', overflowX: 'auto' }} // Add scrollable styles
+        sx={{ height: 140, display: 'flex',}} // Add scrollable styles
       >
-        {item.Image.map((image, index) => (
           <img
-            key={index}
-            src={image}
+            src={item.Image[0]}
             alt="Image"
             style={{ flex: '0 0 auto', minWidth: '100%' }} // Ensure images don't stretch
           />
-        ))}
       </CardMedia>
           
       <CardContent >

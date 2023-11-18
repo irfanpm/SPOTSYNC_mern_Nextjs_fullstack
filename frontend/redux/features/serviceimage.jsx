@@ -11,6 +11,11 @@ const Serviceimage = createSlice({
     send: (state, action) => {
       state.image.push(action.payload);
     },
+    deleteImage:(state,action)=>{
+      console.log(action.payload)
+      state.image.splice(action.payload,1)
+
+    },
     deletearray: (state, action) => {
       state.image = [];
       console.log('ansad');
@@ -18,5 +23,5 @@ const Serviceimage = createSlice({
   }
 });
 
-export const { send, deletearray } = Serviceimage.actions; 
+export const { send, deletearray,deleteImage } = Serviceimage.actions; 
 export default Serviceimage.reducer;

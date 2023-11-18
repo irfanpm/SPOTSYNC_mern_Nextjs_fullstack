@@ -20,6 +20,13 @@ import {favourite} from '@/redux/features/favourite';
 import { Servicedetails } from '@/redux/features/showservicedetails';
 import { getReview } from '@/redux/features/reviewdisplay';
 import { Avgreview } from '@/redux/features/averagerating';
+import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
+import EmailIcon from '@mui/icons-material/Email';
+import LanguageIcon from '@mui/icons-material/Language';
+import WhatsAppIcon from '@mui/icons-material/WhatsApp';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
+import InstagramIcon from '@mui/icons-material/Instagram';
+import FacebookIcon from '@mui/icons-material/Facebook';
 function Servicedetail({id}) {
   const servicedetails = useSelector((state) => state.servicedetails.service.data);
   const review=useSelector((state)=>state.review.review.data)
@@ -45,8 +52,6 @@ function Servicedetail({id}) {
     dispatch(getReview(id))
     dispatch(Avgreview(id))
 
-
-
   },[])
 
   const router=useRouter()
@@ -56,6 +61,7 @@ function Servicedetail({id}) {
     setModalImages(images);
     setSelectedImage(imageIndex);
     setOpenModal(true);
+
     }
   };
 
@@ -124,7 +130,7 @@ function Servicedetail({id}) {
                 <img
                   src={item.Image[1]}
                   alt="image"
-                  style={{ borderRadius: "10px", border: "1px" }}
+                  style={{ borderRadius: "10px", border: "1px",width:"100%" ,height:"100%",objectFit: "cover" }}
                 />
               </ImageListItem>
             </div>
@@ -136,7 +142,7 @@ function Servicedetail({id}) {
                   <img
                     src={image}
                     alt="image"
-                    style={{ borderRadius: "10px", border: "1px", height: "145px" }}
+                    style={{ borderRadius: "10px", border: "1px",objectFit: "cover",height:(item.Image.length==3 ?  "292px":"145px")}}
                   /> 
                 </ImageListItem>
               ))}
@@ -148,15 +154,32 @@ function Servicedetail({id}) {
             </div>
           </div>
           
-      <div className='mt-3'>
+      <div className='mt-3 '>
         <h2 style={{fontFamily:"sans-serif", fontWeight:"700"}}>{item.serviceName}</h2>
-        <div className='d-flex'>
+        
+        <div className='d-flex mt-2'>
 
         <div style={{width:"35px",height:"25px" ,background:"green",borderRadius:"5px"}} className='text-center mt-1 text-white'><h5>{avgreviews}</h5></div>
-        <Rating name="rating" defaultValue={avgreviews}  precision={0.5} size="large"  readOnly/>  &nbsp;&nbsp;&nbsp; <span className='mt-1'>{review?.length}Rating</span>
+        <Rating name="rating" defaultValue={avgreviews}  precision={0.5} size="large"  readOnly/>  &nbsp;&nbsp;&nbsp; <span className='mt-1' style={{color:"#919493"}}>{review?.length}Ratings</span>
         </div>
-        <div></div>
-        <li>{item.OwnerName}</li>
+        <div className='d-flex gap-2 mt-2  '> 
+
+        <span style={{fontWeight:"600" }} className='fs-6 '>{item.StreetAdrress}</span><span style={{color:"green",fontWeight:"500"}}>Open 24hr</span>
+        </div>
+      
+        <div className='d-flex gap-3 mt-2'>
+        <div style={{width:"170px",height:"35px" ,background:"green",borderRadius:"5px",color:"white" , boxShadow:"2px 2px #919493"}} className='d-flex align-items-center justify-content-center'>
+           <LocalPhoneIcon/>
+        <span>{item.Phone}</span>
+        </div>
+          <a href={`https://wa.me/${item.Phone}`} style={{textDecoration:"none"}}>
+        <div style={{width:"70px",height:"35px" ,background:"white",borderRadius:"5px",color:"black" ,fontWeight:"500"}} className='d-flex align-items-center justify-content-center' >
+          <img src="/whatsapp.png" alt=""  style={{width:"25px"}}/> chat
+
+        
+        </div>
+      
+          </a>
         <IconButton onClick={()=>handlefavourite(item._id)}>
           {(favarray.includes(item._id))?
             
@@ -166,8 +189,40 @@ function Servicedetail({id}) {
           }
 
         </IconButton>
+        </div>
+        <div className='row'>
+        <h4 className='text-center mt-5 ' style={{fontWeight:"600"}}> More info</h4>
+          <div className='col-md-4 '>
 
-        <li>{item.Phone}</li>
+      <h5 className=' mt-3' style={{fontWeight:"bold"}}>General Info</h5>     
+      <p className='mt-3'>t ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining ess </p>
+    
+      <h5 className=' mt-3' style={{fontWeight:"bold"}}>payment method</h5>     
+
+     </div>
+     <div className='col-md-4'>
+     <h5 className='text-center mt-3'style={{fontWeight:"bold"}}>timing</h5>     
+
+
+     </div>
+     <div className='col-md-4 ' >
+     <h5 className=' mt-3 ' style={{fontWeight:"bold"}}>Address</h5>     
+     <p style={{listStyle:"none"}} className='d-flex flex-column gap-3 mt-2'>onvallis, ipsum in lacinia facilisis, dui augue fringilla dui, nec pulvinar enim mauris vit mauris. Proin ante urna, aliq
+
+      <li  style={{fontWeight:"500"}}><LocalPhoneIcon style={{color:"#058df5"}}/>&nbsp;{item.Phone}</li>
+      <li  style={{fontWeight:"500"}}><EmailIcon style={{color:"#058df5"}}/>&nbsp; irfanpm@gmail.com</li>
+      <li style={{fontWeight:"500"}}><LanguageIcon style={{color:"#058df5"}}/> &nbsp;Visit Our Website</li>
+      <li  style={{fontWeight:"600"}}><WhatsAppIcon style={{color:"#058df5"}}/>&nbsp; Whatsapp</li>
+      <li  style={{fontWeight:"600"}}><LocationOnIcon style={{color:"#058df5"}}/>&nbsp;{item.StreetAdrress}</li>
+      <li  style={{fontWeight:"600"}}><InstagramIcon style={{color:"#058df5"}}/>&nbsp;Instagram</li>
+      <li  style={{fontWeight:"600"}}><FacebookIcon style={{color:"#058df5"}}/>&nbsp;Facebook</li>
+      </p>
+
+
+
+
+     </div>
+        </div>
         <li>{item.Category}</li>
         <li>{item.StreetAddress}</li>
 

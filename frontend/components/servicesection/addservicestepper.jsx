@@ -8,6 +8,16 @@ import {
   Step,
   Autocomplete,
   StepLabel,
+  Modal,
+  Fade,
+  Box,
+  Grid,
+  Card,
+  CardMedia,
+  IconButton,
+  FormControl,
+  InputLabel,
+  NativeSelect,
 } from "@mui/material";
 import { styled } from '@mui/material/styles';
 import {
@@ -20,8 +30,11 @@ import ImageUploader from './imageuploader';
 import axios from "axios"
 import { getCookie } from "cookies-next";
 import { useSelector,useDispatch } from 'react-redux';
-
-
+import { deletearray,deleteImage } from '@/redux/features/serviceimage';
+import DeleteIcon from '@mui/icons-material/Delete';
+import NavigateNextIcon from '@mui/icons-material/NavigateNext';
+import { useRouter } from "next/navigation";
+import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 const useStyles = styled((theme) => ({
   button: {
     marginRight: theme.spacing(1),
@@ -31,13 +44,17 @@ const useStyles = styled((theme) => ({
 
 function getSteps() {
   return [
-    "Basic information",
-    "Contact Information",
-    "Personal Information",
-    "Payment",
+    "Basic Service information",
+    "Address Information",
+    "Upload Images",
+    "Location",
   ];
 }
 const BasicForm = () => {
+  const [age, setAge] = React.useState('');
+  const handleChange = (event) => {
+    setAge(event.target.value);
+  };
   const { control } = useFormContext();
   return (
     <div >
@@ -81,7 +98,7 @@ const BasicForm = () => {
             label="ownerfirst"
             variant="outlined"
             placeholder="Enter Your Owner firstname"
-            sx={{ m: 1, width: '29ch' }}
+            sx={{ m: 1, width: '21.5%' }}
             margin="normal"
             {...field}
           />
@@ -97,7 +114,7 @@ const BasicForm = () => {
             label="lastname"
             variant="outlined"
             placeholder="Enter Your Owner Last Name"
-            sx={{ m: 1, width: '29ch' }}
+            sx={{ m: 1, width: '22%' }}
             margin="normal"
             {...field}
           />
@@ -118,34 +135,13 @@ const BasicForm = () => {
           />
         )}
       />
-         <Controller
-        control={control}
-        name="category"
-        render={({ field }) => (
-          <Autocomplete
-          sx={{ m:1, width: '45%' }}
-
-
-          disablePortal
-          id="combo-box-demo"
-          options={top100Films}
-          renderInput={(params) => <TextField
-                      {...params} label="Category"
-              id='category'
-              name='category'
-               margin="normal"
-                {...field}  />}
-        />
-        )}
-      />
-      
      
        <Controller
         control={control}
         name="description"
         render={({ field }) => (
           <TextField
-                name='description'
+          name='description'
                 label="Description"
                 variant="outlined"
                 multiline
@@ -153,10 +149,47 @@ const BasicForm = () => {
                 sx={{ m: 1, width: '45%' }}
                 margin="normal"
                 id='description'
-            {...field}
-          />
-        )}
+                {...field}
+                />
+                )}
       />
+                <Controller
+                 control={control}
+                 name="category"
+                 render={({ field }) => (
+                   <FormControl  sx={{ m: 1, width: '45%' }} variant="outlined"  >
+                 <InputLabel id="demo-multiple-name-label">Category</InputLabel>
+                 <NativeSelect
+                   id="demo-customized-select-native"
+                   value={age}
+                   onChange={handleChange}
+                   {...field}
+         
+                 >
+                   <option aria-label="None" value="" />
+                   <option value='hospital'>Hospital</option>
+                   <option value="education">Education</option>
+                   <option value=  "docter">Doctors</option>
+                   <option value= "repair">Repairs</option>
+                   <option value= "beautyspa">beautyspa</option>
+                   <option value=  "events">events</option>
+                   <option value= "hotel" >hotel</option>
+                   <option value= "logistics">logistics</option>
+                   <option value= "gym" >gym</option>
+                   <option value=  "shop" >shop</option>
+                   <option value= "more" >more</option>
+
+
+
+
+
+
+
+
+                 </NativeSelect>
+               </FormControl>
+                    )}
+                    />
       {/* <Controller
         control={control}
         name="companyname"
@@ -217,7 +250,7 @@ const ContactForm = () => {
           
         )}
       />
-        {/* <Controller
+        <Controller
         control={control}
         name="city"
         render={({ field }) => (
@@ -231,7 +264,7 @@ const ContactForm = () => {
           />
           
         )}
-      /> */}
+      /> 
              <Controller
         control={control}
         name="zipcode"
@@ -241,7 +274,7 @@ const ContactForm = () => {
             label="Zip code"
             id="zip"
             name="zip"
-            sx={{ m: 1, width: '25%' }}
+            sx={{ m: 1, width: '21.5%' }}
             {...field}
           />
           
@@ -256,28 +289,28 @@ const ContactForm = () => {
           label="state"
           id="state"
           name="state"
-            sx={{ m: 1, width: '25%' }}
-            {...field}
-          />
-          
-        )}
-      />
-         <Controller
-        control={control}
-        name="city"
-        render={({ field }) => (
-          
-          <TextField
-          label="city"
-          id="city"
-          name="city"
-            sx={{ m: 1, width: '25%' }}
+            sx={{ m: 1, width: '22%' }}
             {...field}
           />
           
         )}
       />
        <Controller
+        control={control}
+        name="landmark"
+        render={({ field }) => (
+          
+          <TextField
+          label="LandMark"
+          id="landmark"
+          name="landmark"
+            sx={{ m: 1, width: '22%' }}
+            {...field}
+          />
+          
+        )}
+      />
+      <Controller
         control={control}
         name="address"
         render={({ field }) => (
@@ -298,20 +331,222 @@ const ContactForm = () => {
           
         )}
       />
+      {/* <div style={{ margin:"1px", width: '45%' }} className="row text-center ">
+        <Controller
+        control={control}
+        name="mon"
+        render={({ field }) => (
+          
+          <TextField
+          label="mon"
+          id="mon"
+          name="mon"
+            // sx={{ m: 1, width: '10%' }}
+            className="col-md-3"
+            {...field}
+          />
+          
+        )}
+      />
+        <Controller
+        control={control}
+        name="tue"
+        render={({ field }) => (
+          
+          <TextField
+          label="Tue"
+          id="city"
+          name="city"
+          className="col-md-3"
+
+            // sx={{ m: 1, width: '10%' }}
+
+            {...field}
+          />
+          
+        )}
+      />
+           <Controller
+        control={control}
+        name="wed"
+        render={({ field }) => (
+          
+          <TextField
+          label="wed"
+          id="city"
+          name="city"
+          className="col-md-3"
+
+            // sx={{ m: 1, width: '10%' }}
+
+            {...field}
+          />
+          
+        )}
+      />
+           <Controller
+        control={control}
+        name="thu"
+        render={({ field }) => (
+          
+          <TextField
+          label="thu"
+          id="city"
+          name="city"
+          className="col-md-3"
+
+            // sx={{ m: 1, width: '10%' }}
+            {...field}
+          />
+          
+        )}
+      />
+        
+       
+        <Controller
+        control={control}
+        name="city"
+        render={({ field }) => (
+          
+          <TextField
+          label="fri"
+          id="city"
+          name="city"
+          className="col-md-3"
+
+            // sx={{ m: 1, width: '10%' }}
+            {...field}
+          />
+          
+        )}
+      />
+        <Controller
+        control={control}
+        name="city"
+        render={({ field }) => (
+          
+          <TextField
+          label="sat"
+          id="city"
+          name="city"
+          className="col-md-3"
+
+            // sx={{ m: 1, width: '10%' }}
+            {...field}
+          />
+          
+        )}
+      />
+        <Controller
+        control={control}
+        name="sun"
+        render={({ field }) => (
+          
+          <TextField
+          label="sun"
+          id="city"
+          name="city"
+          className="col-md-3"
+
+            // sx={{ m: 1, width: '10.5%' }}
+            {...field}
+          />
+          
+        )}
+      />
+      </div> */}
 
 
     </>
   );
 };
 const PersonalForm = () => {
+  const image1=useSelector((state)=>state.image.image)
+  const [openModal, setOpenModal] = useState(false);
+  const [viewedImage, setViewedImage] = useState(null);
+const dispatch=useDispatch()
+  const handleCloseModal = () => {
+    setOpenModal(false);
+  };
+  const handleImageClick = (image) => {
+    setViewedImage(image);
+    setOpenModal(true);
+  };
+
   const { control } = useFormContext();
   return (
     <>
-      <div style={{ display: 'flex', justifyContent: 'center' }}>
+      <div style={{ display: 'flex', justifyContent: 'center',alignItems:"center"}} className="flex-column text-center">
+   <div className="d-flex">
 
     <ImageUploader/>
+   </div>
+       { image1.length!=0?<h4>uploaded image</h4>:null}
+      <div className='row '>
+        
+        {image1?.map((image, index) => (
+          <Grid item key={index}   className='col-md-3 mt-2 '      >
+            <Card variant="outlined" className='text-center'>
+              <CardMedia
+                component="img"
+                alt={`Uploaded Image ${index + 1}`}
+                image={image}
+                onClick={() => handleImageClick(image)}
+                style={{ cursor: 'pointer' }}
+              />
+                <Typography variant="body2" color="textSecondary">
+                </Typography> 
+                 <IconButton
+                  onClick={() => dispatch(deleteImage(index))}
+                  color="secondary"
+                 
+                >
+                  <DeleteIcon/>
+                </IconButton>
+            </Card>
+          </Grid>
+        ))}
+        
       </div>
-    
+
+      <Modal
+        open={openModal}
+        onClose={handleCloseModal}
+        closeAfterTransition
+        BackdropProps={{
+          timeout: 500,
+        }}
+      >
+        <Fade in={openModal}>
+        <Box
+            sx={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+       
+              bgcolor: 'background.paper',
+              boxShadow: 24,
+              // p: 3,
+            }}
+          >
+            {viewedImage && (
+              <img
+                src={viewedImage}
+                alt="Viewed Image"
+                style={{ maxWidth: '100%', maxHeight: '100%', cursor: 'pointer' }}
+                onClick={handleCloseModal}
+              />
+            )}
+          </Box>
+        </Fade>
+      </Modal>
+
+
+      {/* </Modal> */}
+
+      </div>
+
     </>
   );
 };
@@ -385,8 +620,11 @@ function getStepContent(step) {
 }
 
 const LinaerStepper = () => {
-  const cookie = getCookie('token');
   const image1=useSelector((state)=>state.image.image)
+  const dispatch=useDispatch()
+
+  const cookie = getCookie('token');
+  const router=useRouter()
 
   const classes = useStyles();
   const methods = useForm({
@@ -400,6 +638,7 @@ const LinaerStepper = () => {
       description: "",
       emailAddress: "",
       streetaddress: "",
+      landmark:"",
       zipcode: "",
       state: "",
       city: "",
@@ -448,7 +687,7 @@ const LinaerStepper = () => {
         },
       })
 
-      // dispatch(deletearray())
+      dispatch(deletearray())
       console.log(response)
 
 
@@ -515,9 +754,15 @@ const LinaerStepper = () => {
       </Stepper>
 
       {activeStep === steps.length ? (
-        <Typography variant="h3" align="center">
-          Thank You
+        <div className="d-flex align-items-center flex-column">
+          <img src="/Check animation.gif" alt="image" srcset="" className="w-25" />
+
+        <Typography variant="h5" align="center">
+          
+        Successfully Added Services
         </Typography>
+        <Button style={{color:"black"}} onClick={()=>{ router.push('/Serviceprovider/serviceprofilepage')}}>Home</Button>
+        </div>
       ) : (
         <>
           <FormProvider {...methods}   >
@@ -529,8 +774,9 @@ const LinaerStepper = () => {
                 className={classes.button}
                 disabled={activeStep === 0}
                 onClick={handleBack}
-                style={{background:"red"}}
+                style={{background:"red",color:"white"}}
               >
+                <NavigateBeforeIcon/>
                 back
               </Button>
               {/* {isStepOptional(activeStep) && (
@@ -554,7 +800,8 @@ const LinaerStepper = () => {
 
                 type="submit"
               >
-                {activeStep === steps.length - 1 ? "Finish" : "Next"}
+               
+                {activeStep === steps.length - 1 ? "Finish" :<> Next <NavigateNextIcon/></>}
               </Button>
               </div>
 

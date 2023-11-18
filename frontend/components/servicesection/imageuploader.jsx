@@ -66,8 +66,8 @@ const ImageUploader = () => {
   };
 
 }
-  const handleupload=()=>{
-    
+  const handleupload=(e)=>{
+    e.preventDefault()
     selectedImages.map( async(item)=>{
       try{
         const url=await Serviceupload(item)
@@ -208,7 +208,6 @@ const ImageUploader = () => {
           timeout: 500,
         }}
       >
-        <Fade in={openModal}>
         <Box
             sx={{
               position: 'absolute',
@@ -230,9 +229,9 @@ const ImageUploader = () => {
               />
             )}
           </Box>
-        </Fade>
       </Modal>
-      <Button onClick={handleupload} className='mt-5' style={{background:"red" ,color:"white"}}>upload</Button>
+
+      {(selectedImages.length!=0)?<Button onClick={handleupload} className='mt-5' style={{background:"green" ,color:"white"}}>Submit</Button>:null}
 
       </Box>
 
