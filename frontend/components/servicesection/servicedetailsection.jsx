@@ -27,7 +27,7 @@ import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import FacebookIcon from "@mui/icons-material/Facebook";
-function Servicedetail({ id }) {
+function Servicedetailsection({ id }) {
   const servicedetails = useSelector(
     (state) => state.servicedetails.service.data
   );
@@ -234,13 +234,9 @@ function Servicedetail({ id }) {
                     chat
                   </div>
                 </a>
-                <IconButton onClick={() => handlefavourite(item._id)}>
-                  {favarray.includes(item._id) ? (
-                    <FavoriteOutlinedIcon style={{ color: "red" }} />
-                  ) : (
-                    <FavoriteBorderOutlinedIcon />
-                  )}
-                </IconButton>
+                <Button style={{background:"blue",color:"white"}}>Edit</Button>
+                <Button style={{background:"red",color:"white"}}>Delete</Button>
+               
               </div>
               <h4 className="text-center mt-5 " style={{ fontWeight: "600" }}>
                   {" "}
@@ -364,96 +360,7 @@ function Servicedetail({ id }) {
           <button onClick={handleShowMore} style={{fontWeight:"600"}}>Show More</button>
       )}
     </div>
-                  <div className="col-md-6 mt-4">
-                <Typography
-                  id="transition-modal-title"
-                  variant="h6"
-                  component="h2"
-                >
-                  <b> Post a review </b>
-                </Typography>
-                {!cookie ? (
-                  <div>
-                    <Rating
-                      name="rating"
-                      defaultValue={0}
-                      precision={0.5}
-                      size="large"
-                      disabled
-                    />
-
-                    <TextField
-                      name="title"
-                      label="title"
-                      variant="outlined"
-                      fullWidth
-                      margin="normal"
-                      id="title"
-                      disabled
-                    />
-
-                    <TextField
-                      name="review"
-                      label="Review"
-                      variant="outlined"
-                      multiline
-                      rows={4}
-                      disabled
-                      fullWidth
-                      margin="normal"
-                      id="review"
-                    />
-
-                    <Button
-                      type="submit"
-                      variant="contained"
-                      className="w-25"
-                      onClick={navlogin}
-                      style={{ background: "#040333" }}
-                    >
-                      Login
-                    </Button>
-                  </div>
-                ) : (
-                  <form action="" onSubmit={(e) => handleReview(e, item._id)}>
-                    <Rating
-                      name="rating"
-                      defaultValue={0}
-                      precision={0.5}
-                      size="large"
-                    />
-
-                    <TextField
-                      name="title"
-                      label="title"
-                      variant="outlined"
-                      fullWidth
-                      margin="normal"
-                      id="title"
-                    />
-
-                    <TextField
-                      name="review"
-                      label="Review"
-                      variant="outlined"
-                      multiline
-                      rows={4}
-                      fullWidth
-                      margin="normal"
-                      id="review"
-                    />
-
-                    <Button
-                      type="submit"
-                      variant="contained"
-                      className="w-25"
-                      style={{ background: "#040333" }}
-                    >
-                      Submit
-                    </Button>
-                  </form>
-                )}
-              </div>
+                 
               </div>
           
           </div>
@@ -476,4 +383,4 @@ function Servicedetail({ id }) {
   );
 }
 
-export default Servicedetail;
+export default Servicedetailsection;

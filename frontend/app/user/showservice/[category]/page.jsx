@@ -1,15 +1,18 @@
 'use client'
 import Showservice from '@/components/showservice'
+import { Container } from '@mui/material'
 import { useParams } from 'next/navigation'
 import React from 'react'
 
 function page() {
   const params=useParams()
   return (
-    <div >
-      <Showservice category={params.category}/>
+    <>
+    <Container>
+    <Showservice category={params.category}/>
+    </Container>
+    </>
       
-    </div>
   )
 }
 

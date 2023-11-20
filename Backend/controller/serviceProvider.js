@@ -34,21 +34,28 @@ module.exports={
 
     addsevice :async(req,res)=>{
 
-        const {servicename,ownername,phone,category,streetaddress,state,city,zipcode,image,description,address,location,}=req.body
+        const {servicename,phone,category,streetaddress,state,city,image,description,address,timing,whatsapp,email,website,long,lat,instagram,features}=req.body
         
       const service=  await serviceSchema.create({
             userId:res.token,
             serviceName:servicename,
-            OwnerName:ownername,
             Phone:phone,
             Category:category,
             StreetAdrress:streetaddress,
             State:state,
             City:city,
-            Zipcode:zipcode,
             Description:description,
             Address:address,
-            Location:location,
+            Timing:timing,
+            Whatsapp:whatsapp,
+            Email:email,
+            Website:website,
+            Instagram:instagram,
+            Location:{
+                type:"Path",
+                coordinates:[parseFloat(long),parseFloat(lat)]
+            },
+            Features:features,
             Image:image,
             isBlock:false
             

@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import {
   Typography,
   TextField,
@@ -18,6 +18,7 @@ import {
   FormControl,
   InputLabel,
   NativeSelect,
+  FormHelperText,
 } from "@mui/material";
 import { styled } from '@mui/material/styles';
 import {
@@ -35,6 +36,10 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import { useRouter } from "next/navigation";
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
+import { MapContainer, TileLayer, Marker, Popup, useMapEvents } from "react-leaflet";
+import "leaflet/dist/leaflet.css";
+import icon from "./constants";
+// import Map from "./mapsection";
 const useStyles = styled((theme) => ({
   button: {
     marginRight: theme.spacing(1),
@@ -88,38 +93,23 @@ const BasicForm = () => {
           />
         )}
       />
-
-      <Controller
+       <Controller
         control={control}
-        name="ownerfirst"
+        name="whatsapp"
         render={({ field }) => (
           <TextField
-            id="ownerfirst"
-            label="ownerfirst"
+            id="Whatsapp-number"
+            label="Service Whatsapp Number"
             variant="outlined"
-            placeholder="Enter Your Owner firstname"
-            sx={{ m: 1, width: '21.5%' }}
+            placeholder="Enter Your  Service Whatsapp Number"
+            sx={{ m: 1, width: '45%' }}
             margin="normal"
             {...field}
           />
         )}
       />
 
-      <Controller
-        control={control}
-        name="ownerlast"
-        render={({ field }) => (
-          <TextField
-            id="owner-last"
-            label="lastname"
-            variant="outlined"
-            placeholder="Enter Your Owner Last Name"
-            sx={{ m: 1, width: '22%' }}
-            margin="normal"
-            {...field}
-          />
-        )}
-      />
+    
         <Controller
         control={control}
         name="phone"
@@ -135,25 +125,7 @@ const BasicForm = () => {
           />
         )}
       />
-     
-       <Controller
-        control={control}
-        name="description"
-        render={({ field }) => (
-          <TextField
-          name='description'
-                label="Description"
-                variant="outlined"
-                multiline
-                rows={4}
-                sx={{ m: 1, width: '45%' }}
-                margin="normal"
-                id='description'
-                {...field}
-                />
-                )}
-      />
-                <Controller
+        <Controller
                  control={control}
                  name="category"
                  render={({ field }) => (
@@ -190,7 +162,42 @@ const BasicForm = () => {
                </FormControl>
                     )}
                     />
-      {/* <Controller
+                    
+        <Controller
+        control={control}
+        name="features"
+        render={({ field }) => (
+          <TextField
+            id="features"
+            label="Service Extra Features"
+            variant="outlined"
+            placeholder="Enter Your extra features"
+            sx={{ m: 1, width: '45%' }}
+            margin="normal"
+            {...field}
+          />
+        )}
+      />
+
+     
+       <Controller
+        control={control}
+        name="description"
+        render={({ field }) => (
+          <TextField
+          name='description'
+                label="Description"
+                variant="outlined"
+                multiline
+                rows={4}
+                sx={{ m: 1, width: '45%' }}
+                margin="normal"
+                id='description'
+                {...field}
+                />
+                )}
+      />
+         {/* <Controller
         control={control}
         name="companyname"
         render={({ field }) => (
@@ -250,6 +257,23 @@ const ContactForm = () => {
           
         )}
       />
+       <Controller
+        control={control}
+        name="website"
+        render={({ field }) => (
+            <TextField
+            name='website'
+            label="Service Website"
+            variant="outlined"
+            sx={{ m: 1, width: '45%' }}
+
+            margin="normal"
+            id='website'
+            {...field}
+          />
+          
+        )}
+      />
         <Controller
         control={control}
         name="city"
@@ -265,21 +289,7 @@ const ContactForm = () => {
           
         )}
       /> 
-             <Controller
-        control={control}
-        name="zipcode"
-        render={({ field }) => (
           
-            <TextField
-            label="Zip code"
-            id="zip"
-            name="zip"
-            sx={{ m: 1, width: '21.5%' }}
-            {...field}
-          />
-          
-        )}
-      />
          <Controller
         control={control}
         name="state"
@@ -297,20 +307,49 @@ const ContactForm = () => {
       />
        <Controller
         control={control}
-        name="landmark"
+        name="instagram"
         render={({ field }) => (
-          
-          <TextField
-          label="LandMark"
-          id="landmark"
-          name="landmark"
-            sx={{ m: 1, width: '22%' }}
+            <TextField
+            name='website'
+            label="Service Instagram link"
+            variant="outlined"
+            sx={{ m: 1, width: '45%' }}
+
+            margin="normal"
+            id='website'
             {...field}
           />
           
         )}
       />
-      <Controller
+      
+     
+         <Controller
+        control={control}
+        name="timing"
+        render={({ field }) => (
+          <>
+              
+
+            <TextField
+            name='service timing'
+            helperText="  Mon-Sun 9:00-7:00"
+            label="Service timing"
+            variant="outlined"
+            sx={{ m: 1, width: '45%' }}
+
+            margin="normal"
+            id='timing'
+            {...field}
+          />
+       
+          </>
+     
+          
+        )}
+       
+      />
+          <Controller
         control={control}
         name="address"
         render={({ field }) => (
@@ -331,136 +370,17 @@ const ContactForm = () => {
           
         )}
       />
-      {/* <div style={{ margin:"1px", width: '45%' }} className="row text-center ">
-        <Controller
-        control={control}
-        name="mon"
-        render={({ field }) => (
-          
-          <TextField
-          label="mon"
-          id="mon"
-          name="mon"
-            // sx={{ m: 1, width: '10%' }}
-            className="col-md-3"
-            {...field}
-          />
-          
-        )}
-      />
-        <Controller
-        control={control}
-        name="tue"
-        render={({ field }) => (
-          
-          <TextField
-          label="Tue"
-          id="city"
-          name="city"
-          className="col-md-3"
-
-            // sx={{ m: 1, width: '10%' }}
-
-            {...field}
-          />
-          
-        )}
-      />
-           <Controller
-        control={control}
-        name="wed"
-        render={({ field }) => (
-          
-          <TextField
-          label="wed"
-          id="city"
-          name="city"
-          className="col-md-3"
-
-            // sx={{ m: 1, width: '10%' }}
-
-            {...field}
-          />
-          
-        )}
-      />
-           <Controller
-        control={control}
-        name="thu"
-        render={({ field }) => (
-          
-          <TextField
-          label="thu"
-          id="city"
-          name="city"
-          className="col-md-3"
-
-            // sx={{ m: 1, width: '10%' }}
-            {...field}
-          />
-          
-        )}
-      />
         
-       
-        <Controller
-        control={control}
-        name="city"
-        render={({ field }) => (
-          
-          <TextField
-          label="fri"
-          id="city"
-          name="city"
-          className="col-md-3"
-
-            // sx={{ m: 1, width: '10%' }}
-            {...field}
-          />
-          
-        )}
-      />
-        <Controller
-        control={control}
-        name="city"
-        render={({ field }) => (
-          
-          <TextField
-          label="sat"
-          id="city"
-          name="city"
-          className="col-md-3"
-
-            // sx={{ m: 1, width: '10%' }}
-            {...field}
-          />
-          
-        )}
-      />
-        <Controller
-        control={control}
-        name="sun"
-        render={({ field }) => (
-          
-          <TextField
-          label="sun"
-          id="city"
-          name="city"
-          className="col-md-3"
-
-            // sx={{ m: 1, width: '10.5%' }}
-            {...field}
-          />
-          
-        )}
-      />
-      </div> */}
-
+        
+           
+        
+   
 
     </>
   );
 };
-const PersonalForm = () => {
+const Imageuploadsection = () => {
+
   const image1=useSelector((state)=>state.image.image)
   const [openModal, setOpenModal] = useState(false);
   const [viewedImage, setViewedImage] = useState(null);
@@ -550,58 +470,101 @@ const dispatch=useDispatch()
     </>
   );
 };
-const PaymentForm = () => {
-  const { control } = useFormContext();
-  return (
-    <>
-      {/* <Controller
-        control={control}
-        name="cardNumber"
-        render={({ field }) => (
-          <TextField
-            id="cardNumber"
-            label="Card Number"
-            variant="outlined"
-            placeholder="Enter Your Card Number"
-            fullWidth
-            margin="normal"
-            {...field}
-          />
+const Mapsection =  (props) => {
+  const { control,setValue} = useFormContext();
+
+    const DEFAULT_LATITUDE = 11.145923857417905;
+    const DEFAULT_LONGITUDE = 75.96342891454698;
+  
+    const [markerPosition, setMarkerPosition] = useState(null);
+    console.log( markerPosition?.lat)
+    
+  useEffect(() => {
+    // Update the default values when markerPosition changes
+    setValue("lat", markerPosition?.lat);
+    setValue("long", markerPosition?.lng);
+  }, [markerPosition, control]);
+
+  
+    const handleMapClick = (e) => {
+      setMarkerPosition(e.latlng);
+    };
+  
+    const latitude = props.coords ? props.coords.latitude : DEFAULT_LATITUDE;
+    const longitude = props.coords ? props.coords.longitude : DEFAULT_LONGITUDE;
+  
+    return (
+      <div className="d-flex flex-column justify-content-center align-items-center">
+      <MapContainer
+        className="leaflet-map w-75 "
+        center={[latitude, longitude]}
+        zoom={17}
+        scrollWheelZoom={true}
+        style={{ height: "80vh" }}
+    
+      >
+        <TileLayer
+          attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        />
+        <MapClickHandler setMarkerPosition={setMarkerPosition} />
+        {markerPosition && (
+          <Marker position={markerPosition} icon={icon}>
+            <Popup>Clicked position ^_^</Popup>
+          </Marker>
         )}
-      />
+      </MapContainer>
       <Controller
         control={control}
-        name="cardMonth"
+        name="lat"
         render={({ field }) => (
-          <TextField
-            id="cardMonth"
-            label="Card Month"
+            <TextField
+            name='latitude'
+            label="location latitude"
             variant="outlined"
-            placeholder="Enter Your Card Month"
-            fullWidth
+            sx={{ m: 1, width: '45%' }}
+
             margin="normal"
+            id='website'
             {...field}
           />
+          
         )}
       />
-      <Controller
+         <Controller
         control={control}
-        name="cardYear"
+        name="long"
         render={({ field }) => (
-          <TextField
-            id="cardYear"
-            label="Card Year"
+            <TextField
+            name='longtitude'
+            label="location longtitude"
             variant="outlined"
-            placeholder="Enter Your Card Year"
-            fullWidth
+            sx={{ m: 1, width: '45%' }}
+
             margin="normal"
+            id='website'
             {...field}
           />
+          
         )}
-      /> */}
-    </>
-  );
-};
+      />
+      </div>
+    );
+  };
+  
+  const MapClickHandler = ({ setMarkerPosition }) => {
+    const map = useMapEvents({
+      click: (e) => {
+        setMarkerPosition(e.latlng);
+      },
+    });
+  
+  
+    return null;
+  };
+  
+ 
+
 
 function getStepContent(step) {
   switch (step) {
@@ -611,9 +574,9 @@ function getStepContent(step) {
     case 1:
       return <ContactForm />;
     case 2:
-      return <PersonalForm />;
+      return <Imageuploadsection />;
     case 3:
-      return <PaymentForm />;
+      return <Mapsection/>;
     default:
       return "unknown step";
   }
@@ -631,15 +594,20 @@ const LinaerStepper = () => {
     defaultValues: {
       Servicename: "",
       companyname: "",
-      ownerfirst: "",
-      ownerlast: "",
       phone: "",
+      watsapp:"",
+      features:"",
       category: "",
       description: "",
       emailAddress: "",
       streetaddress: "",
-      landmark:"",
-      zipcode: "",
+      website:"",
+      instagram:"",
+      timing:"",
+      lat:"",
+      long:"",
+
+   
       state: "",
       city: "",
       address:""
@@ -670,17 +638,22 @@ const LinaerStepper = () => {
       try {
         const response = await axios.post('http://127.0.0.1:8000/api/service/addservice', {
           servicename: data.Servicename,
-          ownername:data.ownerfirst+""+data.ownerlast,
           phone:data.phone,
           category:data.category,
           descriptioon:data.descriptioon,
           streeaddress:data.streetaddress,
           state:data.state,
           city:data.city,
-          zipcode:data.zipcode,
+         timing:data.timing,
+         whatsapp:data.whatsapp,
+         email:data.emailAddress,
+         website:data.website,
+         instagram:data.instagram,
+         features:data.features,
           address:data.address,
           image:image1,
-          location:"String",
+            lat:data.lat,
+            long:data.long
       },{
         headers: {
           Authorization: `Bearer ${cookie}`,

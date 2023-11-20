@@ -206,11 +206,16 @@ ratingAverage:async(req,res)=>{
 
     }
   ])
-  res.json({
-    status: "success",
-    message: "Successfully fetched stats.",
-    data: avgRating[0]?.totalRating
-  });
+  if(avgRating){
+    await serviceSchema.findByIdAndUpdate(serviceid,{$set:{Avgrating:avgRating[0]?.totalRating}})
+    res.json({
+      status: "success",
+      message: "Successfully fetched stats.",
+      data: avgRating[0]?.totalRating
+    });
+
+  }
+ 
 
 
  

@@ -3,19 +3,33 @@ const mongoose= require('mongoose')
 
 const serviceSchema = new mongoose.Schema({
     userId:Object,
-   serviceName:String,
-   OwnerName:String,
+   serviceName:{
+   type:String,
+
+},
    Phone:String,
    Category:String,
    Address:String,
+   Whatsapp:Number,
+   Email:String,
+   Website:String,
+   Instagram:String,
    StreetAdrress:String,
+   Timing:String,
    State:String,
    City:String,
-   Zipcode:String,
    Description:String,
+   Features:String,
    Image:Array,
-   Location:String,
-   isBlock:Boolean
+   Location:{
+    type:{type:String},
+    coordinates:[]
+
+   },
+   isBlock:Boolean,
+   Avgrating:Number,
+   Ratingcount:Number,
+
 
 })
 
