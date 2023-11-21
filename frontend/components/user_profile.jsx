@@ -16,7 +16,8 @@ import Stack from '@mui/material/Stack';
 import { styled } from '@mui/material/styles';
 import Edit_avatar from './edit_avatar';
 import { fetchService } from '@/redux/features/getService';
-
+import { Button } from '@mui/material';
+import EditModal from './editprofile';
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -58,25 +59,21 @@ export default function Userprofile() {
   };
 
   return (
-    <Card sx={{ width: '50vh' }} className="text-center">
+    <Card sx={{ width: '40vh' }} className="text-center " >
       {
 
         user?.map((item) => (
           <Stack direction="column" justifyContent="center" alignItems="center" key={item._id} spacing={2}>
             <CardContent>
               
-              <Avatar alt="Remy Sharp" src={item.avatar} sx={{ width: 56, height: 56 }} />        <Edit_avatar/>
+              <Avatar alt="Remy Sharp" src={item.avatar} sx={{ width: 90, height: 90 }} />        <Edit_avatar/>
 
 
               <h2>{item.Username}</h2>
+              <p>{item.Email}</p>
             </CardContent>
             <CardActions disableSpacing>
-              <IconButton aria-label="add to favorites">
-                <FavoriteIcon />
-              </IconButton>
-              <IconButton aria-label="share">
-                <ShareIcon />
-              </IconButton>
+             
               <ExpandMore
                 expand={expanded}
                 onClick={handleExpandClick}
@@ -87,7 +84,8 @@ export default function Userprofile() {
               </ExpandMore>
             </CardActions>
             <Collapse in={expanded} timeout="auto" unmountOnExit>
-              <CardContent>{/* Add content to display when expanded */}</CardContent>
+
+              <CardContent><EditModal/></CardContent>
             </Collapse>
           </Stack>
         ))

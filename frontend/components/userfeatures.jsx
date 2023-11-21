@@ -29,6 +29,7 @@ const dispatch=useDispatch()
 
   console.log(userfav)
   const handleshowservice=(id)=>{
+    console.log(id)
     router.push(`/user/servicedetails/${id}`)
   }
 
@@ -70,7 +71,7 @@ useEffect(() =>{
             </CardContent>
             <CardActions>
               <Button size="small">Share</Button>
-              <Button size="small" onClick={()=>handleshowservice(data.serviceID)} >Learn More</Button>
+              <Button size="small" onClick={()=>handleshowservice(data.serviceId._id)} >Learn More</Button>
             </CardActions>
           </Card>
 

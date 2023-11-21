@@ -28,13 +28,12 @@ console.log(avgreviews)
   useEffect(() => {
     dispatch(showservice(category));
    
-  }, [service]);
+  }, []);
   const handleshowservice = (id) => {
     dispatch(Servicedetails(id));
     dispatch(getReview(id));
 
     dispatch(showfavourite());
-
 
     router.push(`/user/servicedetails/${id}`);
   };

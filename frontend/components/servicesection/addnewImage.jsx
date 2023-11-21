@@ -35,7 +35,6 @@ export default function AddNewImage({id}) {
 const [tr,settr]=useState(true)
   const router = useRouter();
   const handleRefresh = () => {
-    location.reload()
 
   };
 

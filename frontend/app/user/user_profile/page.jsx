@@ -11,11 +11,11 @@ function page() {
     <div className='row  mt-4  '>
 
       
-      <div className='col-md-3'>
+      <div className='col-md-12 d-flex justify-content-center '>
       <Userprofile/>
 
       </div>
-      <div className='col-md-8'>
+      <div className='col-md-12'>
         <UserTab/>
 
       </div>

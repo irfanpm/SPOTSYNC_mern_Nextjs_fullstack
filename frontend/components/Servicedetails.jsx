@@ -27,32 +27,45 @@ import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import FacebookIcon from "@mui/icons-material/Facebook";
+import { fetchUser } from "@/redux/features/getuser";
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import "leaflet/dist/leaflet.css";
+import icon from "./servicesection/constants";
 function Servicedetail({ id }) {
   const servicedetails = useSelector(
     (state) => state.servicedetails.service.data
   );
   const review = useSelector((state) => state.review.review.data);
   const avgreviews = useSelector((state) => state.avgreview.review.data);
-  const f = useSelector((state) => state.showfav.fav);
-  // console.log(avgreviews)
-  console.log(f);
+  const user = useSelector((state) => state.user.user.data);
+  // const f = useSelector((state) => state.showfav.fav);
+  console.log(servicedetails);
   const [openModal, setOpenModal] = useState(false);
   const [modalImages, setModalImages] = useState([]);
   const [loadedImages, setLoadedImages] = useState(4);
   const [selectedImage, setSelectedImage] = useState(null);
-  const [fav, setfav] = useState(false);
   const [visibleReviews, setVisibleReviews] = useState(3);
-  const dispatch = useDispatch();
-  // const myref=useRef(servicedetails[0]._id)
+ 
+let latitude
+let longitude
 
-  // console.log(myref.current)
-  // dispatch(getReview())
-  const favarray = f?.map((item) => item.serviceId);
-  console.log(favarray);
+  servicedetails?.forEach(item => {
+     latitude =  item?.Location?.coordinates[1];
+     longitude = item?.Location?.coordinates[0];
+   
+    
+  });
+  console.log()
+
+  const dispatch = useDispatch();
+
   useEffect(() => {
     dispatch(Servicedetails(id));
-    dispatch(favourite(id));
     dispatch(getReview(id));
+    dispatch(fetchUser());
+    dispatch(getReview(id));
+
+
     dispatch(Avgreview(id));
   }, []);
 
@@ -69,8 +82,11 @@ function Servicedetail({ id }) {
   const handleCloseModal = () => {
     setOpenModal(false);
   };
-  const handlefavourite = (id) => {
+  const handleFavourite = async () => {
     dispatch(favourite(id));
+    setTimeout(() => {
+      dispatch(fetchUser());
+    }, 50);
   };
 
   const handleLoadMoreImages = () => {
@@ -99,12 +115,18 @@ function Servicedetail({ id }) {
       );
       console.log(response.data.message);
     } catch (error) {}
+    setTimeout(() => {
+      dispatch(getReview(id));
+      dispatch(Servicedetails(id));
+
+    }, 100);
+    event.target.reset();
   };
   const navlogin = () => {
     alert("please login");
   };
   const handleShowMore = () => {
-    setVisibleReviews(visibleReviews + 3); 
+    setVisibleReviews(visibleReviews + 3);
   };
 
   return (
@@ -234,8 +256,8 @@ function Servicedetail({ id }) {
                     chat
                   </div>
                 </a>
-                <IconButton onClick={() => handlefavourite(item._id)}>
-                  {favarray.includes(item._id) ? (
+                <IconButton onClick={() => handleFavourite(id)}>
+                  {user[0]?.Fav?.includes(id) ? (
                     <FavoriteOutlinedIcon style={{ color: "red" }} />
                   ) : (
                     <FavoriteBorderOutlinedIcon />
@@ -243,11 +265,10 @@ function Servicedetail({ id }) {
                 </IconButton>
               </div>
               <h4 className="text-center mt-5 " style={{ fontWeight: "600" }}>
-                  {" "}
-                  More info
-                </h4>
+                {" "}
+                More info
+              </h4>
               <div className="row mt-5 ">
-             
                 <div className="col-md-4 ">
                   <h5 className=" mt-3" style={{ fontWeight: "bold" }}>
                     General Info
@@ -272,7 +293,6 @@ function Servicedetail({ id }) {
                   </p>
                 </div>
                 <div className="col-md-4 ms-2">
-
                   <h5 className=" mt-4" style={{ fontWeight: "bold" }}>
                     timing
                   </h5>
@@ -292,7 +312,6 @@ function Servicedetail({ id }) {
                   look even slightly believable. If <br />
                   going to use a passage of Lorem <br />
                   you need to be sure there
-                
                 </div>
                 <div className="col-md-3 ">
                   <h5 className=" mt-4 " style={{ fontWeight: "bold" }}>
@@ -336,35 +355,57 @@ function Servicedetail({ id }) {
                   </p>
                 </div>
               </div>
-             
             </div>
             <div className="row">
-            <div className="col-md-6 mt-4">
-              <h5 style={{fontWeight:"600"}}>show reviews</h5>
-      {review?.slice(0, visibleReviews).map((data, index) => (
-        <div key={index} className="mt-5">
-          <div className="d-flex align-items-center ">
-            <Avatar alt="Remy Sharp" src={data.userId.avatar} />&nbsp;
-            <h6 className="mt-1">{data.userId.Username}</h6>
-          </div>
-          <div>
-            <Rating
-              name="rating"
-              defaultValue={data.Rating}
-              precision={0.5}
-              size="large"
-              readOnly
-            />
-            <p>{data.Comment}</p>
-          </div>
-        </div>
-      ))}
-      {review && visibleReviews < review.length && (
+              <div className="col-md-6 mt-4">
+                <h5 style={{ fontWeight: "600" }}>show reviews</h5>
+                {review?.slice(0, visibleReviews).map((data, index) => (
+                  <div key={index} className="mt-5">
+                    <div className="d-flex align-items-center ">
+                      <Avatar alt="Remy Sharp" src={data.userId.avatar} />
+                      &nbsp;
+                      <h6 className="mt-1">{data.userId.Username}</h6>
+                    </div>
+                    <div>
+                      <Rating
+                        name="rating"
+                        defaultValue={data?.Rating}
+                        precision={0.5}
+                        size="large"
+                        readOnly
+                      />
+                      <p>{data.Comment}</p>
+                    </div>
+                  </div>
+                ))}
+                {review && visibleReviews < review.length && (
+                  <button
+                    onClick={handleShowMore}
+                    style={{ fontWeight: "600" }}
+                  >
+                    Show More
+                  </button>
+                )}
+              </div>
+              <div className="col-md-6 mt-4">
+                <div>
 
-          <button onClick={handleShowMore} style={{fontWeight:"600"}}>Show More</button>
-      )}
-    </div>
-                  <div className="col-md-6 mt-4">
+              <MapContainer
+        className="leaflet-map"
+        center={[latitude, longitude]}
+        zoom={17}
+        scrollWheelZoom={true}
+        style={{ height: "50vh" }}
+      >
+        <TileLayer
+          attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        />
+        <Marker position={[latitude, longitude]} icon={icon}>
+          <Popup>Here you are ^_^</Popup>
+        </Marker>
+      </MapContainer>
+                </div>
                 <Typography
                   id="transition-modal-title"
                   variant="h6"
@@ -454,8 +495,7 @@ function Servicedetail({ id }) {
                   </form>
                 )}
               </div>
-              </div>
-          
+            </div>
           </div>
         ) : (
           <Skeleton variant="rectangular" width={210} height={60} />

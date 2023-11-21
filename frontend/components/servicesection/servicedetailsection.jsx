@@ -27,6 +27,9 @@ import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import FacebookIcon from "@mui/icons-material/Facebook";
+import {findService} from '@/redux/features/findService';
+import {deleteService} from '@/redux/features/deleteService';
+
 function Servicedetailsection({ id }) {
   const servicedetails = useSelector(
     (state) => state.servicedetails.service.data
@@ -106,6 +109,17 @@ function Servicedetailsection({ id }) {
   const handleShowMore = () => {
     setVisibleReviews(visibleReviews + 3); 
   };
+    const removeService =(id)=>{
+           dispatch(deleteService(id))
+           router.push(`/Serviceprovider/serviceprofilepage`)
+
+
+    }
+     const clickservice=(id)=>{
+      dispatch(findService(id))
+      router.push(`/Serviceprovider/editService/${id}`)
+
+    }
 
   return (
     <div className="container">
@@ -234,8 +248,8 @@ function Servicedetailsection({ id }) {
                     chat
                   </div>
                 </a>
-                <Button style={{background:"blue",color:"white"}}>Edit</Button>
-                <Button style={{background:"red",color:"white"}}>Delete</Button>
+                <Button style={{background:"blue",color:"white"}} onClick={()=>clickservice(item._id)} >Edit</Button>
+                <Button style={{background:"red",color:"white"}} onClick={()=>removeService(item._id)} >Delete</Button>
                
               </div>
               <h4 className="text-center mt-5 " style={{ fontWeight: "600" }}>

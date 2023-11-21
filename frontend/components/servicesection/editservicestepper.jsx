@@ -36,9 +36,13 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import { useRouter } from "next/navigation";
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
+import {findService} from '@/redux/features/findService';
+
 import { MapContainer, TileLayer, Marker, Popup, useMapEvents } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import icon from "./constants";
+import AddNewImage from "./addnewImage";
+import EditServiceimg from "./editserviceimage";
 // import Map from "./mapsection";
 const useStyles = styled((theme) => ({
   button: {
@@ -380,95 +384,100 @@ const ContactForm = () => {
   );
 };
 const Imageuploadsection = () => {
+      const service=useSelector((state)=>state.findservie.service.data)
 
-  const image1=useSelector((state)=>state.image.image)
-  const [openModal, setOpenModal] = useState(false);
-  const [viewedImage, setViewedImage] = useState(null);
-const dispatch=useDispatch()
-  const handleCloseModal = () => {
-    setOpenModal(false);
-  };
-  const handleImageClick = (image) => {
-    setViewedImage(image);
-    setOpenModal(true);
-  };
+   return( <>
+   <EditServiceimg/> <AddNewImage id={service[0]._id}/>
+    </>)
 
-  const { control } = useFormContext();
-  return (
-    <>
-      <div style={{ display: 'flex', justifyContent: 'center',alignItems:"center"}} className="flex-column text-center">
-   <div className="d-flex">
+//   const image1=useSelector((state)=>state .image.image)
+//   const [openModal, setOpenModal] = useState(false);
+//   const [viewedImage, setViewedImage] = useState(null);
+// const dispatch=useDispatch()
+//   const handleCloseModal = () => {
+//     setOpenModal(false);
+//   };
+//   const handleImageClick = (image) => {
+//     setViewedImage(image);
+//     setOpenModal(true);
+//   };
 
-    <ImageUploader/>
-   </div>
-       { image1.length!=0?<h4>uploaded image</h4>:null}
-      <div className='row '>
+//   const { control } = useFormContext();
+//   return (
+//     <>
+//       <div style={{ display: 'flex', justifyContent: 'center',alignItems:"center"}} className="flex-column text-center">
+//    <div className="d-flex">
+
+//     <ImageUploader/>
+//    </div>
+//        { image1.length!=0?<h4>uploaded image</h4>:null}
+//       <div className='row '>
         
-        {image1?.map((image, index) => (
-          <Grid item key={index}   className='col-md-3 mt-2 '      >
-            <Card variant="outlined" className='text-center'>
-              <CardMedia
-                component="img"
-                alt={`Uploaded Image ${index + 1}`}
-                image={image}
-                onClick={() => handleImageClick(image)}
-                style={{ cursor: 'pointer' }}
-              />
-                <Typography variant="body2" color="textSecondary">
-                </Typography> 
-                 <IconButton
-                  onClick={() => dispatch(deleteImage(index))}
-                  color="secondary"
+//         {image1?.map((image, index) => (
+//           <Grid item key={index}   className='col-md-3 mt-2 '      >
+//             <Card variant="outlined" className='text-center'>
+//               <CardMedia
+//                 component="img"
+//                 alt={`Uploaded Image ${index + 1}`}
+//                 image={image}
+//                 onClick={() => handleImageClick(image)}
+//                 style={{ cursor: 'pointer' }}
+//               />
+//                 <Typography variant="body2" color="textSecondary">
+//                 </Typography> 
+//                  <IconButton
+//                   onClick={() => dispatch(deleteImage(index))}
+//                   color="secondary"
                  
-                >
-                  <DeleteIcon/>
-                </IconButton>
-            </Card>
-          </Grid>
-        ))}
+//                 >
+//                   <DeleteIcon/>
+//                 </IconButton>
+//             </Card>
+//           </Grid>
+//         ))}
         
-      </div>
+//       </div>
 
-      <Modal
-        open={openModal}
-        onClose={handleCloseModal}
-        closeAfterTransition
-        BackdropProps={{
-          timeout: 500,
-        }}
-      >
-        <Fade in={openModal}>
-        <Box
-            sx={{
-              position: 'absolute',
-              top: '50%',
-              left: '50%',
-              transform: 'translate(-50%, -50%)',
+//       <Modal
+//         open={openModal}
+//         onClose={handleCloseModal}
+//         closeAfterTransition
+//         BackdropProps={{
+//           timeout: 500,
+//         }}
+//       >
+//         <Fade in={openModal}>
+//         <Box
+//             sx={{
+//               position: 'absolute',
+//               top: '50%',
+//               left: '50%',
+//               transform: 'translate(-50%, -50%)',
        
-              bgcolor: 'background.paper',
-              boxShadow: 24,
-              // p: 3,
-            }}
-          >
-            {viewedImage && (
-              <img
-                src={viewedImage}
-                alt="Viewed Image"
-                style={{ maxWidth: '100%', maxHeight: '100%', cursor: 'pointer' }}
-                onClick={handleCloseModal}
-              />
-            )}
-          </Box>
-        </Fade>
-      </Modal>
+//               bgcolor: 'background.paper',
+//               boxShadow: 24,
+//               // p: 3,
+//             }}
+//           >
+//             {viewedImage && (
+//               <img
+//                 src={viewedImage}
+//                 alt="Viewed Image"
+//                 style={{ maxWidth: '100%', maxHeight: '100%', cursor: 'pointer' }}
+//                 onClick={handleCloseModal}
+//               />
+//             )}
+//           </Box>
+//         </Fade>
+//       </Modal>
 
 
-      {/* </Modal> */}
+//       {/* </Modal> */}
 
-      </div>
+//       </div>
 
-    </>
-  );
+//     </>
+//   );
 };
 const Mapsection =  (props) => {
   const { control,setValue} = useFormContext();
@@ -582,35 +591,42 @@ function getStepContent(step) {
   }
 }
 
-const LinaerStepper = () => {
+const EditStepper = ({id}) => {
+    console.log(id)
   const image1=useSelector((state)=>state.image.image)
   const dispatch=useDispatch()
+  const service=useSelector((state)=>state.findservie.service.data)
+ console.log(service)
+  useEffect(()=>{
+    dispatch(findService(id))
 
+
+  },[])
   const cookie = getCookie('token');
   const router=useRouter()
 
   const classes = useStyles();
+
   const methods = useForm({
     defaultValues: {
-      Servicename: "",
-      companyname: "",
-      phone: "",
-      watsapp:"",
-      features:"",
-      category: "",
-      description: "",
-      emailAddress: "",
-      streetaddress: "",
-      website:"",
-      instagram:"",
-      timing:"",
-      lat:"",
-      long:"",
-
-   
-      state: "",
-      city: "",
-      address:""
+        
+      Servicename:service && service[0] ? service[0].serviceName : "",
+      companyname:service && service[0] ? service[0].serviceName : "",
+      phone: service && service[0] ? service[0].Phone : "",
+      whatsapp:service && service[0] ? service[0].Whatsapp : "",
+      features:service && service[0] ? service[0].Features : "",
+      category: service && service[0] ? service[0].Category : "",
+      description: service && service[0] ? service[0].Description : "",
+      emailAddress: service && service[0] ? service[0].Email : "",
+      streetaddress: service && service[0] ? service[0].StreetAdrress : "",
+     website:service && service[0] ? service[0].Website : "",
+      instagram:service && service[0] ? service[0].Instagram : "",
+      timing:service && service[0] ? service[0].Timing : "",
+      lat:service && service[0] ? service[0].Location?.coordinates[1] : "",
+      long:service && service[0] ? service[0].Location?.coordinates[0] : "",
+      state: service && service[0] ? service[0].State : "",
+      city: service && service[0] ? service[0].City : "",
+      address:service && service[0] ? service[0].Address : "",
     },
   });
   const [activeStep, setActiveStep] = useState(0);
@@ -636,7 +652,8 @@ const LinaerStepper = () => {
       //     setActiveStep(activeStep + 1);
       //   });
       try {
-        const response = await axios.post('http://127.0.0.1:8000/api/service/addservice', {
+        const response = await axios.put('http://127.0.0.1:8000/api/service/editservice', {
+            serviceid:id,
           servicename: data.Servicename,
           phone:data.phone,
           category:data.category,
@@ -651,7 +668,7 @@ const LinaerStepper = () => {
          instagram:data.instagram,
          features:data.features,
           address:data.address,
-          image:image1,
+        //   image:image1,
             lat:data.lat,
             long:data.long
       },{
@@ -786,7 +803,7 @@ const LinaerStepper = () => {
   );
 };
 
-export default LinaerStepper;
+export default EditStepper;
 
 const top100Films = [
   { label: 'hospital'},

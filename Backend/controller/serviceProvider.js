@@ -1,6 +1,6 @@
 const serviceSchema=require('../model/serviceProvider')
 const userSchema=require('../model/user')
-
+const userReview=require('../model/userReviews')
 module.exports={
     serviceLogin:async(req,res)=>{
         const {phone}=req.body
@@ -133,22 +133,31 @@ findService:async(req,res)=>{
 
 },
 editService:async(req,res)=>{
-    const {serviceid,servicename,ownername,phone,category,streetaddress,state,city,zipcode,description,address,location}=req.body
-    const service = await serviceSchema.find({_id:serviceid})
+    const {serviceid,servicename,phone,category,streetaddress,state,city,image,description,address,timing,whatsapp,email,website,long,lat,instagram,features}=req.body
+    const service = await serviceSchema.findOne({_id:serviceid})
     if(service){
         await serviceSchema.findByIdAndUpdate(serviceid,{$set:{
+            userId:res.token,
             serviceName:servicename,
-            OwnerName:ownername,
             Phone:phone,
             Category:category,
             StreetAdrress:streetaddress,
             State:state,
             City:city,
-            Zipcode:zipcode,
             Description:description,
             Address:address,
-            Location:location,
-
+            Timing:timing,
+            Whatsapp:whatsapp,
+            Email:email,
+            Website:website,
+            Instagram:instagram,
+            Location:{
+                type:"Path",
+                coordinates:[parseFloat(long),parseFloat(lat)]
+            },
+            Features:features,
+         
+            
         }
       
     })
@@ -202,6 +211,24 @@ addserviceimg:async(req,res)=>{
 
     }else{
         res.json("error")
+    }
+},
+serviceReviews:async(req,res)=>{
+    const servicereview=await userReview.find({userId:res.token}).populate(
+        {
+         path:'userId',
+         model:"user"
+
+        }).populate({
+            path:"serviceId",
+            model:"service"
+        })
+    if (servicereview){
+        res.status(200).json({
+            status: "success",
+            message: "successfully fetched Reviews",
+            data:servicereview
+        })
     }
 }
 }

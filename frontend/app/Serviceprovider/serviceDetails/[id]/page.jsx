@@ -8,7 +8,7 @@ import React from 'react'
 function page() {
   const params=useParams()
   return (
-    <div>
+    <div >
       {/* <Ediservice id={params.id}/> */}
       <Servicedetailsection id={params.id}/>
       

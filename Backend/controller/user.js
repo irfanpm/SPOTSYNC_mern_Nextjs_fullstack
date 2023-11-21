@@ -122,6 +122,24 @@ module.exports = {
     }
 
   },
+  editProfile:async(req,res)=>{
+    const{username,email,phone,password}=req.body
+    const user = await userSchema.findOne({_id:res.token})
+    if(user){
+      const profile=await userSchema.findByIdAndUpdate(res.token,{$set:{
+        Username:username,
+        Email:email,
+        phone:phone,
+        Password:password
+
+        
+      }})
+      res.json('add successfully')
+    }else{
+      res.json("failed")
+    }
+
+  },
   getService: async(req,res)=>{
     const {category}=req.body
    const getService=await serviceSchema.find({$and:[{Category:category},{isBlock:false}]})
@@ -181,7 +199,7 @@ displayreview:async(req,res)=>{
       res.status(200).json({
         status: "success",
         message: "successfully added review",
-         data:reviews
+         data:reviews.reverse()
       });  
   }else{
     res.json({message:"user not available"})
@@ -223,17 +241,28 @@ ratingAverage:async(req,res)=>{
 },
 favourite:async(req,res)=>{
   const {serviceid}=req.body
-  const service=await favourite.find({serviceId:serviceid})
+  const service=await favourite.find({serviceId:serviceid,userId:res.token})
+  
   if(service.length==0){
+    
   const fav=await favourite.create({
     userId:res.token,
     serviceId:serviceid,
-    serviceID:serviceid
   })
-  res.json(fav)
+  if(fav){
+  const favuser =  await userSchema.updateOne({_id:res.token},{$push:{Fav:serviceid}})
+  if(favuser.length!=0){
+    res.json(favuser)
+  }
+  }
 }else{
   const unfav=await favourite.deleteOne({serviceId:serviceid})
-  res.json(unfav)
+if(unfav){
+  const unfavuser=  await userSchema.updateOne({_id:res.token},{$pull:{Fav:serviceid}})
+  if(unfavuser.length!=0){
+  res.json(unfavuser)
+}
+}
 }
 
 

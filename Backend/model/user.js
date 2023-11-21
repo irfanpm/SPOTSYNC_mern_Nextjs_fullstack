@@ -9,6 +9,8 @@ const userSchema = new mongoose.Schema({
     phone:Number,
     Type:String,
     isBlock:Boolean,
+    Fav:[]
+
 
 })
 
