@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
 import { getCookie } from "cookies-next";
+import { axiosInstance } from '../axioseInstance';
 
 const initialState = {
   loading: false,
@@ -21,25 +21,15 @@ const cookie = getCookie('token');
 
 export const adminfetchUser = createAsyncThunk('admin/adminfetchUser', async () => {
   // try {
-    const res = await axios.get('http://127.0.0.1:8000/api/admin/getusers', {
-      
-      
-      headers: {
-        Authorization: `Bearer ${cookie}`,
-      },
-    });
+    const res = await axiosInstance.get('/api/admin/getusers',
+    );
     console.log(res)
     return res.data;
   
 });
 export const adminfetchService = createAsyncThunk('admin/adminfetchService', async () => {
   // try {
-    const res = await axios.get('http://127.0.0.1:8000/api/admin/getservices', {
-      
-      headers: {
-        Authorization: `Bearer ${cookie}`,
-      },
-    });
+    const res = await axiosInstance.get('/api/admin/getservices',);
     console.log(res)
     return res.data;
   
@@ -47,14 +37,9 @@ export const adminfetchService = createAsyncThunk('admin/adminfetchService', asy
 
 export const adminBlockUser = createAsyncThunk('admin/adminBlockUser', async (id) => {
   // try {
-    const res = await axios.post('http://127.0.0.1:8000/api/admin/userblock',{
+    const res = await axiosInstance.post('/api/admin/userblock',{
       id:id
-    }, {
-      
-      headers: {
-        Authorization: `Bearer ${cookie}`,
-      },
-    });
+});
     console.log(res)
     return res.data;
   
@@ -62,13 +47,8 @@ export const adminBlockUser = createAsyncThunk('admin/adminBlockUser', async (id
 
 export const adminBlockService = createAsyncThunk('admin/adminBlockService', async (id) => {
   // try {
-    const res = await axios.post('http://127.0.0.1:8000/api/admin/serviceblock',{
+    const res = await axiosInstance.post('/api/admin/serviceblock',{
       id:id
-    }, {
-      
-      headers: {
-        Authorization: `Bearer ${cookie}`,
-      },
     });
     console.log(res)
     return res.data;
@@ -76,24 +56,14 @@ export const adminBlockService = createAsyncThunk('admin/adminBlockService', asy
 });
 export const adminGetBlockuser = createAsyncThunk('admin/adminGetBlockuser', async () => {
   // try {
-    const res = await axios.get('http://127.0.0.1:8000/api/admin/getblockuser', {
-      
-      headers: {
-        Authorization: `Bearer ${cookie}`,
-      },
-    });
+    const res = await axiosInstance.get('/api/admin/getblockuser',);
     console.log(res)
     return res.data;
   
 });
 export const adminGetBlockService = createAsyncThunk('admin/adminGetBlockService', async () => {
   // try {
-    const res = await axios.get('http://127.0.0.1:8000/api/admin/getblockservice', {
-      
-      headers: {
-        Authorization: `Bearer ${cookie}`,
-      },
-    });
+    const res = await axiosInstance.get('/api/admin/getblockservice',);
     console.log(res)
     return res.data;
   

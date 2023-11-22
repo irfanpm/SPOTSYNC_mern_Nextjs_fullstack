@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { getCookie } from "cookies-next";
+import { axiosInstance } from './axioseInstance';
 
 const initialState = {
   loading: false,
@@ -16,15 +17,12 @@ export const deleteserviceimage = createAsyncThunk('user/deleteserviceimage', as
   console.log(imageUrl)
 
   // try {
-    const res = await axios.put('http://127.0.0.1:8000/api/service/deleteimage',{
+    const res = await axiosInstance.put('/api/service/deleteimage',{
       serviceid:id,
       url:imageUrl,
       
-    },{
-      headers: {
-        Authorization: `Bearer ${cookie}`,
-      },
-    });
+    }
+    );
     return res.data;
  
 });

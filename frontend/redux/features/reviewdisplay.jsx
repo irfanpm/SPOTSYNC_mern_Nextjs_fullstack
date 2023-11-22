@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { getCookie } from "cookies-next";
+import { axiosInstance } from './axioseInstance';
 
 const initialState = {
   loading: false,
@@ -13,7 +14,7 @@ const cookie = getCookie('token');
 
 export const getReview = createAsyncThunk('user/review', async (id) => {
   // try {
-    const res = await axios.post('http://127.0.0.1:8000/api/user/displayreview',{
+    const res = await axiosInstance.post('/api/user/displayreview',{
       serviceid:id
     },{
       headers: {
@@ -25,7 +26,7 @@ export const getReview = createAsyncThunk('user/review', async (id) => {
 });
 export const servicereviews = createAsyncThunk('service/review', async () => {
   // try {
-    const res = await axios.get('http://127.0.0.1:8000/api/service/servicereviews',{
+    const res = await axiosInstance.get('/api/service/servicereviews',{
       headers: {
         Authorization: `Bearer ${cookie}`,
       },
@@ -42,12 +43,12 @@ const reviewSlice = createSlice({
     builder
       .addCase(getReview.pending,(state) => {
         state.loading = true;
-        state.error = null; // Reset error when a new request starts
+        state.error = null; 
       })
       .addCase(getReview.fulfilled, (state, action) => {
         state.loading = false;
         state.review = action.payload;
-        state.error = null; // Reset error on success
+        state.error = null; 
       })
       .addCase(getReview.rejected, (state, action) => {
         state.loading = true;
@@ -56,8 +57,9 @@ const reviewSlice = createSlice({
       })
       .addCase(servicereviews.fulfilled, (state, action) => {
         state.loading = false;
+        console.log(action.payload);
         state.reviews = action.payload;
-        state.error = null; // Reset error on success
+        state.error = null; 
       });
 
   },

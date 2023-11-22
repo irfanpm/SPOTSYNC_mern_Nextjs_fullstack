@@ -11,8 +11,8 @@ export default function Home() {
   return (
     <main  >
      
-         <Container>
           <Navbar/>
+         <Container>
       <RandomImage />
       <div className="mt-2">
 

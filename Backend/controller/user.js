@@ -7,6 +7,7 @@ const jwt = require('jsonwebtoken')
 const favourite = require("../model/favourite");
 require("dotenv").config();
 
+
 module.exports = {
     //user Register
   Register: async (req, res) => {
@@ -123,14 +124,13 @@ module.exports = {
 
   },
   editProfile:async(req,res)=>{
-    const{username,email,phone,password}=req.body
+    const{username,email,phone}=req.body
     const user = await userSchema.findOne({_id:res.token})
     if(user){
       const profile=await userSchema.findByIdAndUpdate(res.token,{$set:{
         Username:username,
         Email:email,
-        phone:phone,
-        Password:password
+        MobileNumber:phone,
 
         
       }})
@@ -207,37 +207,38 @@ displayreview:async(req,res)=>{
 },
 ratingAverage:async(req,res)=>{
   const {serviceid}=req.body
-  const ratingservice= await userReviews.find({serviceid})
+  const ratingservice= await userReviews.find({serviceId:serviceid})
   if(ratingservice){
   const avgRating= await userReviews.aggregate([
     {
-      $match:{serviceId:serviceid}
+      $match:{serviceId:ratingservice[0].serviceId}
     },
-
     {
-    $group : {
+    $group :{
       _id:null,
-      totalRating:{$avg:"$Rating"}
+      totalRating:{$sum:"$Rating"}
     }
 
 
 
     }
   ])
-  if(avgRating){
+  console.log(avgRating);
+  if(avgRating.length>0){
     await serviceSchema.findByIdAndUpdate(serviceid,{$set:{Avgrating:avgRating[0]?.totalRating}})
     res.json({
       status: "success",
       message: "Successfully fetched stats.",
-      data: avgRating[0]?.totalRating
+      data: avgRating[0].totalRating
     });
 
+  }else{
+    res.json("no rating")
   }
- 
-
-
- 
 }
+console.log(ratingservice)
+
+
 },
 favourite:async(req,res)=>{
   const {serviceid}=req.body
@@ -287,7 +288,37 @@ showuserfavourite:async(req,res)=>{
   res.json('favourite not available')
  }
 
+},
+
+searchService:async(req, res) => {
+
+  const { latitude, longitude, category } = req.body;
+
+  const serviceData = await serviceSchema.aggregate([
+    {
+      $geoNear: {
+        near: {
+          type: "Point",
+          coordinates: [parseFloat(longitude), parseFloat(latitude)]
+        },
+        key: "Location",
+        maxDistance: 1000, 
+        distanceField: "dist.calculated",
+        spherical: true
+      }
+    },
+    {
+      $match: { Category: category }
+    }
+  ]);
+
+  res.status(200).send({ success: true, msg: "service details", data: serviceData });
 }
+
+
+
+
+
 
 
 

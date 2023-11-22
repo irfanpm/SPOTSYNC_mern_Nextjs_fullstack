@@ -37,8 +37,8 @@ function Servicedetail({ id }) {
   );
   const review = useSelector((state) => state.review.review.data);
   const avgreviews = useSelector((state) => state.avgreview.review.data);
+  console.log(avgreviews)
   const user = useSelector((state) => state.user.user.data);
-  // const f = useSelector((state) => state.showfav.fav);
   console.log(servicedetails);
   const [openModal, setOpenModal] = useState(false);
   const [modalImages, setModalImages] = useState([]);
@@ -118,6 +118,8 @@ let longitude
     setTimeout(() => {
       dispatch(getReview(id));
       dispatch(Servicedetails(id));
+      dispatch(Avgreview(id));
+
 
     }, 100);
     event.target.reset();
@@ -203,7 +205,7 @@ let longitude
                 </div>
                 <Rating
                   name="rating"
-                  defaultValue={item.Avgrating}
+                  defaultValue={item?.Avgrating}
                   precision={0.5}
                   size="large"
                   readOnly
@@ -218,7 +220,7 @@ let longitude
                   {item.StreetAdrress}
                 </span>
                 <span style={{ color: "green", fontWeight: "500" }}>
-                  Open 24hr
+                  {item?.Timing}
                 </span>
               </div>
 
@@ -238,7 +240,7 @@ let longitude
                   <span>{item.Phone}</span>
                 </div>
                 <a
-                  href={`https://wa.me/${item.Phone}`}
+                  href={`https://wa.me/${item.Whatsapp}`}
                   style={{ textDecoration: "none" }}
                 >
                   <div
@@ -274,15 +276,10 @@ let longitude
                     General Info
                   </h5>
                   <p className="mt-4">
-                    t ever since the 1500s, when an unknown printer took a
-                    galley of type and scrambled it to make a type specimen
-                    book. It has survived not only five centuries, but also the
-                    leap into electronic typesetting, remaining ess{" "}
+                  {item?.Description}
                   </p>
 
-                  <h5 className=" mt-4" style={{ fontWeight: "bold" }}>
-                    payment method
-                  </h5>
+                
                   <h5 className=" mt-4" style={{ fontWeight: "bold" }}>
                     products
                   </h5>
@@ -299,19 +296,16 @@ let longitude
                   <p>
                     {" "}
                     <span style={{ fontWeight: "600" }}> Mon-Sat: </span>{" "}
-                    9:00-5:00{" "}
+                    {item?.Timing}
                   </p>
                   <h5 className=" mt-4" style={{ fontWeight: "bold" }}>
                     Category
                   </h5>
-                  Shop ,Category
+                  {item?.Category}
                   <h5 className=" mt-4" style={{ fontWeight: "bold" }}>
                     features
                   </h5>
-                  ur, or randomised words which <br />
-                  look even slightly believable. If <br />
-                  going to use a passage of Lorem <br />
-                  you need to be sure there
+                {item.Features}
                 </div>
                 <div className="col-md-3 ">
                   <h5 className=" mt-4 " style={{ fontWeight: "bold" }}>
@@ -321,9 +315,7 @@ let longitude
                     style={{ listStyle: "none" }}
                     className="d-flex flex-column gap-3 mt-2"
                   >
-                    onvallis, ipsum in lacinia facilisis, dui augue fringilla
-                    dui, nec pulvinar enim mauris vit mauris. Proin ante urna,
-                    aliq
+                   {item.Address}
                     <li style={{ fontWeight: "500" }}>
                       <LocalPhoneIcon style={{ color: "#058df5" }} />
                       &nbsp;{item.Phone}
@@ -333,24 +325,36 @@ let longitude
                       &nbsp; irfanpm@gmail.com
                     </li>
                     <li style={{ fontWeight: "500" }}>
+                    <a href={item?.Website} style={{textDecoration:"none"}}>
+
                       <LanguageIcon style={{ color: "#058df5" }} /> &nbsp;Visit
                       Our Website
+                    </a>
                     </li>
                     <li style={{ fontWeight: "600" }}>
+                    <a href={item?.Website} style={{textDecoration:"none"}}>
+
                       <WhatsAppIcon style={{ color: "#058df5" }} />
                       &nbsp; Whatsapp
+                      </a>
                     </li>
                     <li style={{ fontWeight: "600" }}>
                       <LocationOnIcon style={{ color: "#058df5" }} />
                       &nbsp;{item.StreetAdrress}
                     </li>
                     <li style={{ fontWeight: "600" }}>
+                    <a href={item?.Instagram} style={{textDecoration:"none"}}>
+
                       <InstagramIcon style={{ color: "#058df5" }} />
                       &nbsp;Instagram
+                      </a>
+
                     </li>
                     <li style={{ fontWeight: "600" }}>
+
                       <FacebookIcon style={{ color: "#058df5" }} />
                       &nbsp;Facebook
+
                     </li>
                   </p>
                 </div>

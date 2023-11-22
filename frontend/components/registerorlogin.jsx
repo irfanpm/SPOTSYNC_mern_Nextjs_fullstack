@@ -151,7 +151,7 @@ export default function RegisterOrLogin() {
 
         
           >
-            <Box sx={stylereg}>
+            <Box sx={style}>
               <Button
                 onClick={handleClose}
                 style={{
@@ -166,12 +166,13 @@ export default function RegisterOrLogin() {
                 <CloseIcon />
               </Button>
               <Box sx={regcontentstyle} >
-                <Typography component="h2" variant="h4">
+              <Typography component="h2" variant="h4" className='text-center'>
                   Welcome
                 </Typography>
+                <Typography component="h6" className='text-center'>
+                  Your Trusted Local Services Directory
+                </Typography>
                 <Box component="form" noValidate sx={{ mt: 1 }} onSubmit={handleregister} method='post'>
-                  <div className='row'>
-                    <div className='col-md-6'>
                       <TextField
                         margin="normal"
                         required
@@ -181,16 +182,7 @@ export default function RegisterOrLogin() {
                         name="username"
                         InputProps={{}}
                       />
-                      <TextField
-                        margin="normal"
-                        required
-                        fullWidth
-                        id="mobile"
-                        label="Mobile Number"
-                        name="mobile"
-                        autoComplete="Mobile Number"
-                        InputProps={{}}
-                      />
+               
                       <TextField
                         margin="normal"
                         required
@@ -213,53 +205,10 @@ export default function RegisterOrLogin() {
                         autoComplete="current-password"
                         InputProps={{}}
                       />
-                        </div>
-                    <div className='col-md-6'>
-                      
-                      <div className='row'>
-                        <div style={{ display: 'flex', justifyContent: 'center'  }} className='col-6 '>
-                          <div
-                            onClick={() => handleCardClick('user')}
-                            style={{
-                              backgroundColor: selectedCard === 'user' ? 'lightgreen' : 'white',
-                              padding: '10px',
-                              cursor: 'pointer',
-                              width: '100%',
-                              boxShadow: '2px 2px 5px rgba(0, 0, 0, 0.2)',
-                              borderRadius: '5px',
-                              id:"user",
-                              value:false
-                            }}
-                          >
-                            User
-                          </div>
-                        </div>
-                        <div style={{ display: 'flex', justifyContent: 'center' }} className='col-6 '>
-                          <div
-                            onClick={() => handleCardClick('serviceProvider')}
-                            style={{
-                              backgroundColor: selectedCard === 'serviceProvider' ? 'lightgreen' : 'white',
-                              padding: '10px',
-                              cursor: 'pointer',
-                              width: '100%',
-                              boxShadow: '2px 2px 5px rgba(0, 0, 0, 0.2)',
-                              borderRadius: '5px',
-                              value:true
-
-                            }}
-                          >
-                            Service Provider
-                          </div>
-                        </div>
-                      </div>
-                      <FormControlLabel
-                        control={<Checkbox value="remember" color="primary" />}
-                        label="Remember me"
-                      />
                       <Button type="submit" fullWidth variant="contained" style={{ background: '#040333', color: 'white' }} sx={{ mt: 3, mb: 2 }}>
                         Signup
                       </Button>
-                      <Grid container>
+                      <Grid container className='d-flex flex-column'>
                         <Grid item xs>
                           <Link href="#" variant="body2">
                             Forgot password?
@@ -271,8 +220,6 @@ export default function RegisterOrLogin() {
                           </Link>
                         </Grid>
                       </Grid>
-                    </div>
-                  </div>
                 </Box>
               </Box>
             </Box>

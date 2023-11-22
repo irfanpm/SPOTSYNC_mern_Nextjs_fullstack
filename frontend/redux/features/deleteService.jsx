@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { getCookie } from "cookies-next";
+import { axiosInstance } from './axioseInstance';
 
 const initialState = {
 }
@@ -9,15 +10,11 @@ const cookie = getCookie('token');
 
 export const deleteService = createAsyncThunk('service/delete', async(id) => {
   // try {
-    const res = await axios.put('http://127.0.0.1:8000/api/service/deleteservice',{
+    const res = await axiosInstance.put('/api/service/deleteservice',{
       serviceid:id
 
-    },{
-
-      headers: {
-        Authorization: `Bearer ${cookie}`,
-      },
-});
+    }
+    );
     return res.data;
   // } catch (error) {
   //   console.error('Error fetching user:', error);

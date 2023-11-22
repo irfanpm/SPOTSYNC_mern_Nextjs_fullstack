@@ -1,36 +1,51 @@
-
-const mongoose= require('mongoose')
+const mongoose = require("mongoose");
 
 const serviceSchema = new mongoose.Schema({
-    userId:Object,
-   serviceName:{
-   type:String,
-
-},
-   Phone:String,
-   Category:String,
-   Address:String,
-   Whatsapp:Number,
-   Email:String,
-   Website:String,
-   Instagram:String,
-   StreetAdrress:String,
-   Timing:String,
-   State:String,
-   City:String,
-   Description:String,
-   Features:String,
-   Image:Array,
-   Location:{
-    type:{type:String},
-    coordinates:[]
-
-   },
-   isBlock:Boolean,
-   Avgrating:Number,
-   Ratingcount:Number,
-
-
-})
-
-module.exports=mongoose.model('service',serviceSchema)
+  userId: Object,
+  serviceName: {
+    type: String,
+    required: true,
+  },
+  Phone: {
+    type: Number,
+    required: true,
+  },
+  Category: {
+    type: String,
+    required: true,
+  },
+  Address:  {
+    type: String,
+    required: true,
+  },
+  Whatsapp: Number,
+  Email: String,
+  Website: String,
+  Instagram: String,
+  StreetAdrress: String,
+  Timing: String,
+  State: String,
+  City: String,
+  Description: String,
+  Features: String,
+  Image: {
+    type: Array,
+    required: true,
+  },
+  Location: {
+    type: {
+      type: String,
+      enum: ["Point"],
+      required: true,
+    },
+    coordinates: {
+      type: [Number],
+      required: true,
+    },
+  },
+  isBlock: Boolean,
+  Avgrating: Number,
+  Ratingcount: Number,
+});
+serviceSchema.index({ Location: "2dsphere" });
+module.exports = mongoose.model("service", serviceSchema);

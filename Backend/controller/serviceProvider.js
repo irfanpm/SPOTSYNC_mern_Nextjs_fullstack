@@ -1,6 +1,7 @@
 const serviceSchema=require('../model/serviceProvider')
 const userSchema=require('../model/user')
 const userReview=require('../model/userReviews')
+
 module.exports={
     serviceLogin:async(req,res)=>{
         const {phone}=req.body
@@ -52,7 +53,7 @@ module.exports={
             Website:website,
             Instagram:instagram,
             Location:{
-                type:"Path",
+                type:"Point",
                 coordinates:[parseFloat(long),parseFloat(lat)]
             },
             Features:features,
@@ -152,7 +153,7 @@ editService:async(req,res)=>{
             Website:website,
             Instagram:instagram,
             Location:{
-                type:"Path",
+                type:"Point",
                 coordinates:[parseFloat(long),parseFloat(lat)]
             },
             Features:features,

@@ -14,6 +14,7 @@ import showfavourite from "./features/showfavourite";
 import getuserfavourite from "./features/getuserfavourite";
 import deleteimageservice from "./features/deleteimageservice";
 import adminfeatures from "./features/adminredux/adminfeatures";
+import searchredux from "./features/searchredux";
 
 export const store = configureStore({
     reducer:{
@@ -31,6 +32,7 @@ export const store = configureStore({
         showfav:showfavourite,
         userfav:getuserfavourite,
         deletimg:deleteimageservice,
+        search:searchredux,
 
         //adminstore
         admin:adminfeatures

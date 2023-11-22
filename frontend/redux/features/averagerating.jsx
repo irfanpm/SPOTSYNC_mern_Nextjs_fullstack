@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
+import { axiosInstance } from './axioseInstance';
 import { getCookie } from "cookies-next";
+
 
 const initialState = {
   loading: false,
@@ -11,8 +12,7 @@ const initialState = {
 const cookie = getCookie('token');
 
 export const Avgreview = createAsyncThunk('user/avgreview', async (id) => {
-  // try {
-    const res = await axios.post('http://127.0.0.1:8000/api/user/avgreview',{
+     const res = await axiosInstance.post('/api/user/avgreview',{     
       serviceid:id
     },{
       headers: {

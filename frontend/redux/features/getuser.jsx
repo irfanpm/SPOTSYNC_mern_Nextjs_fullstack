@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { getCookie } from "cookies-next";
+import { axiosInstance } from './axioseInstance';
 
 const initialState = {
   loading: false,
@@ -12,7 +13,7 @@ const cookie = getCookie('token');
 
 export const fetchUser = createAsyncThunk('user/fetchUser', async () => {
   // try {
-    const res = await axios.get('http://127.0.0.1:8000/api/user/profile', {
+    const res = await axiosInstance.get('/api/user/profile', {
       
       
       headers: {

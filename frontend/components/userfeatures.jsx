@@ -52,7 +52,7 @@ useEffect(() =>{
 <Tab icon={<FavoriteIcon />} label="favorite" value="0" />
         </TabList>
       </Box>
-      <TabPanel value="0" className='row'>
+      <TabPanel value="0" className='row justify-content-center'>
         {
           userfav?.map((data)=>(
             <Card  className=' col-md-6 m-2  col-lg-3 '  style={{width:"250px"}}  >
@@ -71,7 +71,7 @@ useEffect(() =>{
             </CardContent>
             <CardActions>
               <Button size="small">Share</Button>
-              <Button size="small" onClick={()=>handleshowservice(data.serviceId._id)} >Learn More</Button>
+              <Button size="small" onClick={()=>handleshowservice(data?.serviceId?._id)} >Learn More</Button>
             </CardActions>
           </Card>
 

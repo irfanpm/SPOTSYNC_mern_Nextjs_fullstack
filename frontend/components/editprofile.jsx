@@ -4,10 +4,15 @@ import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-import axios from 'axios';
+import { useSelector, useDispatch } from 'react-redux';
 
+import axios from 'axios';
+import { getCookie } from "cookies-next";
 const EditModal = () => {
+    const cookie=getCookie('token')
     const [isOpen, setIsOpen] = useState(false);
+    const user = useSelector((state) => state.user.user.data);
+console.log(user)
 
  
   const handleOpen = () => {
@@ -17,15 +22,21 @@ const EditModal = () => {
   const handleClose = () => {
     setIsOpen(false);
   };
-  const handleEdit=async ()=>{
-    try{
-        const url=await upload(avatar)
-        console.log(url)
-        setImage(url)
+  const handleEdit=async (e)=>{
+    e.preventDefault()
+    const username=e.target.name.value
+    const phone=e.target.mobile.value
+    const email=e.target.email.value
 
-        await axios.put('http://127.0.0.1:8000/api/user/profile/avatar',
+    try{
+
+        await axios.put('http://127.0.0.1:8000/api/user/profile/edit',
         {
-            avatar:url
+            username:username,
+            email:email,
+
+            phone:phone,
+
 
         },
         {
@@ -41,17 +52,14 @@ const EditModal = () => {
 
 
     }catch(error){
-        console.log("from upload",error.message);
+        console.log(error.message);
     }
+    handleClose();
 
 
   }
 
-  const handleSave = () => {
-   
-    handleClose(); // Close the modal after saving
-  };
-
+  
   return (
     <div>
       <Button onClick={handleOpen} style={{ color: 'white', background: 'transparent', color: "#040333", fontWeight: "bold", boxShadow: "none" }}>
@@ -64,16 +72,23 @@ const EditModal = () => {
         aria-labelledby="edit-modal"
         aria-describedby="edit-modal-description"
       >
-        <Box sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 400, bgcolor: 'background.paper', boxShadow: 24, p: 4 }}>
-        <form action="" onSubmit={handleEdit}>
+       
+     <Box sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 400, bgcolor: 'background.paper', boxShadow: 24, p: 4 }}>
+         <form action="" onSubmit={handleEdit}>
+     { user?.map((item)=>(      <>
 
-          <TextField label="Username"   fullWidth margin="normal" />
-          <TextField label="MobileNumber"  fullWidth margin="normal" />
-          <TextField label="Email"  fullWidth margin="normal" />
-          <Button onClick={handleSave} style={{background:"green", color:"white" }} variant="contained"  sx={{ mt: 2 }}>
+        <TextField label="Username" id='name' defaultValue={item?.Username}  fullWidth margin="normal" />
+          <TextField label="MobileNumber"  defaultValue={item?.MobileNumber} id='mobile' fullWidth margin="normal" />
+          <TextField label="Email"  id='email'  defaultValue={item?.Email} fullWidth margin="normal" />
+
+          <Button type='submit' style={{background:"green", color:"white" }} variant="contained"  sx={{ mt: 2 }}>
             Save
           </Button>
-        </form>
+          </>
+     ))
+    }
+    </form>
+    
         </Box>
       </Modal>
     </div>
