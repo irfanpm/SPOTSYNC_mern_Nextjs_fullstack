@@ -105,7 +105,7 @@ export default function RootLayout({ children }) {
   const router = useRouter();
 
   const handleLogout = () => {
-    deleteCookie("token");
+    deleteCookie("admintoken");
     router.push("/");
   };
 
@@ -141,7 +141,7 @@ export default function RootLayout({ children }) {
               Admin Dashboard
             </Typography>
             <IconButton color="inherit">
-              <Image src='/logo2.svg' alt='Photos' width="130" height="60" />
+          
             </IconButton>
             <Tooltip title="Logout" arrow>
               <IconButton color="inherit" onClick={handleLogout}>

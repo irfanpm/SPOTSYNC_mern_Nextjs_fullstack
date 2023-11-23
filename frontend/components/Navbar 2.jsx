@@ -15,7 +15,6 @@ import { styled, alpha } from "@mui/material/styles";
 import FormControl from "@mui/material/FormControl";
 import Container from "@mui/material/Container";
 import InputBase from "@mui/material/InputBase";
-import Googlelocation from "./location";
 import Logo from "../public/spotsynclogo.png";
 import Image from "next/image";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -192,7 +191,7 @@ function serviceNavbar() {
          <Container maxWidth="xl">
           <Toolbar>
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-              <Image src={Logo} alt="spot" style={{ width: "80px" }} />
+              <Image src={Logo} alt="spot" style={{ width: "80px" }}  onClick={()=>router.push('/')}/>
             </Typography>
             <Search sx={{ marginLeft: "auto" }}>
               <SearchIconWrapper>
@@ -203,7 +202,6 @@ function serviceNavbar() {
                 inputProps={{ "aria-label": "search" }}
               />
             </Search>
-            <Googlelocation />
 
             <Box sx={{ flexGrow: 1 }} />
 { (isLoggin) ?

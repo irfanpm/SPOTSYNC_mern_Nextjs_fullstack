@@ -5,21 +5,44 @@ require('dotenv').config()
 module.exports={
     
 getAllUser:async(req,res)=>{
-    const user=await userSchema.find()
-    if (user){
-        res.status(200).json({
-            status: "success",
-            message: "successfully fetched user",
-            data:user
-           
+    try {
+        const page = req.query.page || 1;
+        const itemsPerPage = 9;
+        const skip = (page - 1) * itemsPerPage;
+    
+        const adminUsers = await userSchema.find().skip(skip).limit(itemsPerPage);
+    
+        if (adminUsers.length === 0) {
+          return res.status(404).json({
+            status: "fail",
+            message: "No users found.",
           });
-
-
-    }else{
-        res.json({
-            message:"failed"
-        })
-    }
+        }
+    
+        const totalUsers = await userSchema.countDocuments();
+        const totalPages = Math.ceil(totalUsers / itemsPerPage);
+    
+        return res.status(200).json({
+          status: "success",
+          message: "Successfully fetched user data.",
+          data: adminUsers,
+          totalPages: totalPages,
+        });
+      } catch (error) {
+        console.error("Error fetching user list:", error);
+    
+        // Handle specific Mongoose errors//
+        if (error.name === "MongoError" && error.code === 13) {
+          return res.status(500).json({
+            status: "error",
+            message: "Database authentication error",
+          });
+        }
+        return res.status(500).json({
+          status: "error",
+          message: "Internal Server Error",
+        });
+      }
 },
 getAllService:async(req,res)=>{
     const service=await serviceSchema.find()
@@ -64,6 +87,19 @@ getServiceById: async(req,res)=>{
     }
 
 },
+getUserById: async(req,res)=>{
+    const {id}=req.body
+    const user=await userSchema.find({_id:id})
+    if(user){
+        res.status(200).json({
+            status: "success",
+            message: "successfully fetched user data",
+            data: user,
+          });
+
+    }
+
+},
 getBlockService: async(req,res)=>{
     const service=await serviceSchema.find({isBlock:true})
     if(service){
@@ -74,6 +110,22 @@ getBlockService: async(req,res)=>{
           });
 
     }
+
+},
+getUserService: async(req,res)=>{
+    const {id}=req.body
+    const getService= await serviceSchema.find({userId:id})
+    if(getService.length!=0){
+        res.status(200).json({
+            status: "success",
+            data: getService,
+          });
+
+    }else{
+        res.json('error')
+
+    }
+
 
 },
 getCategoryService:async(req,res)=>{
@@ -179,3 +231,6 @@ return res.status(200).json({
 
 
 }
+
+
+

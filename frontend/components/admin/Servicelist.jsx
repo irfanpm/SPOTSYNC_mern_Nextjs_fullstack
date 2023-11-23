@@ -5,13 +5,15 @@ import Typography from "@mui/material/Typography";
 
 import { useDispatch, useSelector } from "react-redux";
 import { Button, Grid, Paper } from "@mui/material";
-import { adminBlockService, adminfetchService } from '@/redux/features/adminredux/adminfeatures';
+import { adminBlockService, adminfetchService, adminfetchservicebyid } from '@/redux/features/adminredux/adminfeatures';
+import { useRouter } from 'next/navigation';
 function preventDefault(event) {
   event.preventDefault();
 
 }
 
 export default function Servicelist() {
+  const router=useRouter()
     const services=useSelector((state)=>state.admin.service.data)
     console.log(services)
     const dispatch=useDispatch()
@@ -28,6 +30,12 @@ export default function Servicelist() {
 
       
       
+
+    }
+    const clickservice=(id)=>{
+      dispatch(adminfetchservicebyid(id))
+      router.push(`/admin/servicedetails/${id}`)
+
 
     }
   return (
@@ -54,7 +62,11 @@ export default function Servicelist() {
           <Typography component="p" variant="h6">{item?.serviceName}</Typography>
           <Typography color="text.secondary" >{item.Category} </Typography>
           {/* <Typography color="text.secondary" >{item.Phone} </Typography> */}
+          <div className='d-flex'>
           <Button  style={{background:(item.isBlock==true)?"green":"red",color:"white"}} onClick={()=>{handlebBlock(item?._id)}}>{item.isBlock==true? "unBlock": "Block"}</Button>
+          <Button size="small"  onClick={()=>clickservice(item._id)} className='ms-2' style={{background:"blue",color:"white"}} >Details</Button>
+
+          </div>
 
           <div>
             <Link color="primary" href="#" onClick={preventDefault}></Link>

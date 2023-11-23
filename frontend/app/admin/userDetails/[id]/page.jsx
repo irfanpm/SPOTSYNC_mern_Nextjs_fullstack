@@ -1,17 +1,18 @@
 'use client'
-import Servicedetails from '@/components/Servicedetails'
+import Adminuserprofile from '@/components/admin/userdetails'
 import { useParams } from 'next/navigation'
 import React from 'react'
 
-function page() {
+const page = () => {
   const params=useParams()
-  
+
   return (
     <div>
-
-    <Servicedetails id={params.id}/>
+        <Adminuserprofile id={params.id} />
+      
     </div>
   )
 }
 
 export default page
+

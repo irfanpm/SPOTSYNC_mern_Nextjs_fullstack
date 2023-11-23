@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { getCookie } from "cookies-next";
-import { axiosInstance } from '../axioseInstance';
+import { adminaxiosInstance } from '../axioseInstance';
 
 const initialState = {
   loading: false,
@@ -8,6 +7,9 @@ const initialState = {
   service:[],
   Userblock:[],
   Serviceblock:[],
+  byuser:[],
+  byuserservice:[],
+  byservice:[],
   error: null, 
 };
 
@@ -17,27 +19,51 @@ const initialState = {
 
 
 
-const cookie = getCookie('token');
 
-export const adminfetchUser = createAsyncThunk('admin/adminfetchUser', async () => {
+export const adminfetchUser = createAsyncThunk('admin/adminfetchUser', async (page) => {
   // try {
-    const res = await axiosInstance.get('/api/admin/getusers',
+    const res = await adminaxiosInstance.get(`/api/admin/getusers?page=${page}`,
     );
-    console.log(res)
     return res.data;
   
 });
 export const adminfetchService = createAsyncThunk('admin/adminfetchService', async () => {
   // try {
-    const res = await axiosInstance.get('/api/admin/getservices',);
+    const res = await adminaxiosInstance.get('/api/admin/getservices',);
+    return res.data;
+  
+});
+export const adminfetchUserbyid = createAsyncThunk('admin/adminfetchuserbyid', async (id) => {
+  // try {
+    const res = await adminaxiosInstance.post('/api/admin/getuser',{
+      id:id
+    });
+    // console.log(res)
+    return res.data;
+  
+});
+export const adminfetchUserservice = createAsyncThunk('admin/adminfetchuserservice', async (id) => {
+  // try {
+    const res = await adminaxiosInstance.post('/api/admin/getuserservice',{
+      id:id
+    });
+    return res.data;
+  
+});
+export const adminfetchservicebyid = createAsyncThunk('admin/adminfetchservicebyid', async (id) => {
+  // try {
+    const res = await adminaxiosInstance.post('/api/admin/getservice',{
+      id:id
+    });
     console.log(res)
     return res.data;
   
 });
 
+
 export const adminBlockUser = createAsyncThunk('admin/adminBlockUser', async (id) => {
   // try {
-    const res = await axiosInstance.post('/api/admin/userblock',{
+    const res = await adminaxiosInstance.post('/api/admin/userblock',{
       id:id
 });
     console.log(res)
@@ -47,7 +73,7 @@ export const adminBlockUser = createAsyncThunk('admin/adminBlockUser', async (id
 
 export const adminBlockService = createAsyncThunk('admin/adminBlockService', async (id) => {
   // try {
-    const res = await axiosInstance.post('/api/admin/serviceblock',{
+    const res = await adminaxiosInstance.post('/api/admin/serviceblock',{
       id:id
     });
     console.log(res)
@@ -56,14 +82,14 @@ export const adminBlockService = createAsyncThunk('admin/adminBlockService', asy
 });
 export const adminGetBlockuser = createAsyncThunk('admin/adminGetBlockuser', async () => {
   // try {
-    const res = await axiosInstance.get('/api/admin/getblockuser',);
+    const res = await adminaxiosInstance.get('/api/admin/getblockuser',);
     console.log(res)
     return res.data;
   
 });
 export const adminGetBlockService = createAsyncThunk('admin/adminGetBlockService', async () => {
   // try {
-    const res = await axiosInstance.get('/api/admin/getblockservice',);
+    const res = await adminaxiosInstance.get('/api/admin/getblockservice',);
     console.log(res)
     return res.data;
   
@@ -129,6 +155,23 @@ const adminSlice = createSlice({
       .addCase(adminGetBlockService.fulfilled, (state, action) => {
         state.loading = false;
         state.Serviceblock = action.payload;
+        state.error = null; 
+      })
+      .addCase(adminfetchUserbyid.fulfilled, (state, action) => {
+        state.loading = false;
+        state.byuser = action.payload;
+        state.error = null; 
+      })
+      .addCase(adminfetchUserservice.fulfilled, (state, action) => {
+        state.loading = false;
+        state.byuserservice = action.payload;
+        console.log(action.payload)
+        state.error = null; 
+      })
+      .addCase(adminfetchservicebyid.fulfilled, (state, action) => {
+        state.loading = false;
+        state.byservice = action.payload;
+        console.log(action.payload)
         state.error = null; 
       })
   },

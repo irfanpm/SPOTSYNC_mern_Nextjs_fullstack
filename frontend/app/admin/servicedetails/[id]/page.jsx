@@ -1,15 +1,15 @@
 'use client'
-import Servicedetails from '@/components/Servicedetails'
+import AdminServicedetailsection from '@/components/admin/adminservicedetails'
 import { useParams } from 'next/navigation'
 import React from 'react'
 
-function page() {
+const page = () => {
   const params=useParams()
-  
+
   return (
     <div>
-
-    <Servicedetails id={params.id}/>
+        <AdminServicedetailsection id={params.id}/>
+      
     </div>
   )
 }

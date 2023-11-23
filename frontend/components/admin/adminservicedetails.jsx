@@ -27,46 +27,44 @@ import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import FacebookIcon from "@mui/icons-material/Facebook";
-import { fetchUser } from "@/redux/features/getuser";
+import { findService } from "@/redux/features/findService";
+import { deleteService } from "@/redux/features/deleteService";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
-import icon from "./servicesection/constants";
-function Servicedetail({ id }) {
-  const servicedetails = useSelector(
-    (state) => state.servicedetails.service.data
-  );
+import icon from "../servicesection/constants";
+import {
+  adminBlockService,
+  adminfetchservicebyid,
+} from "@/redux/features/adminredux/adminfeatures";
+function AdminServicedetailsection(id) {
+  const servicedetails = useSelector((state) => state.admin.byservice.data);
   const review = useSelector((state) => state.review.review.data);
   const avgreviews = useSelector((state) => state.avgreview.review.data);
-  console.log(avgreviews)
-  const user = useSelector((state) => state.user.user.data);
-  console.log(servicedetails);
+  const f = useSelector((state) => state.showfav.fav);
+  // console.log(avgreviews)
+  console.log(f);
   const [openModal, setOpenModal] = useState(false);
   const [modalImages, setModalImages] = useState([]);
   const [loadedImages, setLoadedImages] = useState(4);
   const [selectedImage, setSelectedImage] = useState(null);
+  const [fav, setfav] = useState(false);
   const [visibleReviews, setVisibleReviews] = useState(3);
- 
-let latitude
-let longitude
-
-  servicedetails?.forEach(item => {
-     latitude =  item?.Location?.coordinates[1];
-     longitude = item?.Location?.coordinates[0];
-   
-    
-  });
-  console.log()
-
   const dispatch = useDispatch();
+  // const myref=useRef(servicedetails[0]._id)
 
+  // console.log(myref.current)
+  // dispatch(getReview())
+  let latitude;
+  let longitude;
+  servicedetails?.forEach((item) => {
+    latitude = item?.Location?.coordinates[1];
+    longitude = item?.Location?.coordinates[0];
+  });
+  const favarray = f?.map((item) => item.serviceId);
+  console.log(favarray);
   useEffect(() => {
-    dispatch(Servicedetails(id));
-    dispatch(getReview(id));
-    dispatch(fetchUser());
-    dispatch(getReview(id));
-
-
-    dispatch(Avgreview(id));
+    // dispatch(Servicedetails(id));
+    dispatch(adminfetchservicebyid(id));
   }, []);
 
   const router = useRouter();
@@ -82,53 +80,25 @@ let longitude
   const handleCloseModal = () => {
     setOpenModal(false);
   };
-  const handleFavourite = async () => {
+  const handlefavourite = (id) => {
     dispatch(favourite(id));
-    setTimeout(() => {
-      dispatch(fetchUser());
-    }, 50);
   };
 
   const handleLoadMoreImages = () => {
     setLoadedImages(loadedImages + 4);
   };
-  const handleReview = async (event, id) => {
-    event.preventDefault();
-    const title = event.target.title.value;
-    const review = event.target.review.value;
-    const rating = event.target.rating.value;
-    console.log(rating);
-    try {
-      const response = await axios.post(
-        "http://127.0.0.1:8000/api/user/review",
-        {
-          serviceid: id,
-          title: title,
-          rating: rating,
-          comment: review,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${cookie}`,
-          },
-        }
-      );
-      console.log(response.data.message);
-    } catch (error) {}
-    setTimeout(() => {
-      dispatch(getReview(id));
-      dispatch(Servicedetails(id));
-      dispatch(Avgreview(id));
 
-
-    }, 100);
-    event.target.reset();
-  };
   const navlogin = () => {
     alert("please login");
   };
   const handleShowMore = () => {
     setVisibleReviews(visibleReviews + 3);
+  };
+  const handlebBlock = (id) => {
+    dispatch(adminBlockService(id));
+    setTimeout(() => {
+      dispatch(adminfetchservicebyid(id));
+    }, 50);
   };
 
   return (
@@ -201,7 +171,7 @@ let longitude
                   }}
                   className="text-center mt-1 text-white"
                 >
-                  <h5>{avgreviews}</h5>
+                  <h5>{item.Avgrating}</h5>
                 </div>
                 <Rating
                   name="rating"
@@ -220,7 +190,7 @@ let longitude
                   {item.StreetAdrress}
                 </span>
                 <span style={{ color: "green", fontWeight: "500" }}>
-                  {item?.Timing}
+                  {item.Timing}
                 </span>
               </div>
 
@@ -240,7 +210,7 @@ let longitude
                   <span>{item.Phone}</span>
                 </div>
                 <a
-                  href={`https://wa.me/${item.Whatsapp}`}
+                  href={`https://wa.me/${item.Phone}`}
                   style={{ textDecoration: "none" }}
                 >
                   <div
@@ -258,13 +228,17 @@ let longitude
                     chat
                   </div>
                 </a>
-                <IconButton onClick={() => handleFavourite(id)}>
-                  {user && user[0]?.Fav?.includes(id) ? (
-                    <FavoriteOutlinedIcon style={{ color: "red" }} />
-                  ) : (
-                    <FavoriteBorderOutlinedIcon />
-                  )}
-                </IconButton>
+                <Button
+                  style={{
+                    background: item.isBlock == true ? "green" : "red",
+                    color: "white",
+                  }}
+                  onClick={() => {
+                    handlebBlock(item?._id);
+                  }}
+                >
+                  {item.isBlock == true ? "unBlock" : "Block"}
+                </Button>
               </div>
               <h4 className="text-center mt-5 " style={{ fontWeight: "600" }}>
                 {" "}
@@ -275,11 +249,8 @@ let longitude
                   <h5 className=" mt-3" style={{ fontWeight: "bold" }}>
                     General Info
                   </h5>
-                  <p className="mt-4">
-                  {item?.Description}
-                  </p>
+                  <p className="mt-4">{item?.Description}</p>
 
-                
                   <h5 className=" mt-4" style={{ fontWeight: "bold" }}>
                     products
                   </h5>
@@ -305,7 +276,7 @@ let longitude
                   <h5 className=" mt-4" style={{ fontWeight: "bold" }}>
                     features
                   </h5>
-                {item.Features}
+                  {item.Features}
                 </div>
                 <div className="col-md-3 ">
                   <h5 className=" mt-4 " style={{ fontWeight: "bold" }}>
@@ -315,7 +286,8 @@ let longitude
                     style={{ listStyle: "none" }}
                     className="d-flex flex-column gap-3 mt-2"
                   >
-                   {item.Address}
+                    {item.Address}
+
                     <li style={{ fontWeight: "500" }}>
                       <LocalPhoneIcon style={{ color: "#058df5" }} />
                       &nbsp;{item.Phone}
@@ -324,18 +296,17 @@ let longitude
                       <EmailIcon style={{ color: "#058df5" }} />
                       &nbsp; {item.Email}
                     </li>
-                    <li style={{ fontWeight: "500" }}>
-                    <a href={item?.Website} style={{textDecoration:"none"}}>
-
+                    <a href={item?.Website} style={{ textDecoration: "none" }}>
                       <LanguageIcon style={{ color: "#058df5" }} /> &nbsp;Visit
                       Our Website
                     </a>
-                    </li>
                     <li style={{ fontWeight: "600" }}>
-                    <a href={item?.Website} style={{textDecoration:"none"}}>
-
-                      <WhatsAppIcon style={{ color: "#058df5" }} />
-                      &nbsp; Whatsapp
+                      <a
+                        href={item?.Website}
+                        style={{ textDecoration: "none" }}
+                      >
+                        <WhatsAppIcon style={{ color: "#058df5" }} />
+                        &nbsp; Whatsapp
                       </a>
                     </li>
                     <li style={{ fontWeight: "600" }}>
@@ -343,18 +314,17 @@ let longitude
                       &nbsp;{item.StreetAdrress}
                     </li>
                     <li style={{ fontWeight: "600" }}>
-                    <a href={item?.Instagram} style={{textDecoration:"none"}}>
-
-                      <InstagramIcon style={{ color: "#058df5" }} />
-                      &nbsp;Instagram
+                      <a
+                        href={item?.Instagram}
+                        style={{ textDecoration: "none" }}
+                      >
+                        <InstagramIcon style={{ color: "#058df5" }} />
+                        &nbsp;Instagram
                       </a>
-
                     </li>
                     <li style={{ fontWeight: "600" }}>
-
                       <FacebookIcon style={{ color: "#058df5" }} />
                       &nbsp;Facebook
-
                     </li>
                   </p>
                 </div>
@@ -373,7 +343,7 @@ let longitude
                     <div>
                       <Rating
                         name="rating"
-                        defaultValue={data?.Rating}
+                        defaultValue={data.Rating}
                         precision={0.5}
                         size="large"
                         readOnly
@@ -393,111 +363,22 @@ let longitude
               </div>
               <div className="col-md-6 mt-4">
                 <div>
-
-              <MapContainer
-        className="leaflet-map"
-        center={[latitude, longitude]}
-        zoom={17}
-        scrollWheelZoom={true}
-        style={{ height: "50vh" }}
-      >
-        <TileLayer
-          attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
-        <Marker position={[latitude, longitude]} icon={icon}>
-          <Popup>Here you are ^_^</Popup>
-        </Marker>
-      </MapContainer>
+                  <MapContainer
+                    className="leaflet-map"
+                    center={[latitude, longitude]}
+                    zoom={17}
+                    scrollWheelZoom={true}
+                    style={{ height: "50vh" }}
+                  >
+                    <TileLayer
+                      attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                      url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                    />
+                    <Marker position={[latitude, longitude]} icon={icon}>
+                      <Popup>Here you are ^_^</Popup>
+                    </Marker>
+                  </MapContainer>
                 </div>
-                <Typography
-                  id="transition-modal-title"
-                  variant="h6"
-                  component="h2"
-                >
-                  <b> Post a review </b>
-                </Typography>
-                {!cookie ? (
-                  <div>
-                    <Rating
-                      name="rating"
-                      defaultValue={0}
-                      precision={0.5}
-                      size="large"
-                      disabled
-                    />
-
-                    <TextField
-                      name="title"
-                      label="title"
-                      variant="outlined"
-                      fullWidth
-                      margin="normal"
-                      id="title"
-                      disabled
-                    />
-
-                    <TextField
-                      name="review"
-                      label="Review"
-                      variant="outlined"
-                      multiline
-                      rows={4}
-                      disabled
-                      fullWidth
-                      margin="normal"
-                      id="review"
-                    />
-
-                    <Button
-                      type="submit"
-                      variant="contained"
-                      className="w-25"
-                      onClick={navlogin}
-                      style={{ background: "#040333" }}
-                    >
-                      Login
-                    </Button>
-                  </div>
-                ) : (
-                  <form action="" onSubmit={(e) => handleReview(e, item._id)}>
-                    <Rating
-                      name="rating"
-                      defaultValue={0}
-                      precision={0.5}
-                      size="large"
-                    />
-
-                    <TextField
-                      name="title"
-                      label="title"
-                      variant="outlined"
-                      fullWidth
-                      margin="normal"
-                      id="title"
-                    />
-
-                    <TextField
-                      name="review"
-                      label="Review"
-                      variant="outlined"
-                      multiline
-                      rows={4}
-                      fullWidth
-                      margin="normal"
-                      id="review"
-                    />
-
-                    <Button
-                      type="submit"
-                      variant="contained"
-                      className="w-25"
-                      style={{ background: "#040333" }}
-                    >
-                      Submit
-                    </Button>
-                  </form>
-                )}
               </div>
             </div>
           </div>
@@ -520,4 +401,4 @@ let longitude
   );
 }
 
-export default Servicedetail;
+export default AdminServicedetailsection;

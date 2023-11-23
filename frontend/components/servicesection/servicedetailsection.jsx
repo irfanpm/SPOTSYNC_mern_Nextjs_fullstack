@@ -29,7 +29,9 @@ import InstagramIcon from "@mui/icons-material/Instagram";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import {findService} from '@/redux/features/findService';
 import {deleteService} from '@/redux/features/deleteService';
-
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import "leaflet/dist/leaflet.css";
+import icon from "./constants";
 function Servicedetailsection({ id }) {
   const servicedetails = useSelector(
     (state) => state.servicedetails.service.data
@@ -50,6 +52,14 @@ function Servicedetailsection({ id }) {
 
   // console.log(myref.current)
   // dispatch(getReview())
+  let latitude
+let longitude
+  servicedetails?.forEach(item => {
+    latitude =  item?.Location?.coordinates[1];
+    longitude = item?.Location?.coordinates[0];
+  
+   
+ });
   const favarray = f?.map((item) => item.serviceId);
   console.log(favarray);
   useEffect(() => {
@@ -374,9 +384,28 @@ function Servicedetailsection({ id }) {
           <button onClick={handleShowMore} style={{fontWeight:"600"}}>Show More</button>
       )}
     </div>
-                 
+    <div className="col-md-6 mt-4">
+                <div>
+
+              <MapContainer
+        className="leaflet-map"
+        center={[latitude, longitude]}
+        zoom={17}
+        scrollWheelZoom={true}
+        style={{ height: "50vh" }}
+      >
+        <TileLayer
+          attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        />
+        <Marker position={[latitude, longitude]} icon={icon}>
+          <Popup>Here you are ^_^</Popup>
+        </Marker>
+      </MapContainer>
+                </div>  
               </div>
           
+          </div>
           </div>
         ) : (
           <Skeleton variant="rectangular" width={210} height={60} />

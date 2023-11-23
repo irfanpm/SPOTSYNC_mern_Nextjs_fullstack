@@ -122,7 +122,7 @@ export default function RegisterOrLogin() {
 
       }else if(response.data.status=="admin"){
         alert(response.data.message)
-        setCookie("token", response.data.token);
+        setCookie("admintoken", response.data.token);
 
         router.push('/admin')
       }else{

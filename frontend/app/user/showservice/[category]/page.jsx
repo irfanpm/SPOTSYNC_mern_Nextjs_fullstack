@@ -1,4 +1,5 @@
 'use client'
+import SmallCategorylist from '@/components/categorysection2'
 import Showservice from '@/components/showservice'
 import { Container } from '@mui/material'
 import { useParams } from 'next/navigation'
@@ -9,6 +10,8 @@ function page() {
   return (
     <>
     <Container>
+    <SmallCategorylist/>
+
     <Showservice category={params.category}/>
     </Container>
     </>

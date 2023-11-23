@@ -70,8 +70,7 @@ useEffect(() =>{
               </Typography>
             </CardContent>
             <CardActions>
-              <Button size="small">Share</Button>
-              <Button size="small" onClick={()=>handleshowservice(data?.serviceId?._id)} >Learn More</Button>
+              <Button size="small" onClick={()=>handleshowservice(data?.serviceId?._id)} >details</Button>
             </CardActions>
           </Card>
 

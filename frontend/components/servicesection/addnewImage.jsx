@@ -10,7 +10,10 @@ import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { getCookies } from "cookies-next";
+
 import NewServiceupload from "./newimageuploader";
+import findService from "@/redux/features/findService";
+import { useDispatch } from "react-redux";
 
 const cookie = getCookies("token");
 
@@ -27,6 +30,7 @@ const style = {
 };
 
 export default function AddNewImage({id}) {
+  const dispatch=useDispatch()
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -35,6 +39,7 @@ export default function AddNewImage({id}) {
 const [tr,settr]=useState(true)
   const router = useRouter();
   const handleRefresh = () => {
+    dispatch(findService(id))
 
   };
 
@@ -74,9 +79,7 @@ const [tr,settr]=useState(true)
 
   return (
     <div>
-      <IconButton onClick={handleOpen}>
-        <EditIcon />
-      </IconButton>
+        <Button  onClick={handleOpen} style={{background:"red",color:"white"}}>Add new Image</Button>
       <Modal
         keepMounted
         open={open}
@@ -90,7 +93,7 @@ const [tr,settr]=useState(true)
           onSubmit={handlesubmit}
         >
           <Typography component="h5" variant="h6" align="center">
-            Add a profile cover image
+            Add New image
           </Typography>
           <div
             style={{

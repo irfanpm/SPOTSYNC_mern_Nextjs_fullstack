@@ -1,6 +1,6 @@
 // YourComponent.js
 "use client";
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -15,7 +15,6 @@ import { styled, alpha } from "@mui/material/styles";
 import FormControl from "@mui/material/FormControl";
 import Container from "@mui/material/Container";
 import InputBase from "@mui/material/InputBase";
-import Googlelocation from "./location";
 import Logo from "../public/spotsynclogo.png";
 import Image from "next/image";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -30,8 +29,9 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import { fetchUser } from '../redux/features/getuser';
 
-import { Avatar } from "@mui/material";
+import { Autocomplete, Avatar } from "@mui/material";
 import { isLogout } from '@/redux/features/auth';
+import { searchservice } from '@/redux/features/searchredux';
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -41,10 +41,8 @@ const Search = styled("div")(({ theme }) => ({
     backgroundColor: alpha(theme.palette.common.white, 0.25),
   },
 
-  // marginRight: theme.spacing(2),
   marginLeft: "auto",
   width: "100%",
-  // border:"1px solid",
   [theme.breakpoints.up("sm")]: {
     marginLeft: theme.spacing(3),
     width: "35%",
@@ -78,6 +76,8 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 function Navbar() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+  const [selectedLocation, setSelectedLocation] = useState(null);
+
   const isLoggin=useSelector((state)=>state.Auth.isloggin)
   const user = useSelector((state) => state.user.user.data);
   const cookie = getCookie("token");
@@ -95,6 +95,20 @@ function Navbar() {
     dispatch(fetchUser());
    
 } ,[])
+const handleSearch=(e)=>{
+  e.preventDefault()
+  const searchValue=e.target.searchvalue.value
+  const location = selectedLocation ? selectedLocation.label : ''; 
+  const latitude = selectedLocation ? selectedLocation.latin : null; 
+  const longitude = selectedLocation ? selectedLocation.long : null;
+  console.log(searchValue, location, latitude, longitude);
+  dispatch(searchservice({value:searchValue,long:longitude,lat:latitude}))
+  router.push('/user/searchresult')
+
+
+
+
+}
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -192,8 +206,9 @@ function Navbar() {
          <Container maxWidth="xl">
           <Toolbar>
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-              <Image src={Logo} alt="spot" style={{ width: "80px" }} />
+              <Image src={Logo} alt="spot" style={{ width: "80px" }}  onClick={()=>router.push('/')}/>
             </Typography>
+            <form action="" onSubmit={handleSearch} className='d-flex'>
             <Search sx={{ marginLeft: "auto" }}>
               <SearchIconWrapper>
                 <SearchIcon />
@@ -201,9 +216,21 @@ function Navbar() {
               <StyledInputBase
                 placeholder="Search…"
                 inputProps={{ "aria-label": "search" }}
+                id='searchvalue'
               />
             </Search>
-            <Googlelocation />
+            <Autocomplete
+      disablePortal
+      id="combo-box-demo"
+      options={top100Films}
+      onChange={(event, newValue) => setSelectedLocation(newValue)}
+
+      renderInput={(params) => <TextField {...params} label="Location" id='category'  name='place' style={{background:"white",width:"300px" }} size='small' />}
+
+    />
+    <Button type='submit' style={{background:"#0763f5", color:"white"}}>                <SearchIcon />
+</Button>
+    </form>
 
             <Box sx={{ flexGrow: 1 }} />
 { (isLoggin) ?
@@ -228,3 +255,19 @@ function Navbar() {
 }
 
 export default Navbar;
+const top100Films = [
+  { label: 'Kondotty',
+  latin:11.1434,
+  long:75.962173
+
+
+},
+{
+  label:'kakkenchery',
+  latin:11.1638,
+  long:75.8993
+}
+
+
+  
+]

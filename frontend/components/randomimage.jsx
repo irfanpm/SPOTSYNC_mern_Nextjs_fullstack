@@ -19,7 +19,7 @@ function RandomImage() {
     // 'https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&q=60&w=500&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fHdvcmtlcnxlbnwwfHwwfHx8MA%3D%3D55',
     // 'https://images.pexels.com/photos/3823440/pexels-photo-3823440.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1-shvets-5710791.jpg',
     // // Add more image URLs as needed
-    "https://source.unsplash.com/800x300/?service"
+    "https://source.unsplash.com/800x300/?business"
   ];
 
   
@@ -49,9 +49,14 @@ function RandomImage() {
 
   return (
     <div className='container '>
-      <Box style={boxStyle} className="  mt-5  d-flex align-items-center justify-content-center" >
+      <Box style={boxStyle} className="  mt-5  d-flex flex-column align-items-center justify-content-center" >
 
-        <Box className="d-flex"  component="form"  style={{border:"2px solid #5c99fa", background:"white"} } onSubmit={handleSearch}>
+          {/* <img src='spotsynclogo.png' alt="image" style={{width:"200px"}} /> */}
+        <Box className=""  component="form"  style={{border:"2px solid #5c99fa", background:"white"} } onSubmit={handleSearch}>
+
+          <div className='d-flex'>
+
+         
           
         <TextField id="outlined-basic" label="Serach service" variant="outlined" name='searchvalue'  style={{background:"white",width:"400px" }} />
        
@@ -65,6 +70,7 @@ function RandomImage() {
 
     />
     <Button type='submit' style={{width:"120px",background:"#0763f5", color:"white"}}>Find</Button>
+    </div>
         </Box>
 
       

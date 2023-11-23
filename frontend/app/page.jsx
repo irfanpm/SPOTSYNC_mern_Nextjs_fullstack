@@ -4,6 +4,7 @@ import Carousels from "@/components/carousels";
 
 import Categorylist from "@/components/categorysection";
 import RandomImage from '@/components/randomimage';
+import SmallCategorylist from '@/components/categorysection2';
 import { Box, Container } from '@mui/material';
 
 

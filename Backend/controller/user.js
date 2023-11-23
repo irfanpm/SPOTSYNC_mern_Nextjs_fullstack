@@ -216,7 +216,7 @@ ratingAverage:async(req,res)=>{
     {
     $group :{
       _id:null,
-      totalRating:{$sum:"$Rating"}
+      totalRating:{$avg:"$Rating"}
     }
 
 
@@ -302,7 +302,7 @@ searchService:async(req, res) => {
           coordinates: [parseFloat(longitude), parseFloat(latitude)]
         },
         key: "Location",
-        maxDistance: 1000, 
+        maxDistance: 2000, 
         distanceField: "dist.calculated",
         spherical: true
       }
@@ -318,20 +318,6 @@ searchService:async(req, res) => {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 };
+
+

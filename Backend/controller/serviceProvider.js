@@ -228,7 +228,7 @@ serviceReviews:async(req,res)=>{
         res.status(200).json({
             status: "success",
             message: "successfully fetched Reviews",
-            data:servicereview
+            data:servicereview.reverse()
         })
     }
 }

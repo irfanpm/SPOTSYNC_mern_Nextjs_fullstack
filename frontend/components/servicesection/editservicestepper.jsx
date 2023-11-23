@@ -387,7 +387,16 @@ const Imageuploadsection = () => {
       const service=useSelector((state)=>state.findservie.service.data)
 
    return( <>
-   <EditServiceimg/> <AddNewImage id={service[0]._id}/>
+      <div className="d-flex flex-column justify-content-center align-items-center">
+    <div>
+   <EditServiceimg id={service[0]._id}/>
+    </div>
+    <div >
+
+    <AddNewImage id={service[0]._id} />
+    </div>
+
+  </div>
     </>)
 
 //   const image1=useSelector((state)=>state .image.image)

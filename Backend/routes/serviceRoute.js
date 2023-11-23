@@ -12,7 +12,7 @@ service.put('/service/deleteservice',userAuth,errorMiddleware(deleteService))
 service.post('/service/findservice',userAuth,errorMiddleware(findService))
 service.put('/service/editservice',userAuth,errorMiddleware(editService))
 service.put('/service/deleteimage',userAuth,errorMiddleware(editserviceimg))
-service.put('/service/addimage',userAuth,errorMiddleware(addserviceimg))
+service.put('/service/addimage',errorMiddleware(addserviceimg))
 service.get('/service/servicereviews',userAuth,errorMiddleware(serviceReviews))
 
 

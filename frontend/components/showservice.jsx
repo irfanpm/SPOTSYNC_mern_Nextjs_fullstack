@@ -88,7 +88,7 @@ console.log(avgreviews)
         )
       )}
       </div>
-        <Card variant="outlined" className="col-md-4 d-flex flex-column h-50">
+        {/* <Card variant="outlined" className="col-md-4 d-flex flex-column h-50">
               <CardContent>
       <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
       </Typography>
@@ -107,7 +107,7 @@ console.log(avgreviews)
     <CardActions>
       <Button size="small">Learn More</Button>
     </CardActions>
-              </Card>
+              </Card> */}
 
     </div>
   );
