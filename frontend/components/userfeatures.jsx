@@ -10,7 +10,6 @@ import ReviewsIcon from '@mui/icons-material/Reviews';
 import PersonIcon from '@mui/icons-material/Person';
 import { useSelector,useDispatch } from 'react-redux';
 import { Button, CardActions, CardContent, CardMedia, Typography } from '@mui/material';
-import Addservice from './servicesection/addservice';
 import { fetchService } from '@/redux/features/getService';
 import { useEffect,useState } from "react";
 import Card from 'react-bootstrap/Card';

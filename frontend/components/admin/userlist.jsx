@@ -21,14 +21,18 @@ export default function Userlist() {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const router=useRouter()
-    const users=useSelector((state)=>state.admin.user.data) 
+    const users=useSelector((state)=>state.admin.user) 
   
     // console.log(userblock)
-    // console.log(users)
+    console.log(users)
     const dispatch=useDispatch()
     useEffect(() => {
      
       dispatch(adminfetchUser(currentPage))
+      console.log(users.totalPages)
+      setTotalPages(users.totalPages);
+
+
       setLoading(false);
 
     }, [currentPage]);
@@ -114,7 +118,7 @@ export default function Userlist() {
       ) : (
         <Box>
           <Grid container spacing={3}>
-            {users?.map(renderReportedItemCard)}
+            {users.data?.map(renderReportedItemCard)}
           </Grid>
           <Box
             display="flex"

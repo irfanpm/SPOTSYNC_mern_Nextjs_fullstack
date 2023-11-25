@@ -378,7 +378,11 @@ let longitude
                         size="large"
                         readOnly
                       />
+                      <div>
+
+                      <h6 >{data.Title}</h6>
                       <p>{data.Comment}</p>
+                      </div>
                     </div>
                   </div>
                 ))}

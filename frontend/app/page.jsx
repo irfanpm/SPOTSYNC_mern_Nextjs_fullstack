@@ -6,6 +6,8 @@ import Categorylist from "@/components/categorysection";
 import RandomImage from '@/components/randomimage';
 import SmallCategorylist from '@/components/categorysection2';
 import { Box, Container } from '@mui/material';
+import Landingpage from '@/components/landingpage';
+import StickyFooter from '@/components/footer';
 
 
 export default function Home() {
@@ -21,8 +23,10 @@ export default function Home() {
       <div >
         <Categorylist />
       </div>
+      <Landingpage className="mt-3"/>
       </div>
     </Container> 
+      <StickyFooter/>
     </main>
   )
 }

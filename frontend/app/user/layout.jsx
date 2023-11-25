@@ -1,6 +1,8 @@
 import Navbar from '@/components/Navbar'
 import StickyFooter from '@/components/footer'
 import { Inter } from 'next/font/google'
+import { Suspense } from 'react'
+import Loading from './loading'
 
 
 const inter = Inter({ subsets: ['latin'] })
@@ -13,7 +15,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={inter.className}><Navbar />{children}<StickyFooter/></body>
+      <body className={inter.className}><Suspense fallback={<Loading/>} > <Navbar />{children}<StickyFooter/> </Suspense></body>
     </html>
   )
 }

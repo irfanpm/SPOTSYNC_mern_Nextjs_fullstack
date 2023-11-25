@@ -5,6 +5,8 @@ const  mongoose  = require('mongoose')
 const userRoute=require('./routes/userRoute')
 const serviceRouter=require('./routes/serviceRoute')
 const adminRouter=require('./routes/adminRoute')
+require("dotenv").config();
+
 api.use(express.json())
 
 mongoose.connect('mongodb://localhost/spotsync')

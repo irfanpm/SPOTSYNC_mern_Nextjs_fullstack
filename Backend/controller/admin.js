@@ -7,7 +7,7 @@ module.exports={
 getAllUser:async(req,res)=>{
     try {
         const page = req.query.page || 1;
-        const itemsPerPage = 9;
+        const itemsPerPage = 8;
         const skip = (page - 1) * itemsPerPage;
     
         const adminUsers = await userSchema.find().skip(skip).limit(itemsPerPage);
@@ -134,7 +134,7 @@ getCategoryService:async(req,res)=>{
     if(service){
         res.status(200).json({
             status: "success",
-            message: "successfully fetched user data",
+            message: "successfully fetched category data",
             data: service,
 
           });

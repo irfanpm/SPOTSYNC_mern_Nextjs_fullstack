@@ -37,7 +37,8 @@ import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import { useRouter } from "next/navigation";
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 import {findService} from '@/redux/features/findService';
-
+import {  ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { MapContainer, TileLayer, Marker, Popup, useMapEvents } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import icon from "./constants";
@@ -399,94 +400,6 @@ const Imageuploadsection = () => {
   </div>
     </>)
 
-//   const image1=useSelector((state)=>state .image.image)
-//   const [openModal, setOpenModal] = useState(false);
-//   const [viewedImage, setViewedImage] = useState(null);
-// const dispatch=useDispatch()
-//   const handleCloseModal = () => {
-//     setOpenModal(false);
-//   };
-//   const handleImageClick = (image) => {
-//     setViewedImage(image);
-//     setOpenModal(true);
-//   };
-
-//   const { control } = useFormContext();
-//   return (
-//     <>
-//       <div style={{ display: 'flex', justifyContent: 'center',alignItems:"center"}} className="flex-column text-center">
-//    <div className="d-flex">
-
-//     <ImageUploader/>
-//    </div>
-//        { image1.length!=0?<h4>uploaded image</h4>:null}
-//       <div className='row '>
-        
-//         {image1?.map((image, index) => (
-//           <Grid item key={index}   className='col-md-3 mt-2 '      >
-//             <Card variant="outlined" className='text-center'>
-//               <CardMedia
-//                 component="img"
-//                 alt={`Uploaded Image ${index + 1}`}
-//                 image={image}
-//                 onClick={() => handleImageClick(image)}
-//                 style={{ cursor: 'pointer' }}
-//               />
-//                 <Typography variant="body2" color="textSecondary">
-//                 </Typography> 
-//                  <IconButton
-//                   onClick={() => dispatch(deleteImage(index))}
-//                   color="secondary"
-                 
-//                 >
-//                   <DeleteIcon/>
-//                 </IconButton>
-//             </Card>
-//           </Grid>
-//         ))}
-        
-//       </div>
-
-//       <Modal
-//         open={openModal}
-//         onClose={handleCloseModal}
-//         closeAfterTransition
-//         BackdropProps={{
-//           timeout: 500,
-//         }}
-//       >
-//         <Fade in={openModal}>
-//         <Box
-//             sx={{
-//               position: 'absolute',
-//               top: '50%',
-//               left: '50%',
-//               transform: 'translate(-50%, -50%)',
-       
-//               bgcolor: 'background.paper',
-//               boxShadow: 24,
-//               // p: 3,
-//             }}
-//           >
-//             {viewedImage && (
-//               <img
-//                 src={viewedImage}
-//                 alt="Viewed Image"
-//                 style={{ maxWidth: '100%', maxHeight: '100%', cursor: 'pointer' }}
-//                 onClick={handleCloseModal}
-//               />
-//             )}
-//           </Box>
-//         </Fade>
-//       </Modal>
-
-
-//       {/* </Modal> */}
-
-//       </div>
-
-//     </>
-//   );
 };
 const Mapsection =  (props) => {
   const { control,setValue} = useFormContext();
@@ -691,10 +604,14 @@ const EditStepper = ({id}) => {
 
 
 
-        alert(response.data.message);
+      toast.success(response.data.message, {
+        position: toast.POSITION.TOP_RIGHT,
+      });
 
       } catch (error) {
-        console.log(error.message);
+         toast.error(" edit service is failed", {
+          position: toast.POSITION.TOP_RIGHT,
+        });
       }
                 setActiveStep(activeStep + 1);
 
@@ -754,11 +671,13 @@ const EditStepper = ({id}) => {
 
       {activeStep === steps.length ? (
         <div className="d-flex align-items-center flex-column">
+                         <ToastContainer />
+
           <img src="/Check animation.gif" alt="image" srcset="" className="w-25" />
 
         <Typography variant="h5" align="center">
           
-        Successfully Added Services
+        Successfully edited Services
         </Typography>
         <Button style={{color:"black"}} onClick={()=>{ router.push('/Serviceprovider/serviceprofilepage')}}>Home</Button>
         </div>

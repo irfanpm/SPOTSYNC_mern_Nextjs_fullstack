@@ -91,8 +91,12 @@ function Navbar() {
 
   const isMenuOpen = Boolean(anchorEl);
     
+  
  useEffect(()=>{
+  setTimeout(() => {
     dispatch(fetchUser());
+    
+  }, 50);
    
 } ,[])
 const handleSearch=(e)=>{

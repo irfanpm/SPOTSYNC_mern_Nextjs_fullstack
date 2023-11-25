@@ -39,6 +39,8 @@ import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 import { MapContainer, TileLayer, Marker, Popup, useMapEvents } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import icon from "./constants";
+import {  ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 // import Map from "./mapsection";
 const useStyles = styled((theme) => ({
   button: {
@@ -70,6 +72,7 @@ const BasicForm = () => {
           <TextField
             id="service-name"
             label="Service Name"
+            required
             variant="outlined"
             placeholder="Enter Your Service Name"
             sx={{ m: 1, width: '45%' }}
@@ -115,6 +118,7 @@ const BasicForm = () => {
         name="phone"
         render={({ field }) => (
           <TextField
+          required
             id="phone-number"
             label="Service Phone Number"
             variant="outlined"
@@ -136,6 +140,7 @@ const BasicForm = () => {
                    value={age}
                    onChange={handleChange}
                    {...field}
+                   required
          
                  >
                    <option aria-label="None" value="" />
@@ -227,8 +232,10 @@ const ContactForm = () => {
         name="emailAddress"
         render={({ field }) => (
           <TextField
+          required
             id="email"
             label="E-mail"
+            type="email"
             variant="outlined"
             placeholder="Enter Your E-mail Address"
             sx={{ m: 1, width: '45%' }}
@@ -360,7 +367,7 @@ const ContactForm = () => {
           variant="outlined"
           multiline
           rows={3}
-        
+        required
           fullWidth
           margin="normal"
           id='address'
@@ -665,10 +672,14 @@ const LinaerStepper = () => {
 
 
 
-        alert(response.data.message);
+      toast.success(response.data.message, {
+        position: toast.POSITION.TOP_RIGHT,
+      });
 
       } catch (error) {
-        console.log(error.message);
+               toast.error(" add service is failed", {
+          position: toast.POSITION.TOP_RIGHT,
+        });
       }
                 setActiveStep(activeStep + 1);
 
@@ -728,6 +739,8 @@ const LinaerStepper = () => {
 
       {activeStep === steps.length ? (
         <div className="d-flex align-items-center flex-column">
+                <ToastContainer />
+
           <img src="/Check animation.gif" alt="image" srcset="" className="w-25" />
 
         <Typography variant="h5" align="center">

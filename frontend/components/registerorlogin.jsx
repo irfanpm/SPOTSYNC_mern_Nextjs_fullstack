@@ -17,6 +17,8 @@ import { useRouter } from "next/navigation";
 import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
 import { fetchUser } from '@/redux/features/getuser';
+import {  ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 
 const style = {
@@ -76,13 +78,6 @@ export default function RegisterOrLogin() {
     const Username = event.target.username.value;
     const Email = event.target.email.value;
     const Password = event.target.password.value;
-    // if(selectedCard=="user"){
-    //     Service=false
-    // }else{
-    //     Service=true
-    // }
-    // console.log(Service);
-    // console.log(Type);
 
     try {
       const response = await axios.post('http://127.0.0.1:8000/api/user/register', {
@@ -90,9 +85,17 @@ export default function RegisterOrLogin() {
         email: Email,
         password: Password,
       });
-      alert(response.data.message);
+      handleClose()
+      toast.success(response.data.message, {
+        position: toast.POSITION.TOP_RIGHT,
+      });
     } catch (error) {
-      console.log(error.message);
+      handleClose()
+
+      toast.error("please provide fulldetails", {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+           
     }
     event.target.reset();
   }
@@ -113,24 +116,46 @@ export default function RegisterOrLogin() {
       console.log(response.data.block);
       if(response.data.block==false&&response.data.status=="success"){
 
+      
+
         setCookie("token", response.data.token);
-        alert(response.data.message);
+   
         dispatch(isLoggin())
+      
         handleClose();
+
+        toast.success(response.data.message, {
+          position: toast.POSITION.TOP_RIGHT,
+        });
+
+         
       }else if(response.data.block==true){
-        alert("user blocked")
+        handleClose();
+
+        toast.error(" user is blocked", {
+          position: toast.POSITION.TOP_RIGHT,
+        });
 
       }else if(response.data.status=="admin"){
-        alert(response.data.message)
+        handleClose();
+
+        toast.success(response.data.message, {
+          position: toast.POSITION.TOP_RIGHT,
+        });
         setCookie("admintoken", response.data.token);
 
         router.push('/admin')
+
       }else{
-        alert(response.data.message)
+        toast.error(response.data.message, {
+          position: toast.POSITION.TOP_RIGHT,
+        });
       }
 
     } catch (error) {
-      console.log(error.message);
+      toast.error("failed login", {
+        position: toast.POSITION.TOP_RIGHT,
+      });
     }
   }
 
@@ -139,6 +164,8 @@ export default function RegisterOrLogin() {
       <Button onClick={handleOpen} style={{ color: 'white', background: 'transparent', color: "#040333", fontWeight: "bold", boxShadow: "none" }}>
         Login/Signup
       </Button>
+      <ToastContainer />
+
 
       {signup ?
         <>
@@ -163,7 +190,9 @@ export default function RegisterOrLogin() {
                   color: '#040333',
                 }}
               >
+
                 <CloseIcon />
+
               </Button>
               <Box sx={regcontentstyle} >
               <Typography component="h2" variant="h4" className='text-center'>
@@ -227,6 +256,7 @@ export default function RegisterOrLogin() {
         </>
         :
         <>
+
           <Modal
             open={open}
             onClose={handleClose}

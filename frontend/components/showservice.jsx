@@ -41,7 +41,9 @@ console.log(avgreviews)
   return (
     <div className="row   m-3  ">
       <div className="col-md-7">
-      {service?.map((data) =>
+    { service ?
+    <>
+      { service?.map((data) =>
         data ? (
           
           <Card
@@ -69,8 +71,8 @@ console.log(avgreviews)
                     color="text.secondary"
                     component="div"
                   >
-                    <Rating name="read-only" value={data.Avgrating||5} readOnly />2 reviews
-                    <p>Open-until 8:30pm</p>
+                    <Rating name="read-only" value={data.Avgrating} readOnly />
+                    <p>{data.Timing}</p>
                   </Typography>
                 </CardContent>
               </Box>
@@ -86,7 +88,8 @@ console.log(avgreviews)
         ) : (
           <Skeleton variant="rectangular" width={210} height={60} />
         )
-      )}
+      )} </> : <h1 className="text-center mt-5">this service not available</h1> 
+        }
       </div>
         {/* <Card variant="outlined" className="col-md-4 d-flex flex-column h-50">
               <CardContent>

@@ -5,7 +5,6 @@ const bcrypt = require("bcrypt");
 const { AuthUser } = require("../model/validateSchema");
 const jwt = require('jsonwebtoken')
 const favourite = require("../model/favourite");
-require("dotenv").config();
 
 
 module.exports = {
@@ -30,7 +29,7 @@ module.exports = {
       });
       res.status(200).json({
         status: "success",
-        message: "successfully register",
+        message: "Successfully Register",
       });
     }
   },
@@ -223,7 +222,6 @@ ratingAverage:async(req,res)=>{
 
     }
   ])
-  console.log(avgRating);
   if(avgRating.length>0){
     await serviceSchema.findByIdAndUpdate(serviceid,{$set:{Avgrating:avgRating[0]?.totalRating}})
     res.json({

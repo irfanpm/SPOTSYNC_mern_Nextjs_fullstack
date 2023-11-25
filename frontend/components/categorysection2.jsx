@@ -17,10 +17,10 @@ export default function SmallCategorylist() {
 
   }
   return (
-    <div className=' mt-2' >
+    <div className=' mt-2 ' >
       <ImageList className='row justify-content-between '   >
         {itemData.map((item, index) => (
-          <div key={index}  className=' col-lg-1 d-flex ' onClick={()=>{handlevent(item.title)}}>
+          <div key={index}  className=' col-1 d-flex  ' onClick={()=>{handlevent(item.title)}}>
           
               <img
                 className='w-25 '
