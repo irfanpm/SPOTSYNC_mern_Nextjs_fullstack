@@ -590,6 +590,7 @@ const EditStepper = ({id}) => {
          instagram:data.instagram,
          features:data.features,
           address:data.address,
+    
         //   image:image1,
             lat:data.lat,
             long:data.long

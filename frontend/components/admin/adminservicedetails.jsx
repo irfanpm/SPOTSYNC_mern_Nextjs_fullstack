@@ -34,7 +34,7 @@ import "leaflet/dist/leaflet.css";
 import icon from "../servicesection/constants";
 import {
   adminBlockService,
-  adminfetchservicebyid,
+  adminfetchservicebyid,adminApprovedService,adminUnApprovedService
 } from "@/redux/features/adminredux/adminfeatures";
 function AdminServicedetailsection(id) {
   const servicedetails = useSelector((state) => state.admin.byservice.data);
@@ -94,17 +94,26 @@ function AdminServicedetailsection(id) {
   const handleShowMore = () => {
     setVisibleReviews(visibleReviews + 3);
   };
+  const handleApprove=(id)=>{
+    dispatch(adminApprovedService(id))
+    dispatch(adminUnApprovedService())
+    setTimeout(() => {
+      dispatch(adminfetchservicebyid(id));
+    }, 50);
+
+
+  }
   const handlebBlock = (id) => {
     dispatch(adminBlockService(id));
     setTimeout(() => {
       dispatch(adminfetchservicebyid(id));
     }, 50);
-  };
+  }
+ 
 
   return (
     <div className="container">
       {servicedetails?.map((item) =>
-        item ? (
           <div key={item.id} className="mt-3">
             <div className="d-flex">
               <div className="col-lg-5 col-12 m-1">
@@ -227,8 +236,8 @@ function AdminServicedetailsection(id) {
                     <img src="/whatsapp.png" alt="" style={{ width: "25px" }} />{" "}
                     chat
                   </div>
-                </a>
-                <Button
+                </a>{
+                  item?.isApproved==true ?<Button
                   style={{
                     background: item.isBlock == true ? "green" : "red",
                     color: "white",
@@ -238,7 +247,19 @@ function AdminServicedetailsection(id) {
                   }}
                 >
                   {item.isBlock == true ? "unBlock" : "Block"}
+                </Button>: <Button
+                  style={{
+                    background: "red",
+                    color: "white",
+                  }}
+                  onClick={() => {
+                    handleApprove(item?._id);
+                  }}
+                >
+                  Approve
                 </Button>
+                }
+               
               </div>
               <h4 className="text-center mt-5 " style={{ fontWeight: "600" }}>
                 {" "}
@@ -382,9 +403,7 @@ function AdminServicedetailsection(id) {
               </div>
             </div>
           </div>
-        ) : (
-          <Skeleton variant="rectangular" width={210} height={60} />
-        )
+      
       )}
       <Dialog open={openModal} onClose={handleCloseModal}>
         <DialogContent>

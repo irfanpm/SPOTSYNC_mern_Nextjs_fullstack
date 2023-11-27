@@ -46,9 +46,9 @@ const router=useRouter
     <React.Fragment>
       <div className='row'>
 
-      {users?.map((item)=>(
+      {users?.map((item,index)=>(
 
-      <Grid className='col-lg-3 col-md-6 mt-5' >
+      <Grid className='col-lg-3 col-md-6 mt-5' key={index} >
         <Paper
           sx={{
             p: 2,

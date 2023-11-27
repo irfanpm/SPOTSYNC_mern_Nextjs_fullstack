@@ -15,6 +15,7 @@ import { getReview } from "@/redux/features/reviewdisplay";
 import { Avgreview } from "@/redux/features/averagerating";
 import { showfavourite } from "@/redux/features/showfavourite";
 import { Box, Rating, Skeleton } from "@mui/material";
+import { useState } from "react";
 
 function Showservice({ category }) {
   
@@ -23,12 +24,19 @@ function Showservice({ category }) {
   const dispatch = useDispatch();
   const service = useSelector((state) => state.showservice.service.data);
   const avgreviews = useSelector((state) => state.avgreview.review.data);
+  const [loading, setLoading] = useState(true); 
 console.log(avgreviews)
 
-  useEffect(() => {
-    dispatch(showservice(category));
-   
-  }, []);
+
+useEffect(() => {
+  const fetchData = async () => {
+    await dispatch(showservice(category));
+    setLoading(false); // Set loading to false once data is fetched
+  };
+
+  fetchData();
+}, []);
+
   const handleshowservice = (id) => {
     dispatch(Servicedetails(id));
     dispatch(getReview(id));
@@ -41,9 +49,17 @@ console.log(avgreviews)
   return (
     <div className="row   m-3  ">
       <div className="col-md-7">
-    { service ?
+      {loading ? ( // Display skeleton if loading is true
+          <>
+            <Skeleton variant="rectangular" width={210} height={60} />
+            <Skeleton variant="rectangular" width={210} height={60} />
+            <Skeleton variant="rectangular" width={210} height={60} />
+          </>
+        ) : (
+     service ?
     <>
-      { service?.map((data) =>
+      { service?.map((data,index) =>
+      <div key={index}>
         data ? (
           
           <Card
@@ -88,8 +104,9 @@ console.log(avgreviews)
         ) : (
           <Skeleton variant="rectangular" width={210} height={60} />
         )
+        </div>
       )} </> : <h1 className="text-center mt-5">this service not available</h1> 
-        }
+       )}
       </div>
         {/* <Card variant="outlined" className="col-md-4 d-flex flex-column h-50">
               <CardContent>

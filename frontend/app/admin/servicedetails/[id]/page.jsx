@@ -3,7 +3,7 @@ import AdminServicedetailsection from '@/components/admin/adminservicedetails'
 import { useParams } from 'next/navigation'
 import React from 'react'
 
-const page = () => {
+const Page = () => {
   const params=useParams()
 
   return (
@@ -14,4 +14,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Page

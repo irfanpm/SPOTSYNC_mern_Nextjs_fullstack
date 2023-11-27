@@ -134,7 +134,8 @@ let longitude
   return (
     <div className="container">
       {servicedetails?.map((item) =>
-        item ? (
+      
+      
           <div key={item.id} className="mt-3">
             <div className="d-flex">
               <div className="col-lg-5 col-12 m-1">
@@ -407,9 +408,7 @@ let longitude
           
           </div>
           </div>
-        ) : (
-          <Skeleton variant="rectangular" width={210} height={60} />
-        )
+        
       )}
       <Dialog open={openModal} onClose={handleCloseModal}>
         <DialogContent>

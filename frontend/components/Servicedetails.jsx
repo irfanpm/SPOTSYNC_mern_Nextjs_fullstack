@@ -45,6 +45,8 @@ function Servicedetail({ id }) {
   const [loadedImages, setLoadedImages] = useState(4);
   const [selectedImage, setSelectedImage] = useState(null);
   const [visibleReviews, setVisibleReviews] = useState(3);
+  const [loading, setLoading] = useState(true); 
+  const [visibleSkeleton, setVisibleSkeleton] = useState(true);
  
 let latitude
 let longitude
@@ -60,14 +62,30 @@ let longitude
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(Servicedetails(id));
-    dispatch(getReview(id));
-    dispatch(fetchUser());
-    dispatch(getReview(id));
+    const fetchData = async () => {
+      try {
+        // Fetch your data here
+        await dispatch(Servicedetails(id));
+        await dispatch(getReview(id));
+        await dispatch(fetchUser());
+        await dispatch(getReview(id));
+        await dispatch(Avgreview(id));
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        // After data fetching is done, set loading state to false
+        setLoading(false);
 
+        // Use a timeout to hide the skeleton after a certain delay
+        setTimeout(() => {
+          setVisibleSkeleton(false);
+        }, 10000); // Adjust the delay (in milliseconds) as needed
+      }
+    };
 
-    dispatch(Avgreview(id));
-  }, []);
+    fetchData();
+  }, [dispatch, id]);
+
 
   const router = useRouter();
   const cookie = getCookie("token");
@@ -133,8 +151,10 @@ let longitude
 
   return (
     <div className="container">
-      {servicedetails?.map((item) =>
-        item ? (
+            {loading && visibleSkeleton ? (
+                 <DetailsSkeleton />
+        ) : (
+       servicedetails?.map((item) =>
           <div key={item.id} className="mt-3">
             <div className="d-flex">
               <div className="col-lg-5 col-12 m-1">
@@ -505,9 +525,8 @@ let longitude
               </div>
             </div>
           </div>
-        ) : (
-          <Skeleton variant="rectangular" width={210} height={60} />
-        )
+        
+      )
       )}
       <Dialog open={openModal} onClose={handleCloseModal}>
         <DialogContent>
@@ -525,3 +544,79 @@ let longitude
 }
 
 export default Servicedetail;
+
+function DetailsSkeleton() {
+  return (
+    <div className="mt-3">
+      <div className="d-flex">
+        <div className="col-lg-5 col-12 m-1">
+          <Skeleton variant="rectangular" width={300} height={400} />
+        </div>
+        <div className="col-lg-4 m-1 col-md-3">
+          <Skeleton variant="rectangular" width={300} height={400} />
+        </div>
+        <div className="col-lg-3">
+          {/* Skeleton for additional images */}
+          <Skeleton variant="rectangular" width={300} height={145} />
+          <Skeleton variant="rectangular" width={300} height={145} />
+        </div>
+      </div>
+
+      {/* Skeleton for service details */}
+      <div className="mt-3">
+        <h2 style={{ fontFamily: "sans-serif", fontWeight: "700" }}>
+          <Skeleton variant="text" width={200} />
+        </h2>
+
+        <div className="d-flex mt-2">
+          <div
+            style={{
+              width: "35px",
+              height: "25px",
+              background: "green",
+              borderRadius: "5px",
+            }}
+            className="text-center mt-1 text-white"
+          >
+            <Skeleton variant="text" width={30} />
+          </div>
+          <Skeleton variant="text" width={80} />
+          <span className="mt-1" style={{ color: "#919493" }}>
+            <Skeleton variant="text" width={80} />
+          </span>
+        </div>
+
+        {/* Additional service details skeleton */}
+        <div className="d-flex gap-2 mt-2">
+          <Skeleton variant="text" width={150} height={30} />
+          <Skeleton variant="text" width={150} height={30} />
+          <Skeleton variant="text" width={150} height={30} />
+        </div>
+
+        {/* Skeleton for more info section */}
+        <div className="mt-5">
+          <h4 className="text-center mt-5 " style={{ fontWeight: "600" }}>
+            <Skeleton variant="text" width={150} />
+          </h4>
+
+          {/* Skeleton for more info content */}
+          <div className="row mt-5">
+            {/* ... Add skeletons for the content in the more info section */}
+          </div>
+        </div>
+
+        {/* Skeleton for reviews */}
+        <div className="row">
+          <div className="col-md-6 mt-4">
+            <h5 style={{ fontWeight: "600" }}>
+              <Skeleton variant="text" width={150} />
+            </h5>
+
+            {/* Skeleton for reviews content */}
+            {/* ... Add skeletons for the content in the reviews section */}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

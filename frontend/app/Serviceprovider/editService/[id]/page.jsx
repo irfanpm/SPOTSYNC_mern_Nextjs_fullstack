@@ -5,7 +5,7 @@ import { useParams } from 'next/navigation'
 import React from 'react'
 
 
-function page() {
+function Page() {
   const params=useParams()
   return (
     <div className='mt-5 container'>
@@ -15,4 +15,4 @@ function page() {
   )
 }
 
-export default page
+export default Page

@@ -5,28 +5,28 @@ import Typography from "@mui/material/Typography";
 
 import { useDispatch, useSelector } from "react-redux";
 import { Button, Grid, Paper } from "@mui/material";
-import { adminApprovedService, adminBlockService, adminUnApprovedService, adminfetchService, adminfetchservicebyid } from '@/redux/features/adminredux/adminfeatures';
+import { adminApprovedService,adminBlockService,adminUnApprovedService, adminfetchservicebyid } from '@/redux/features/adminredux/adminfeatures';
 import { useRouter } from 'next/navigation';
 function preventDefault(event) {
   event.preventDefault();
 
 }
 
-export default function Servicelist() {
+export default function Approvedservice() {
   const router=useRouter()
-    const services=useSelector((state)=>state.admin.service.data)
+    const services=useSelector((state)=>state.admin.unapproved.data)
     console.log(services)
     const dispatch=useDispatch()
     useEffect(()=>{
 
-        dispatch(adminfetchService())
+        dispatch(adminUnApprovedService())
     },[])
     const handlebBlock=(id)=>{
-      dispatch(adminBlockService(id))
+      dispatch(adminApprovedService(id))
      
-        dispatch(adminfetchService())
+      dispatch(adminUnApprovedService())
       
-        dispatch(adminfetchService())
+      dispatch(adminUnApprovedService())
 
       
       
@@ -37,14 +37,6 @@ export default function Servicelist() {
       router.push(`/admin/servicedetails/${id}`)
 
 
-    }
-    const handleApprove=(id)=>{
-      dispatch(adminApprovedService(id))
-      dispatch(adminfetchService())
-      dispatch(adminfetchService())
-  
-  
-  
     }
   return (
     <React.Fragment>
@@ -71,29 +63,8 @@ export default function Servicelist() {
           <Typography color="text.secondary" >{item.Category} </Typography>
           {/* <Typography color="text.secondary" >{item.Phone} </Typography> */}
           <div className='d-flex'>
-          {
-                  item?.isApproved==true ?<Button
-                  style={{
-                    background: item.isBlock == true ? "green" : "red",
-                    color: "white",
-                  }}
-                  onClick={() => {
-                    handlebBlock(item?._id);
-                  }}
-                >
-                  {item.isBlock == true ? "unBlock" : "Block"}
-                </Button>: <Button
-                  style={{
-                    background: "red",
-                    color: "white",
-                  }}
-                  onClick={() => {
-                    handleApprove(item?._id);
-                  }}
-                >
-                  Approve
-                </Button>
-                }          <Button size="small"  onClick={()=>clickservice(item._id)} className='ms-2' style={{background:"blue",color:"white"}} >Details</Button>
+          <Button  style={{background:"red",color:"white"}} onClick={()=>{handlebBlock(item?._id)}}>Approve</Button>
+          <Button size="small"  onClick={()=>clickservice(item._id)} className='ms-2' style={{background:"blue",color:"white"}} >Details</Button>
 
           </div>
 

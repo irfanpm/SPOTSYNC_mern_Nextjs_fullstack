@@ -37,7 +37,8 @@ function Searchresult() {
       <div className="col-md-7">
         {search?.length != 0 ? (
           <>
-            {search?.map((data) =>
+            {search?.map((data,index) =>
+            <div key={index}>
               data ? (
                 <Card
                   sx={{ display: "flex", height: "150px" }}
@@ -79,6 +80,7 @@ function Searchresult() {
               ) : (
                 <Skeleton variant="rectangular" width={210} height={60} />
               )
+              </div>
             )}
           </>
         ) : (

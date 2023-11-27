@@ -223,6 +223,37 @@ return res.status(200).json({
     
 
 },
+unApprovedService:async(req,res)=>{
+    const service=await serviceSchema.find({isApproved:false})
+    if(service){
+        res.status(200).json({
+            status: "success",
+            message: "successfully fetched unapproved service",
+            data:service
+
+          });
+
+    }
+
+},
+approvedService:async(req,res)=>{
+    const {id}=req.body
+    const service = await serviceSchema.findOne({_id:id})
+    if(service){
+        console.log(service)
+        service.isApproved=true
+        await service.save()
+        return  res.status(200).json({
+            status: "success",
+            message: "successfully Approved service "
+
+          });
+ 
+    }else{
+      res.json('faled')
+    }
+}
+
 
 
 

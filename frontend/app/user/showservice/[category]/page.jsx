@@ -5,7 +5,7 @@ import { Container } from '@mui/material'
 import { useParams } from 'next/navigation'
 import React from 'react'
 
-function page() {
+function Page() {
   const params=useParams()
   return (
     <>
@@ -19,4 +19,4 @@ function page() {
   )
 }
 
-export default page
+export default Page

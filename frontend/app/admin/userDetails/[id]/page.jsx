@@ -3,7 +3,7 @@ import Adminuserprofile from '@/components/admin/userdetails'
 import { useParams } from 'next/navigation'
 import React from 'react'
 
-const page = () => {
+const Page = () => {
   const params=useParams()
 
   return (
@@ -14,5 +14,5 @@ const page = () => {
   )
 }
 
-export default page
+export default Page
 

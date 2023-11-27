@@ -141,7 +141,7 @@ module.exports = {
   },
   getService: async(req,res)=>{
     const {category}=req.body
-   const getService=await serviceSchema.find({$and:[{Category:category},{isBlock:false}]})
+   const getService=await serviceSchema.find({$and:[{Category:category},{isBlock:false},{isApproved:true}]})
     if(getService.length!=0){
         res.status(200).json({
             status: "success",

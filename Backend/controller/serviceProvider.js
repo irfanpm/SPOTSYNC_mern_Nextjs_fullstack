@@ -58,7 +58,8 @@ module.exports={
             },
             Features:features,
             Image:image,
-            isBlock:false
+            isBlock:false,
+            isApproved:false
             
             
 
@@ -157,6 +158,8 @@ editService:async(req,res)=>{
                 coordinates:[parseFloat(long),parseFloat(lat)]
             },
             Features:features,
+            isApproved:false
+
          
             
         }

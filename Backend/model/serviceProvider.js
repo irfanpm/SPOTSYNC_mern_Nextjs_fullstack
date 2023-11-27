@@ -28,6 +28,7 @@ const serviceSchema = new mongoose.Schema({
   City: String,
   Description: String,
   Features: String,
+  isApproved:Boolean,
   Image: {
     type: Array,
     required: true,

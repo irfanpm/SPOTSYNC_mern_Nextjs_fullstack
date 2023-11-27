@@ -10,6 +10,7 @@ const initialState = {
   byuser:[],
   byuserservice:[],
   byservice:[],
+  unapproved:[],
   error: null, 
 };
 
@@ -94,6 +95,23 @@ export const adminGetBlockService = createAsyncThunk('admin/adminGetBlockService
     return res.data;
   
 });
+export const adminUnApprovedService = createAsyncThunk('admin/adminUnApprovedService', async () => {
+  // try {
+    const res = await adminaxiosInstance.get('/api/admin/unapproved',);
+    console.log(res)
+    return res.data;
+  
+});
+
+export const adminApprovedService= createAsyncThunk('admin/adminApprovedService', async (id) => {
+  // try {
+    const res = await adminaxiosInstance.post('/api/admin/approved',{
+      id:id
+    });
+  
+    return res.data;
+  
+});
 
 
 
@@ -171,6 +189,16 @@ const adminSlice = createSlice({
       .addCase(adminfetchservicebyid.fulfilled, (state, action) => {
         state.loading = false;
         state.byservice = action.payload;
+        state.error = null; 
+      })
+      .addCase(adminUnApprovedService.fulfilled, (state, action) => {
+        state.loading = false;
+        state.unapproved = action.payload;
+        console.log(action.payload)
+        state.error = null; 
+      })
+      .addCase(adminApprovedService.fulfilled, (state, action) => {
+        state.loading = false;
         console.log(action.payload)
         state.error = null; 
       })

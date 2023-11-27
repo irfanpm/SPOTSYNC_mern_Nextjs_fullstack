@@ -1,6 +1,6 @@
 // YourComponent.js
 "use client";
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -24,7 +24,7 @@ import LoginIcon from "@mui/icons-material/Login";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { useSelector, useDispatch } from "react-redux";
 import { deleteCookie, getCookie } from "cookies-next";
-import { useRouter  } from "next/navigation";
+import { useRouter } from "next/navigation";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import { fetchUser } from '../redux/features/getuser';
@@ -39,11 +39,8 @@ const Search = styled("div")(({ theme }) => ({
   "&:hover": {
     backgroundColor: alpha(theme.palette.common.white, 0.25),
   },
-
-  // marginRight: theme.spacing(2),
   marginLeft: "auto",
   width: "100%",
-  // border:"1px solid",
   [theme.breakpoints.up("sm")]: {
     marginLeft: theme.spacing(3),
     width: "35%",
@@ -64,7 +61,6 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   color: "inherit",
   "& .MuiInputBase-input": {
     padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
     transition: theme.transitions.create("width"),
     width: "100%",
@@ -74,10 +70,10 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-function serviceNavbar() {
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-  const isLoggin=useSelector((state)=>state.Auth.isloggin)
+function ServiceNavbar() {
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
+  const isLoggin = useSelector((state) => state.Auth.isloggin);
   const user = useSelector((state) => state.user.user.data);
   const cookie = getCookie("token");
   const dispatch = useDispatch();
@@ -87,17 +83,16 @@ function serviceNavbar() {
   console.log(user);
   console.log(isLoggin);
 
-
   const isMenuOpen = Boolean(anchorEl);
-    
- useEffect(()=>{
+
+  useEffect(() => {
     dispatch(fetchUser());
-   
-} ,[])
+  }, [dispatch]);
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
+
   const handleMobileMenuClose = () => {
     setMobileMoreAnchorEl(null);
   };
@@ -111,12 +106,13 @@ function serviceNavbar() {
     deleteCookie("token");
     router.push("/");
     handleMenuClose();
-    dispatch(isLogout())
+    dispatch(isLogout());
   };
-  const handleService=()=>{
-    router.push('/')
 
-  }
+  const handleService = () => {
+    router.push('/');
+  };
+
   const handleProfile = () => {
     if (cookie) {
       router.push("/user/user_profile");
@@ -124,6 +120,7 @@ function serviceNavbar() {
       alert("please Login");
     }
   };
+
   const menuId = "primary-search-account-menu";
 
   const renderMenu = (
@@ -144,54 +141,41 @@ function serviceNavbar() {
       sx={{ marginTop: "44px" }}
     >
       <Box sx={{ width: 200, maxHeight: "60vh" }} role="presentation">
-  
-     {(!cookie)?
-        <MenuItem>
-          <LoginIcon />
-          <RegisterOrLogin />
-        </MenuItem>:<>
-
-        {user?.map((item)=>(
-            <MenuItem >
-                           <Avatar alt="Remy Sharp" src={item.avatar}/>
-<h4>hi.{item.Username}</h4>
-         
+        {(!cookie) ? (
+          <MenuItem>
+            <LoginIcon />
+            <RegisterOrLogin />
           </MenuItem>
-
-
-
-        ))
-      
-
-        }
-        <MenuItem onClick={handleProfile}>
-          <AccountCircleIcon /> Profile
-        </MenuItem>
-        
-        <MenuItem onClick={handleService} >
-         <HomeIcon/> home
-        </MenuItem>
-
-        <MenuItem onClick={handleLogout}>
-          <LogoutIcon /> Logout
-        </MenuItem>
-        </>
-
-}
+        ) : (
+          <>
+            {user?.map((item, index) => (
+              <MenuItem key={index}>
+                <Avatar alt="Remy Sharp" src={item.avatar} />
+                <h4>hi.{item.Username}</h4>
+              </MenuItem>
+            ))}
+            <MenuItem onClick={handleProfile}>
+              <AccountCircleIcon /> Profile
+            </MenuItem>
+            <MenuItem onClick={handleService}>
+              <HomeIcon /> home
+            </MenuItem>
+            <MenuItem onClick={handleLogout}>
+              <LogoutIcon /> Logout
+            </MenuItem>
+          </>
+        )}
       </Box>
     </Menu>
   );
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar
-        position="static"
-        style={{ background: "white", color: "#040333" }}
-      >
-         <Container maxWidth="xl">
+      <AppBar position="static" style={{ background: "white", color: "#040333" }}>
+        <Container maxWidth="xl">
           <Toolbar>
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-              <Image src={Logo} alt="spot" style={{ width: "80px" }}  onClick={()=>router.push('/')}/>
+              <Image src={Logo} alt="spot" style={{ width: "80px" }} onClick={() => router.push('/')} />
             </Typography>
             <Search sx={{ marginLeft: "auto" }}>
               <SearchIconWrapper>
@@ -202,21 +186,13 @@ function serviceNavbar() {
                 inputProps={{ "aria-label": "search" }}
               />
             </Search>
-
             <Box sx={{ flexGrow: 1 }} />
-{ (isLoggin) ?
-
-<Button
-    style={{ color: "#040333" }}
-    onClick={handleProfileMenuOpen}
-  >
-    <MenuIcon />
-  </Button> :
-                <Avatar alt="Remy Sharp" src='' onClick={handleProfileMenuOpen}/>
-          
-
-}
-          
+            {(isLoggin) ?
+              <Button style={{ color: "#040333" }} onClick={handleProfileMenuOpen}>
+                <MenuIcon />
+              </Button> :
+              <Avatar alt="Remy Sharp" src='' onClick={handleProfileMenuOpen} />
+            }
             {renderMenu}
           </Toolbar>
         </Container>
@@ -225,4 +201,4 @@ function serviceNavbar() {
   );
 }
 
-export default serviceNavbar;
+export default ServiceNavbar;

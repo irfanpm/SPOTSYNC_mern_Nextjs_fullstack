@@ -52,7 +52,7 @@ useEffect(()=>{
 
   
 
-    const [value, setValue] = React.useState('1');
+    const [value, setValue] = useState('1');
 
 
     const handleChange = (event, newValue) => {
@@ -84,8 +84,8 @@ useEffect(()=>{
   return (
     <div className='container'>
     <Card sx={{ minWidth: 275 ,height:160 }} className='d-flex justify-content-center align-items-center' style={{borderStyle:"none",boxShadow:"none"}}>
-        { user?.map((item)=>(
-            <>
+        { user?.map((item,index)=>(
+            <div key={index}>
       <Avatar alt={item?.Username} src={item?.avatar}  style={{width:"15vh" ,height:"15vh"}}/>
       <CardContent >
         <Typography variant="h5" component="div">
@@ -100,7 +100,7 @@ useEffect(()=>{
       <CardActions>
       </CardActions>
 <Button style={{background:(item?.isBlock==true)?"green":"red",color:"white"}} onClick={()=>{handlebBlock(item?._id)}}>{item.isBlock==true? "unBlock": "Block"}</Button>
-      </>
+      </div>
        ))
 }
 
@@ -115,9 +115,9 @@ useEffect(()=>{
         </Box>
         <TabPanel value="1" className='row '>
         {
-          service?.map((item)=>( 
+          service?.map((item,index)=>( 
          
-         <Card sx={{ maxWidth: 345 }} className=' col-md-3 '  >
+         <Card sx={{ maxWidth: 345 }}  key={index}  className=' col-md-3 '  >
    <CardMedia
         component="div" // Use a div as the container
         sx={{ height: 140, display: 'flex',}} // Add scrollable styles

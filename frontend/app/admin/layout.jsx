@@ -204,6 +204,12 @@ export default function RootLayout({ children }) {
               </ListItemIcon>
               <ListItemText primary="Blocked Service" />
             </ListItemButton>
+            <ListItemButton   onClick={()=>{router.push('/admin/approvedservice')}} >
+              <ListItemIcon>
+                <PeopleIcon />
+              </ListItemIcon>
+              <ListItemText primary="Approved Service" />
+            </ListItemButton>
           
           </List>
           <Divider sx={{ my: 1 }} />

@@ -23,6 +23,7 @@ import { useRouter } from 'next/navigation';
 import { recieve } from '@/redux/features/serviceimage';
 import {servicereviews } from "@/redux/features/reviewdisplay";
 import { Rating } from '@mui/material';
+import VerifiedIcon from '@mui/icons-material/Verified';
 
 const bull = (
   <Box
@@ -113,26 +114,27 @@ export default function Serviceprofile() {
         </Box>
         <TabPanel value="1" className='row '>
         {
-          service?.map((item)=>( 
+          service?.map((item,index)=>( 
          
-         <Card sx={{ maxWidth: 345 }} className=' col-md-3 '  >
+         <Card sx={{ maxWidth: 345 }} key={index} className=' col-md-3 '  >
    <CardMedia
         component="div" // Use a div as the container
         sx={{ height: 140, display: 'flex',}} // Add scrollable styles
       >
           <img
-            src={item.Image[0]}
+            src={item?.Image[0]}
             alt="Image"
             style={{ flex: '0 0 auto', minWidth: '100%' }} // Ensure images don't stretch
           />
       </CardMedia>
           
       <CardContent >
-        <Typography gutterBottom variant="h5" component="div">
-          {item.serviceName}
+        <Typography gutterBottom variant="h6" component="div">
+          {item?.serviceName}
+        {item?.isApproved==true?<VerifiedIcon style={{color:"green"}}/>  : null} 
         </Typography>
         <Typography variant="body2" color="text.secondary">
-       {item.Category}
+       {item?.Category}
         </Typography>
       
       </CardContent>
@@ -152,8 +154,8 @@ export default function Serviceprofile() {
         <TabPanel value="2">
           <div className='d-flex flex-column align-items-center'>
             {
-              review?.map((item)=>(
-                <Card  className='d-flex col-md-8 mt-2  '  >
+              review?.map((item,index)=>(
+                <Card  className='d-flex col-md-8 mt-2  '  key={index} >
                 <CardMedia
                      component="div" 
                      sx={{  display: 'flex',}}
