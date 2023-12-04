@@ -46,7 +46,12 @@ console.log(user)
             }
 
         )
-        location.reload()
+        
+        // if(window){
+        //   window.location.reload()
+        // }
+        
+       
 
           
 

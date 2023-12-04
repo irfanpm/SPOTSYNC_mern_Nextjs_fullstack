@@ -34,7 +34,7 @@ export default function Categorylist() {
             >
               <img
                 className='w-50 mt-2'
-                style={{ height: 'auto', opacity: '0.9' }}
+                style={{ height: '', opacity: '0.9' }}
                 src={item.img}
                 alt={item.title}
               />

@@ -406,7 +406,7 @@ const dispatch=useDispatch()
       <div style={{ display: 'flex', justifyContent: 'center',alignItems:"center"}} className="flex-column text-center">
    <div className="d-flex">
 
-    <ImageUploader/>
+    {/* <ImageUploader/> */}
    </div>
        { image1.length!=0?<h4>uploaded image</h4>:null}
       <div className='row '>
@@ -477,14 +477,13 @@ const dispatch=useDispatch()
     </>
   );
 };
-const Mapsection =  (props) => {
+const Mapsection = (props) => {
   const { control,setValue} = useFormContext();
 
     const DEFAULT_LATITUDE = 11.145923857417905;
     const DEFAULT_LONGITUDE = 75.96342891454698;
   
     const [markerPosition, setMarkerPosition] = useState(null);
-    console.log( markerPosition?.lat)
     
   useEffect(() => {
     // Update the default values when markerPosition changes
@@ -497,7 +496,7 @@ const Mapsection =  (props) => {
       setMarkerPosition(e.latlng);
     };
   
-    const latitude = props.coords ? props.coords.latitude : DEFAULT_LATITUDE;
+    const latitude = props.coords ?props.coords.latitude : DEFAULT_LATITUDE;
     const longitude = props.coords ? props.coords.longitude : DEFAULT_LONGITUDE;
   
     return (
@@ -613,8 +612,6 @@ const LinaerStepper = () => {
       timing:"",
       lat:"",
       long:"",
-
-   
       state: "",
       city: "",
       address:""
@@ -631,6 +628,10 @@ const LinaerStepper = () => {
   const isStepSkipped = (step) => {
     return skippedSteps.includes(step);
   };
+  const homeclick=()=>{
+    router.push('/Serviceprovider/serviceprofilepage')
+
+  }
 
   const handleNext = async(data) => {
     console.log(data);
@@ -684,7 +685,6 @@ const LinaerStepper = () => {
                 setActiveStep(activeStep + 1);
 
 
-      // router.push('/Serviceprovider/serviceprofilepage')
 
     } else {
       setActiveStep(activeStep + 1);
@@ -747,7 +747,7 @@ const LinaerStepper = () => {
           
         Successfully Added Services
         </Typography>
-        <Button style={{color:"black"}} onClick={()=>{ router.push('/Serviceprovider/serviceprofilepage')}}>Home</Button>
+        <Button style={{color:"black"}} onClick={()=>{ homeclick}}>Home</Button>
         </div>
       ) : (
         <>

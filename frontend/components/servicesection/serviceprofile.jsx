@@ -49,8 +49,8 @@ export default function Serviceprofile() {
 
     const cookie = getCookie('token');
 
-    const addservice=()=>{
-      router.push('/Serviceprovider/addService')
+    const addservice=(id)=>{
+      router.push(`/Serviceprovider/addService/${id}`)
 
     }
 
@@ -97,12 +97,12 @@ export default function Serviceprofile() {
       </CardContent>
       <CardActions>
       </CardActions>
+<Button size="small" style={{background:"blue", color:"white"}} onClick={addservice(item._id)}>Add Service</Button>
       </>
        ))
 }
-<Button size="small" style={{background:"blue", color:"white"}} onClick={addservice}>Add Service</Button>
 
-    </Card>
+       </Card>
     <Box sx={{ width: '100%', typography: 'body1' }} >
       <TabContext value={value}>
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>

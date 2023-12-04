@@ -224,7 +224,7 @@ export default function RootLayout({ children }) {
                 : theme.palette.grey[900],
             flexGrow: 1,
             height: '100vh',
-            overflow: 'auto',
+            // overflow: 'auto',
           }}
         >
           <Toolbar />

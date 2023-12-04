@@ -38,14 +38,15 @@ function Searchresult() {
         {search?.length != 0 ? (
           <>
             {search?.map((data,index) =>
-            <div key={index}>
               data ? (
                 <Card
                   sx={{ display: "flex", height: "150px" }}
                   className="mt-3 col-md-12"
+                  key={index}
                   onClick={() => {
                     handleshowservice(data._id);
                   }}
+
                 >
                   <CardMedia
                     component="img"
@@ -78,9 +79,8 @@ function Searchresult() {
                   </div>
                 </Card>
               ) : (
-                <Skeleton variant="rectangular" width={210} height={60} />
+                <Skeleton variant="rectangular" key={index} width={210} height={60} />
               )
-              </div>
             )}
           </>
         ) : (

@@ -114,11 +114,9 @@ function ServiceNavbar() {
   };
 
   const handleProfile = () => {
-    if (cookie) {
+   
       router.push("/user/user_profile");
-    } else {
       alert("please Login");
-    }
   };
 
   const menuId = "primary-search-account-menu";

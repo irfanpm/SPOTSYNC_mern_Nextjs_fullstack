@@ -242,7 +242,7 @@ export default function Addbusiness() {
               >
                 Back
               </Button>
-              <Box sx={{ flex: '1 1 auto' }} />
+              <Box sx={{ flex: '1 1 ' }} />
               <Button onClick={handleNext} sx={{ mr: 1 }}>
                 Next
               </Button>

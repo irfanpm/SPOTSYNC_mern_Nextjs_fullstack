@@ -138,12 +138,13 @@ function Navbar() {
     router.push('/Serviceprovider');
   };
 
+ 
   const handleProfile = () => {
-    if (cookie) {
+    
       router.push("/user/user_profile");
-    } else {
       alert("please Login");
-    }
+
+
   };
 
   const menuId = "primary-search-account-menu";
@@ -219,7 +220,7 @@ function Navbar() {
                 onChange={(event, newValue) => setSelectedLocation(newValue)}
                 renderInput={(params) => <TextField {...params} label="Location" id='category' name='place' style={{
                   background: "white",
-                  width: "100%", // Full width by default
+                  width: "300px", // Full width by default
                   [theme.breakpoints.up("sm")]: {
                     width: "600px", // Adjust the width on larger screens
                   },

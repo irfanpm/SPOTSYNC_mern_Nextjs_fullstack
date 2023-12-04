@@ -64,7 +64,10 @@ function Edit_avatar() {
                 }
 
             )
-            location.reload()
+            // if(window){
+
+            //   window.location.reload()
+            // }
 
               
 

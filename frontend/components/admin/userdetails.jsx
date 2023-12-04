@@ -82,10 +82,10 @@ useEffect(()=>{
    
 
   return (
-    <div className='container'>
+    <div className='container '>
     <Card sx={{ minWidth: 275 ,height:160 }} className='d-flex justify-content-center align-items-center' style={{borderStyle:"none",boxShadow:"none"}}>
         { user?.map((item,index)=>(
-            <div key={index}>
+            < >
       <Avatar alt={item?.Username} src={item?.avatar}  style={{width:"15vh" ,height:"15vh"}}/>
       <CardContent >
         <Typography variant="h5" component="div">
@@ -100,7 +100,7 @@ useEffect(()=>{
       <CardActions>
       </CardActions>
 <Button style={{background:(item?.isBlock==true)?"green":"red",color:"white"}} onClick={()=>{handlebBlock(item?._id)}}>{item.isBlock==true? "unBlock": "Block"}</Button>
-      </div>
+      </>
        ))
 }
 
