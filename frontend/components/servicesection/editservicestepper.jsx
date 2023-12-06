@@ -575,7 +575,7 @@ const EditStepper = ({id}) => {
       //     setActiveStep(activeStep + 1);
       //   });
       try {
-        const response = await axiosInstance.put('http://127.0.0.1:8000/api/service/editservice', {
+        const response = await axiosInstance.put('/api/service/editservice', {
             serviceid:id,
           servicename: data.Servicename,
           phone:data.phone,

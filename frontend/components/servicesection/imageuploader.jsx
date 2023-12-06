@@ -47,7 +47,8 @@ const VisuallyHiddenInput = styled('input')({
 });
 
 
-const ImageUploader = () => {
+const 
+ImageUploader = () => {
   const cookie = getCookie('token')
   const dispatch=useDispatch()
   const [selectedImages, setSelectedImages] = useState([]);
